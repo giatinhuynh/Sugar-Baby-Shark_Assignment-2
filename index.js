@@ -1,6 +1,18 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const app = express();
 const port = 3000;
+
+const Customer = require('./models/Customer');
+const Vendor = require('./models/Vendor');
+const Shipper = require('./models/Shipper');
+const Product = require('./models/Product');
+const DistributionHub = require('./models/DistributionHub');
+const Order = require('./models/Order');
+
+mongoose.connect('mongodb+srv://s3962053:webproga2@cluster0.qloy7im.mongodb.net/?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true})
+.then(() => console.log('Connected to MongoDB Atlas'))
+.catch(err => console.log('Error: ', err.message));
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
@@ -11,3 +23,4 @@ app.listen(port, () => {
 });
 
 app.use(express.static('public'));
+
