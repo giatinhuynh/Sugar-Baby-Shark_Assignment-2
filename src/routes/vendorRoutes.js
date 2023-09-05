@@ -16,11 +16,11 @@ module.exports = (app) => {
     if (myCache.get(token)) {
       return res.status(401).send({ error: 'This token has been blacklisted' });
     }
-    const data = jwt.verify(token, 'your_jwt_secret');
     try {
+      const data = jwt.verify(token, process.env.JWT_SECRET);
       const vendor = await Vendor.findOne({ _id: data._id });
       if (!vendor) {
-        throw new Error();
+        throw new Error('Vendor not found');
       }
       req.vendor = vendor;
       next();
@@ -28,7 +28,7 @@ module.exports = (app) => {
       res.status(401).send({ error: 'Not authorized to access this resource' });
     }
   };
-
+  
   // Register a new vendor
   app.post('/api/vendors/register', [
     check('username').isLength({ min: 8, max: 15 }).isAlphanumeric(),
@@ -52,7 +52,7 @@ module.exports = (app) => {
 
     try {
       await vendor.save();
-      const token = jwt.sign({ _id: vendor._id }, 'your_jwt_secret');
+      const token = jwt.sign({ _id: vendor._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
       res.status(201).send({ vendor, token });
     } catch (err) {
       res.status(400).send(err);
@@ -75,7 +75,7 @@ module.exports = (app) => {
       return res.status(401).send({ error: 'Login failed' });
     }
 
-    const token = jwt.sign({ _id: vendor._id }, 'your_jwt_secret');
+    const token = jwt.sign({ _id: vendor._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.send({ vendor, token });
   });
 

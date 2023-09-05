@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 const Shipper = mongoose.model('Shipper');
-const Order = mongoose.model('Order'); // Assuming you have an Order model
+const DistributionHub = mongoose.model('DistributionHub');
 const NodeCache = require('node-cache');
 const myCache = new NodeCache();
 
@@ -15,11 +15,11 @@ module.exports = (app) => {
     if (myCache.get(token)) {
       return res.status(401).send({ error: 'This token has been blacklisted' });
     }
-    const data = jwt.verify(token, 'your_jwt_secret');
     try {
+      const data = jwt.verify(token, process.env.JWT_SECRET);
       const shipper = await Shipper.findOne({ _id: data._id });
       if (!shipper) {
-        throw new Error();
+        throw new Error('Shipper not found');
       }
       req.shipper = shipper;
       next();
@@ -38,23 +38,32 @@ module.exports = (app) => {
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+
     const { username, password, distributionHubId } = req.body;
+
+    // Verify if the distribution hub exists
+    const hub = await DistributionHub.findById(distributionHubId);
+    if (!hub) {
+      return res.status(404).json({ message: 'Distribution hub not found' });
+    }
+
     const shipper = new Shipper({
       username,
       password,
       distributionHubId
     });
+
     try {
       await shipper.save();
-      const token = jwt.sign({ _id: shipper._id }, 'your_jwt_secret');
+      const token = jwt.sign({ _id: shipper._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
       res.status(201).send({ shipper, token });
     } catch (err) {
       res.status(400).send(err);
     }
   });
 
-  // Login a shipper
-  app.post('/api/shippers/login', async (req, res) => {
+   // Login a shipper
+   app.post('/api/shippers/login', async (req, res) => {
     const { username, password } = req.body;
     const shipper = await Shipper.findOne({ username });
     if (!shipper) {
@@ -64,7 +73,7 @@ module.exports = (app) => {
     if (!isPasswordMatch) {
       return res.status(401).send({ error: 'Login failed' });
     }
-    const token = jwt.sign({ _id: shipper._id }, 'your_jwt_secret');
+    const token = jwt.sign({ _id: shipper._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.send({ shipper, token });
   });
 
