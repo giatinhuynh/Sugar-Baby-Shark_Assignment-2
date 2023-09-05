@@ -1,107 +1,28 @@
-// routes/vendorRoutes.js
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+// Import required modules and models
 const { check, validationResult } = require('express-validator');
-const Vendor = mongoose.model('Vendor');
-const Product = mongoose.model('Product');
 const NodeCache = require('node-cache');
 const myCache = new NodeCache();
+const vendorController = require('../controllers/vendorController'); // Import the vendor controller
 
 module.exports = (app) => {
 
   // Middleware for authentication
-  const auth = async (req, res, next) => {
-    const token = req.header('Authorization').replace('Bearer ', '');
-    if (myCache.get(token)) {
-      return res.status(401).send({ error: 'This token has been blacklisted' });
-    }
-    try {
-      const data = jwt.verify(token, process.env.JWT_SECRET);
-      const vendor = await Vendor.findOne({ _id: data._id });
-      if (!vendor) {
-        throw new Error('Vendor not found');
-      }
-      req.vendor = vendor;
-      next();
-    } catch (error) {
-      res.status(401).send({ error: 'Not authorized to access this resource' });
-    }
-  };
-  
+  const auth = vendorController.authMiddleware; // Delegate to the controller's authMiddleware method
+
   // Register a new vendor
   app.post('/api/vendors/register', [
     check('username').isLength({ min: 8, max: 15 }).isAlphanumeric(),
     check('password').isLength({ min: 8, max: 20 }).matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/),
     check('businessName').isLength({ min: 5 }),
     check('businessAddress').isLength({ min: 5 })
-  ], async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    const { username, password, businessName, businessAddress } = req.body;
-
-    const vendor = new Vendor({
-      username,
-      password,
-      businessName,
-      businessAddress
-    });
-
-    try {
-      await vendor.save();
-      const token = jwt.sign({ _id: vendor._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-      res.status(201).send({ vendor, token });
-    } catch (err) {
-      res.status(400).send(err);
-    }
-  });
+  ], vendorController.register);  // Delegate to the controller's register method
 
   // Login a vendor
-  app.post('/api/vendors/login', async (req, res) => {
-    const { username, password } = req.body;
-
-    const vendor = await Vendor.findOne({ username });
-
-    if (!vendor) {
-      return res.status(401).send({ error: 'Login failed' });
-    }
-
-    const isPasswordMatch = await bcrypt.compare(password, vendor.password);
-
-    if (!isPasswordMatch) {
-      return res.status(401).send({ error: 'Login failed' });
-    }
-
-    const token = jwt.sign({ _id: vendor._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.send({ vendor, token });
-  });
+  app.post('/api/vendors/login', vendorController.login);  // Delegate to the controller's login method
 
   // Add new product
-  app.post('/api/vendors/products', auth, async (req, res) => {
-    const { name, price, image, description } = req.body;
-    const product = new Product({
-      name,
-      price,
-      image,
-      description,
-      vendor: req.vendor._id
-    });
-
-    try {
-      await product.save();
-      res.status(201).send({ success: true, product });
-    } catch (err) {
-      res.status(400).send(err);
-    }
-  });
+  app.post('/api/vendors/products', auth, vendorController.addProduct);  // Delegate to the controller's addProduct method
 
   // Logout a vendor
-  app.post('/api/vendors/logout', auth, (req, res) => {
-    const token = req.header('Authorization').replace('Bearer ', '');
-    myCache.set(token, true, 60 * 60 * 24);  // Blacklist this token for 24 hours
-    res.send({ success: true });
-  });
+  app.post('/api/vendors/logout', auth, vendorController.logout);  // Delegate to the controller's logout method
 };
