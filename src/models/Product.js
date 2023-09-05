@@ -1,13 +1,29 @@
 // models/Product.js
-
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-const ProductSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  price: { type: Number, required: true },
-  image: { type: String },
-  description: { type: String },
-  vendor: { type: mongoose.Schema.Types.ObjectId, ref: 'Vendor', required: true },
+const ProductSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+    minlength: 10,
+    maxlength: 20
+  },
+  price: {
+    type: Number,
+    required: true,
+    min: 0
+  },
+  image: String,
+  description: {
+    type: String,
+    maxlength: 500
+  },
+  vendor: {
+    type: Schema.Types.ObjectId,
+    ref: 'Vendor',
+    required: true
+  }
 });
 
 module.exports = mongoose.model('Product', ProductSchema);
