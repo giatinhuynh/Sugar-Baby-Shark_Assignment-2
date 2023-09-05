@@ -26,7 +26,7 @@ module.exports = (app) => {
   // View all orders for a specific shipper
   app.get('/api/orders/shipper/:shipperId', async (req, res) => {
     try {
-      const orders = await Order.find({ shipperId: req.params.shipperId, status: 'active' });
+      const orders = await Order.find({ shipperId: req.params.shipperId, status: 'active' }).populate('products.productId');
       res.send(orders);
     } catch (err) {
       res.status(500).send(err);

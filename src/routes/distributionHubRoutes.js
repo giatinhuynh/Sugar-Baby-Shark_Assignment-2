@@ -6,8 +6,8 @@ module.exports = (app) => {
 
   // Add a new distribution hub
   app.post('/api/distributionHubs', [
-    check('name').isLength({ min: 1 }),
-    check('address').isLength({ min: 1 })
+    check('name').isLength({ min: 5 }),  // Updated minimum length to 5
+    check('address').isLength({ min: 5 })  // Updated minimum length to 5
   ], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

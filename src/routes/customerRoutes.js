@@ -55,7 +55,7 @@ module.exports = (app) => {
       return res.status(401).send({ error: 'Login failed' });
     }
 
-    const token = jwt.sign({ _id: customer._id }, 'your_jwt_secret');
+    const token = jwt.sign({ _id: customer._id }, process.env.JWT_SECRET, { expiresIn: '1h' }); // Added token expiry
     res.send({ customer, token });
   });
 
@@ -65,11 +65,11 @@ module.exports = (app) => {
     if (myCache.get(token)) {
       return res.status(401).send({ error: 'This token has been blacklisted' });
     }
-    const data = jwt.verify(token, 'your_jwt_secret');
     try {
+      const data = jwt.verify(token, process.env.JWT_SECRET); // Using environment variable
       const customer = await Customer.findOne({ _id: data._id });
       if (!customer) {
-        throw new Error();
+        throw new Error('Customer not found');
       }
       req.customer = customer;
       next();
