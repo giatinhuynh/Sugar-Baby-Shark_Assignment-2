@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
-const Shipper = mongoose.model('Shipper');
-const DistributionHub = mongoose.model('DistributionHub');
-const Order = mongoose.model('Order');
+const Shipper = require('../models/Shipper');
+const DistributionHub = require('../models/DistributionHub');
+const Order = require('../models/Order');
 const NodeCache = require('node-cache');
 const myCache = new NodeCache();
 
