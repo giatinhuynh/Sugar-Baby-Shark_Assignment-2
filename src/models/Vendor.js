@@ -1,6 +1,6 @@
 // models/Vendor.js
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const { Schema } = mongoose;
 
 const VendorSchema = new Schema({
