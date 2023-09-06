@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const { check, validationResult } = require('express-validator');
-const DistributionHub = mongoose.model('DistributionHub');
+const DistributionHub = require('../models/DistributionHub');
 
 module.exports = (app) => {
 
