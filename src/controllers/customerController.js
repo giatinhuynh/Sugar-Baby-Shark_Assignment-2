@@ -1,6 +1,6 @@
 // Import required modules and the Customer model
 const { validationResult } = require('express-validator');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Customer = require('../models/Customer');
 const NodeCache = require('node-cache');
