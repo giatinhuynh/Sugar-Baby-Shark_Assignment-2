@@ -3,7 +3,7 @@ const { check, validationResult } = require('express-validator');
 const NodeCache = require('node-cache');
 const myCache = new NodeCache();
 const customerController = require('../controllers/customerController');
-
+const Customer = require('../models/Customer');
 module.exports = (app) => {
 
   // Register a new customer
@@ -39,9 +39,12 @@ module.exports = (app) => {
   // Get customer details
   app.get('/api/customers/me', auth, customerController.getCustomerDetails);  // Delegate to the controller's getCustomerDetails method
 
+
   // Update customer profile picture
   app.put('/api/customers/me/picture', auth, customerController.updateProfilePicture);  // Delegate to the controller's updateProfilePicture method
 
   // Logout a customer
   app.post('/api/customers/logout', auth, customerController.logout);  // Delegate to the controller's logout method
+
+ 
 };
