@@ -1,13 +1,12 @@
 const mongoose = require('mongoose');
 const { check, validationResult } = require('express-validator');
-const Product = mongoose.model('Product');
-const Vendor = mongoose.model('Vendor'); // Assuming you've already required Vendor model somewhere
-const auth = require('./auth'); // Your authentication middleware
+const Product = require('../models/Product');
+const Vendor = require('../models/Vendor');
 
 module.exports = (app) => {
 
-  // Add a new product
-  app.post('/api/products', auth, [
+  //Add a new product
+  app.post('/api/products', [
     check('name').isLength({ min: 10, max: 20 }),
     check('price').isFloat({ min: 0 }),
     check('description').isLength({ max: 500 })
@@ -43,14 +42,19 @@ module.exports = (app) => {
   });
 
   // View all products
-  app.get('/api/products', async (req, res) => {
+  app.get('/api/products/get', async (req, res) => {
+  
+
     try {
-      const products = await Product.find().populate('vendor', 'businessName');
-      res.send(products);
+      console.log('View all products');
+      // const products = await Product.find().populate('vendor', 'businessName');
+      return res.send('View all products');
+     
     } catch (err) {
       res.status(500).json({ message: 'Failed to fetch products', error: err });
     }
   });
+
 
   // Filter products by price and name
   app.get('/api/products/filter', async (req, res) => {
