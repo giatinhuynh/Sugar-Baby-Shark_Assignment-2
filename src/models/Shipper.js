@@ -1,6 +1,6 @@
 // models/Shipper.js
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const { Schema } = mongoose;
 
 const ShipperSchema = new Schema({
