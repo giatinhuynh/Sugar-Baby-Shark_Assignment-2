@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
-const Vendor = mongoose.model('Vendor');
-const Product = mongoose.model('Product');
+const Vendor = require('../models/Vendor');
+const Product = require('../models/Product');
 const NodeCache = require('node-cache');
 const myCache = new NodeCache();
 
