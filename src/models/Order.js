@@ -14,4 +14,6 @@ const OrderSchema = new Schema({
   status: { type: String, enum: ['active', 'delivered', 'canceled'], default: 'active' }
 });
 
-module.exports = mongoose.model('Order', OrderSchema);
+module.exports = mongoose.model('Order', OrderSchema,'orders');
+
+

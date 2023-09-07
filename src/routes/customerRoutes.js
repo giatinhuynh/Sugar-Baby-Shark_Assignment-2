@@ -1,13 +1,16 @@
 // Import required modules and models
+var express = require('express');
+var router = express.Router();
+
 const { check, validationResult } = require('express-validator');
 const NodeCache = require('node-cache');
 const myCache = new NodeCache();
 const customerController = require('../controllers/customerController');
 const Customer = require('../models/Customer');
-module.exports = (app) => {
+
 
   // Register a new customer
-  app.post('/api/customers/register', [
+  router.post('/register', [
     check('username').isLength({ min: 8, max: 15 }).isAlphanumeric(),
     check('password').isLength({ min: 8, max: 20 }).matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/),
     check('name').isLength({ min: 5 }),
@@ -15,7 +18,14 @@ module.exports = (app) => {
   ], customerController.register);  // Delegate to the controller's register method
 
   // Login a customer
-  app.post('/api/customers/login', customerController.login);  // Delegate to the controller's login method
+  router.get('/login', async (req, res) => {
+    try {
+      res.render('login');
+    } catch (err) {
+      res.status(500).send(err);
+    }
+  });
+  router.post('login', customerController.login);   // Delegate to the controller's login method
 
   // Middleware for authentication
   const auth = async (req, res, next) => {
@@ -37,14 +47,15 @@ module.exports = (app) => {
   };
 
   // Get customer details
-  app.get('/api/customers/me', auth, customerController.getCustomerDetails);  // Delegate to the controller's getCustomerDetails method
+  router.get('/api/customers/me', auth, customerController.getCustomerDetails);  // Delegate to the controller's getCustomerDetails method
 
 
   // Update customer profile picture
-  app.put('/api/customers/me/picture', auth, customerController.updateProfilePicture);  // Delegate to the controller's updateProfilePicture method
+  router.put('/api/customers/me/picture', auth, customerController.updateProfilePicture);  // Delegate to the controller's updateProfilePicture method
 
   // Logout a customer
-  app.post('/api/customers/logout', auth, customerController.logout);  // Delegate to the controller's logout method
+  router.post('/api/customers/logout', auth, customerController.logout);  // Delegate to the controller's logout method
 
  
-};
+
+  module.exports = router;

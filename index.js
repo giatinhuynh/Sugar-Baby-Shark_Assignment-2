@@ -1,44 +1,55 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const app = express();
-const port = 3000;
 
+
+const port = 3000;
+const app = require("./config/server");
+// set up port 
+require("./config/database");
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}/`);
+});
 
 // Import routes
 const customer = require("./src/routes/customerRoutes");
 const vendor = require("./src/routes/vendorRoutes");
-
 const shipper = require("./src/routes/shipperRoutes");
 const product = require("./src/routes/productRoutes");
 const distributionHub = require("./src/routes/distributionHubRoutes");
 const order = require("./src/routes/orderRoutes");
+
+
+
+
+app.use(express.static('public'));
+app.use("/api/customers", customer);
+app.use("/api/vendors", vendor);
+app.use("/api/shippers", shipper);
+app.use("/api/products", product);
+app.use("/api/distributionHubs", distributionHub);
+app.use("/api/orders", order);
 
 app.get('/', (req, res) => {
   
   res.send('Test test test');
 });
 
-app.use(express.static('public'));
-app.use("/api/customers", customer);
-app.use("/api/distributionHubs", distributionHub);
-app.use("/api/orders", order);
-app.use("/api/products", product);
-app.use("/api/vendors", vendor);
-app.use("/api/shippers", shipper);
+
+
+const path = require("path");
+// Use the static files
+app.use(express.static(path.join(__dirname, "public")));
 
 // Set EJS as the template engine
+const views = ["auth", "customer", "vendor", "shipper", "static", "partials"];
+const viewDirectories = views.map(view => path.join(__dirname, "views", view));
+app.set("views", viewDirectories);
+
 app.set('view engine', 'ejs');
 
 
-// set up port 
-mongoose.connect('mongodb+srv://s3962053:webproga2@cluster0.qloy7im.mongodb.net/?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true})
-.then(() => console.log('Connected to MongoDB Atlas'))
-.catch(err => console.log('Error: ', err.message));
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}/`);
-});
 
-const router = express.Router();
 
-module.exports = router;
+
+module.exports = app;

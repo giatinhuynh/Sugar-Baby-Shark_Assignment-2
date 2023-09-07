@@ -17,4 +17,4 @@ const DistributionHubSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model('DistributionHub', DistributionHubSchema);
+module.exports = mongoose.model('DistributionHub', DistributionHubSchema,'distributionHubs');

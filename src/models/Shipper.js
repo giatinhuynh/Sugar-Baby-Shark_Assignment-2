@@ -33,4 +33,4 @@ ShipperSchema.pre('save', async function(next) {
   next();
 });
 
-module.exports = mongoose.model('Shipper', ShipperSchema);
+module.exports = mongoose.model('Shipper', ShipperSchema,'shippers');

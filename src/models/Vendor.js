@@ -40,4 +40,4 @@ VendorSchema.pre('save', async function(next) {
   next();
 });
 
-module.exports = mongoose.model('Vendor', VendorSchema);
+module.exports = mongoose.model('Vendor', VendorSchema, 'vendors');

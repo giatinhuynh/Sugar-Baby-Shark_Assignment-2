@@ -1,10 +1,14 @@
+var express = require('express');
+var router = express.Router();
+
 const mongoose = require('mongoose');
 const Order = mongoose.model('Order');
 
-module.exports = (app) => {
+
+
 
   // Create a new order
-  app.post('/api/orders', async (req, res) => {
+  router.post('/post', async (req, res) => {
     const { customerId, distributionHubId, products, totalPrice } = req.body;
 
     const order = new Order({
@@ -24,7 +28,7 @@ module.exports = (app) => {
   });
 
   // View all orders for a specific shipper
-  app.get('/api/orders/shipper/:shipperId', async (req, res) => {
+  router.get('/shipper/:shipperId', async (req, res) => {
     try {
       const orders = await Order.find({ shipperId: req.params.shipperId, status: 'active' }).populate('products.productId');
       res.send(orders);
@@ -34,7 +38,7 @@ module.exports = (app) => {
   });
 
   // Update the status of an order
-  app.put('/api/orders/:orderId', async (req, res) => {
+  router.put('/:orderId', async (req, res) => {
     try {
       const order = await Order.findById(req.params.orderId);
       if (!order) {
@@ -50,4 +54,5 @@ module.exports = (app) => {
       res.status(500).send(err);
     }
   });
-};
+
+  module.exports = router;
