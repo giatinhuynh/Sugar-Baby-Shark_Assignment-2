@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Products</title>
+    <link rel="stylesheet" href="../../public/css/bootstrap.css">
+    <link rel="stylesheet" href="../../public/css/vendor.css">
+</head>
+<body>
+    <!-- Include header partial -->
+    <%- include ('../partials/header') %>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <h1>Welcome, <%= user.name %></h1>
+                <img src="<%= user.profileImage %>" alt="Profile Image" class="img-fluid mb-3">
+
+                <!-- Change Profile Image -->
+                <form action="/changeProfileImage" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="profileImage">Choose New Profile Image:</label>
+                        <input type="file" class="form-control-file" id="profileImage" name="profileImage">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Change Profile Image</button>
+                </form>
+
+                <!-- Logout Link -->
+                <a href="/logout" class="btn btn-danger mt-3">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include footer partial -->
+    <%- include ('../partials/footer') %>
+    <script src="../../public/js/bootstrap.bundle.js"></script>
+</body>
+</html>
