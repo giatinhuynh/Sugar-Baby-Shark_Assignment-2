@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,32 +8,178 @@
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/vendor.css">
 </head>
+
 <body>
     <!-- Include header partial -->
     <%- include ('./partials/header') %>
 
-    <div class="container mt-5">
-        <% products.forEach(product => { %>
-            <div class="col col-lg-4 col-md-6 mb-4">
-                <div class="card h-100">
-                    <img class="card-img-top" src="<%= product.image %>" alt="<%= product.name %>">
-                    <div class="card-body">
-                        <h4 class="card-title">
-                            <%= product.name %>
-                        </h4>
-                        <p class="card-text"><%= product.description %></p>
+    <main>
+        <section class="py-5 text-center container">
+            <div class="row py-lg-5">
+                <div class="col-lg-6 col-md-8 mx-auto">
+                    <h1 class="fw-light">My Products</h1>
+                    <p class="lead text-body-secondary">View, edit and delete your products here.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="album py-8 bg-body-tertiary">
+            <div class="container">
+
+                <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-5">
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img class="bd-placeholder-img card-img-top"
+                                src="https://picsum.photos/1000/1000"></img>
+                            <div class="card-body">
+                                <h5 class="card-title">Product Name</h5>
+                                <p class="card-text">Product Description goes here.</p>
+                                <p class="card-text">$99.99</p>
+                                <div class="btn-group" role="group" aria-label="Edit and Delete Buttons">
+                                    <button type="button" class="btn btn-primary">Edit</button>
+                                    <button type="button" class="btn btn-danger">Delete</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-footer">
-                        <strong>Price: $<%= product.price %></strong>
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img class="bd-placeholder-img card-img-top"
+                                src="https://picsum.photos/1000/1000"></img>
+                            <div class="card-body">
+                                <h5 class="card-title">Product Name</h5>
+                                <p class="card-text">Product Description goes here.</p>
+                                <p class="card-text">$99.99</p>
+                                <div class="btn-group" role="group" aria-label="Edit and Delete Buttons">
+                                    <button type="button" class="btn btn-primary">Edit</button>
+                                    <button type="button" class="btn btn-danger">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img class="bd-placeholder-img card-img-top"
+                                src="https://picsum.photos/1000/1000"></img>
+                            <div class="card-body">
+                                <h5 class="card-title">Product Name</h5>
+                                <p class="card-text">Product Description goes here.</p>
+                                <p class="card-text">$99.99</p>
+                                <div class="btn-group" role="group" aria-label="Edit and Delete Buttons">
+                                    <button type="button" class="btn btn-primary">Edit</button>
+                                    <button type="button" class="btn btn-danger">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img class="bd-placeholder-img card-img-top"
+                                src="https://picsum.photos/1000/1000"></img>
+                            <div class="card-body">
+                                <h5 class="card-title">Product Name</h5>
+                                <p class="card-text">Product Description goes here.</p>
+                                <p class="card-text">$99.99</p>
+                                <div class="btn-group" role="group" aria-label="Edit and Delete Buttons">
+                                    <button type="button" class="btn btn-primary">Edit</button>
+                                    <button type="button" class="btn btn-danger">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img class="bd-placeholder-img card-img-top"
+                                src="https://picsum.photos/1000/1000"></img>
+                            <div class="card-body">
+                                <h5 class="card-title">Product Name</h5>
+                                <p class="card-text">Product Description goes here.</p>
+                                <p class="card-text">$99.99</p>
+                                <div class="btn-group" role="group" aria-label="Edit and Delete Buttons">
+                                    <button type="button" class="btn btn-primary">Edit</button>
+                                    <button type="button" class="btn btn-danger">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img class="bd-placeholder-img card-img-top"
+                                src="https://picsum.photos/1000/1000"></img>
+                            <div class="card-body">
+                                <h5 class="card-title">Product Name</h5>
+                                <p class="card-text">Product Description goes here.</p>
+                                <p class="card-text">$99.99</p>
+                                <div class="btn-group" role="group" aria-label="Edit and Delete Buttons">
+                                    <button type="button" class="btn btn-primary">Edit</button>
+                                    <button type="button" class="btn btn-danger">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img class="bd-placeholder-img card-img-top"
+                                src="https://picsum.photos/1000/1000"></img>
+                            <div class="card-body">
+                                <h5 class="card-title">Product Name</h5>
+                                <p class="card-text">Product Description goes here.</p>
+                                <p class="card-text">$99.99</p>
+                                <div class="btn-group" role="group" aria-label="Edit and Delete Buttons">
+                                    <button type="button" class="btn btn-primary">Edit</button>
+                                    <button type="button" class="btn btn-danger">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img class="bd-placeholder-img card-img-top"
+                                src="https://picsum.photos/1000/1000"></img>
+                            <div class="card-body">
+                                <h5 class="card-title">Product Name</h5>
+                                <p class="card-text">Product Description goes here.</p>
+                                <p class="card-text">$99.99</p>
+                                <div class="btn-group" role="group" aria-label="Edit and Delete Buttons">
+                                    <button type="button" class="btn btn-primary">Edit</button>
+                                    <button type="button" class="btn btn-danger">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img class="bd-placeholder-img card-img-top"
+                                src="https://picsum.photos/1000/1000"></img>
+                            <div class="card-body">
+                                <h5 class="card-title">Product Name</h5>
+                                <p class="card-text">Product Description goes here.</p>
+                                <p class="card-text">$99.99</p>
+                                <div class="btn-group" role="group" aria-label="Edit and Delete Buttons">
+                                    <button type="button" class="btn btn-primary">Edit</button>
+                                    <button type="button" class="btn btn-danger">Delete</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-        <% }) %>
-    </div>
-    
+    </main>
+
+
+    <!-- <% products.forEach(product=> { %>
+        <%= product.name %>
+        <%= product.description %>
+        <%= product.price %>
+        <% }) %> -->
+
     <!-- Include footer partial -->
     <%- include ('./partials/footer') %>
     <script src="js/bootstrap.bundle.js"></script>
 </body>
+
 </html>
