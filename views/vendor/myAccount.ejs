@@ -6,31 +6,40 @@
     <title>My Products</title>
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/vendor.css">
+    <style>
+        /* Custom styles */
+        .profile-image {
+            max-width: 200px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
 </head>
 <body>
     <!-- Include header partial -->
     <%- include ('./partials/header') %>
 
     <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <h1>Welcome, <%= user.name %></h1>
-                <img src="<%= user.profileImage %>" alt="Profile Image" class="img-fluid mb-3">
-
-                <!-- Change Profile Image -->
-                <form action="/changeProfileImage" method="post" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="profileImage">Choose New Profile Image:</label>
-                        <input type="file" class="form-control-file" id="profileImage" name="profileImage">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Change Profile Image</button>
-                </form>
-
-                <!-- Logout Link -->
-                <a href="/logout" class="btn btn-danger mt-3">Logout</a>
+        <div class="row user-info">
+            <div class="col-md-5 d-flex justify-content-center align-items-center">
+                <img src="https://picsum.photos/700/700" alt="Vendor Profile Image" class="profile-image img-fluid">
+            </div>
+            <div class="col-md-7">
+                <h3>Welcome, Vendor Name</h3>
+                <p><strong>Email:</strong> vendor@example.com</p>
+                <p><strong>Company:</strong> Your Company Name</p>
+                <p><strong>Phone:</strong> (123) 456-7890</p>
+                <hr>
+                <h4>Account Details</h4>
+                <p><strong>Account ID:</strong> 123456</p>
+                <p><strong>Member Since:</strong> January 1, 2020</p>
+                <a href="#" class="btn btn-primary">Edit Profile</a>
+                <a href="#" class="btn btn-success">Change Password</a>
+                <a href="#" class="btn btn-danger">Delete Account</a>
             </div>
         </div>
     </div>
+    
 
     <!-- Include footer partial -->
     <%- include ('./partials/footer') %>
