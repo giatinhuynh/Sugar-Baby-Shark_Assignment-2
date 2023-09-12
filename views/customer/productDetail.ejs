@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Product</title>
+    <link rel="stylesheet" href="../../public/css/bootstrap.css">
+    <link rel="stylesheet" href="/public/css/vendor.css">
+</head>
+
+<body>
+    <!-- Include header partial -->
+    <%- include ('../partials/header') %>
+        <main>
+            <div class="container mt-5 p-5">
+                <div class="row">
+                    <div class="col-md-6">
+                        <img height="500" width="400" src="https://picsum.photos/1000/1000" class="img-fluid"
+                            alt="Product Image">
+                    </div>
+                    <div class="col-md-6">
+                        <h1>Product Name</h1>
+                        <p class="lead">Product Description goes here.</p>
+                        <p><strong>Price:</strong> $99.99</p>
+                        <p><strong>Category:</strong> Electronics</p>
+                        <p><strong>Availability:</strong> In Stock</p>
+                        <button type="button" class="btn btn-primary">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col-md-12">
+                        <h2>Product Details</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel mi vel neque congue
+                            vestibulum. Aliquam erat volutpat.</p>
+                        <p>Nulla et tincidunt lectus. Integer sed odio ut nunc auctor ultricies eu ac arcu.
+                            Maecenas ut commodo odio. Pellentesque bibendum commodo orci, non congue ex euismod
+                            a. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis
+                            egestas.</p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Include footer partial -->
+        <%- include ('../partials/footer') %>
+            <script src="/js/bootstrap.bundle.js"></script>
+</body>
+
+</html>
