@@ -1,47 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Products</title>
-    <link rel="stylesheet" href="/public/css/bootstrap.css">
+    <title>Add New Product</title>
+    <link rel="stylesheet" href="../../public/css/bootstrap.css">
     <link rel="stylesheet" href="/public/css/vendor.css">
+    <style>
+        /* Custom styles */
+        main .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+    </style>
 </head>
+
 <body>
     <!-- Include header partial -->
-    <%- include ('./partials/header') %>
-    <div class="container mt-5">
+    <%- include ('../partials/header') %>
+        <div class="container mt-5">
 
-        <h1>Add New Product</h1>
+            <h1>Add New Product</h1>
 
-        <form action="#" method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="productName">Product Name (10-20 characters)</label>
-                <input type="text" class="form-control" id="productName" name="productName" placeholder="Enter product name" required>
-            </div>
+            <form action="#" method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="productName" class="form-label">Product Name</label>
+                    <input type="text" class="form-control" id="productName" placeholder="Enter product name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="productDescription" class="form-label">Product Description</label>
+                    <textarea class="form-control" id="productDescription" rows="4"
+                        placeholder="Enter product description" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="productPrice" class="form-label">Price</label>
+                    <input type="number" class="form-control" id="productPrice" placeholder="Enter product price"
+                        required>
+                </div>
+                <div class="mb-3">
+                    <label for="productCategory" class="form-label">Category</label>
+                    <select class="form-select" id="productCategory" required>
+                        <option value="">Select category</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="furniture">Furniture</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="productImage" class="form-label">Product Image</label>
+                    <input type="file" class="form-control" id="productImage" accept="image/*" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Product</button>
+            </form>
 
-            <div class="form-group">
-                <label for="productDescription">Description (Up to 500 characters)</label>
-                <textarea class="form-control" id="productDescription" name="productDescription" rows="4" placeholder="Enter product description" required></textarea>
-            </div>
+        </div>
 
-            <div class="form-group">
-                <label for="productPrice">Price (Positive Number)</label>
-                <input type="number" class="form-control" id="productPrice" name="productPrice" placeholder="Enter product price" step="0.01" required>
-            </div>
-
-            <div class="form-group">
-                <label for="productImage">Product Image</label>
-                <input type="file" class="form-control-file" id="productImage" name="productImage" required>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Add Product</button>
-        </form>
-
-    </div>
-    
-    <!-- Include footer partial -->
-    <%- include ('./partials/footer') %>
-    <script src="/js/bootstrap.bundle.js"></script>
+        <!-- Include footer partial -->
+        <%- include ('../partials/footer') %>
+            <script src="/js/bootstrap.bundle.js"></script>
 </body>
+
 </html>
