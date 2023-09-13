@@ -5,23 +5,13 @@ const mongoose = require('mongoose');
 const { check, validationResult } = require('express-validator');
 const Product = require('../models/Product');
 const Vendor = require('../models/Vendor');
+const ProductController = require('../controllers/productController');
 require('../../index');
 
-router.get('/get', async (req, res) => {
-  try {
-   
-    console.log('View all products');
-    //const products = await Product.find().populate('vendor', 'businessName');
-   
-    
-    const products =  await Product.find();
-    return res.send(products);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: 'Failed to fetch products', error: err });
-  }
-  
-});
+router.get('/get',ProductController.getProducts);
+
+router.get('/get/:id', ProductController.getProductById);
+
 
 
 
@@ -38,11 +28,11 @@ router.get('/get', async (req, res) => {
     console.log('Request body');
 console.log(req.body);
     const { name, price, image, description } = req.body;
-    const vendorId = req.vendor._id; // Assuming the vendor's ID is stored in req.vendor by your auth middleware
-
+    const vendorId = req.body.vendor; // Assuming the vendor's ID is stored in req.vendor by your auth middleware
+    
     // Verify if vendor exists
     const vendor = await Vendor.findById(vendorId);
-    
+  
     if (!vendor) {
       return res.status(404).json({ message: 'Vendor not found' });
     }
