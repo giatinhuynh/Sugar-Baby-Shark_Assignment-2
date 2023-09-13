@@ -1,10 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-
-const port = 3000;
+// set up environment variables
+require("dotenv").config();
+const port = process.env.PORT || 3000;
 const app = require("./config/server");
-// set up port 
 require("./config/database");
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);
@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
 
 const path = require("path");
 // Use the static files
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname,"public")));
 
 // Set EJS as the template engine
 const views = ["auth", "customer", "vendor", "shipper", "static", "partials"];
