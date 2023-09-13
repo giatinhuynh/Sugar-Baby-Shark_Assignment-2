@@ -10,21 +10,8 @@ require('../../index');
 
 router.get('/get',ProductController.getProducts);
 
-router.get('/get/:id', async (req, res) => {
-  try {
-   
-    console.log('Get product by id');
-    //const products = await Product.find().populate('vendor', 'businessName');
-   
-    
-    const product =  await Product.findById(req.params.id);
-    return res.send(product);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: 'Failed to fetch products', error: err });
-  }
-  
-});
+router.get('/get/:id', ProductController.getProductById);
+
 
 
 
