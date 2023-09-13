@@ -5,6 +5,7 @@ const { check, validationResult } = require('express-validator');
 const NodeCache = require('node-cache');
 const myCache = new NodeCache();
 const vendorController = require('../controllers/vendorController'); // Import the vendor controller
+const Vendor = require('../models/Vendor');
 
   // Middleware for authentication
   const auth = vendorController.authMiddleware; // Delegate to the controller's authMiddleware method
@@ -27,5 +28,21 @@ const vendorController = require('../controllers/vendorController'); // Import t
   router.post('/logout', auth, vendorController.logout);  // Delegate to the controller's logout method
 
 
+  router.get('/get', async (req, res) => {
+    try {
+     
+      console.log('View all vendors');
+      //const products = await Product.find().populate('vendor', 'businessName');
+     
+      
+      const vendors =  await Vendor.find();
+      return res.send(vendors);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ message: 'Failed to fetch vendors', error: err });
+    }
+    
+  });
+  
 
 module.exports = router;
