@@ -1,101 +1,101 @@
 const Service = require('./Service');
-const Product = require('../models/Product');
+const Vendor = require('../models/Vendor');
 
-class ProductService extends Service {
+class VendorService extends Service {
   constructor() {
-    super(Product);
+    super(Vendor);
   }
 
-  async createProduct(productData) {
+  async createVendor(vendorData) {
     try {
-      
-      const product = new Product(productData);
-      const savedProduct = await product.save();
+      const vendor = new Vendor(vendorData);
+      const savedVendor = await vendor.save();
       return {
         error: false,
         statusCode: 201,
-        data: savedProduct,
+        data: savedVendor,
       };
     } catch (error) {
       return {
         error: true,
         statusCode: 500,
-        message: 'Failed to create product',
+        message: 'Failed to create Vendor',
         errors: error,
       };
     }
   }
 
-  async getProductById(id){
+  async getVendorById(id) {
     return await this.getById(id);
   }
-  async getProducts() {
+
+  async getVendors() {
     try {
-      const products = await this.getAll();
+      const vendors = await this.getAll();
       return {
         error: false,
         statusCode: 200,
-        data: products,
+        data: vendors,
       };
     } catch (error) {
       return {
         error: true,
         statusCode: 500,
-        message: 'Failed to fetch products',
+        message: 'Failed to fetch vendors',
         errors: error,
       };
     }
   }
 
-  async updateProduct(id, productData) {
+  async updateVendor(id, vendorData) {
     try {
-      const updatedProduct = await this.update(id, productData);
-      if (!updatedProduct) {
+      const updatedVendor = await this.update(id, vendorData);
+      if (!updatedVendor) {
         return {
           error: true,
           statusCode: 404,
-          message: 'Product not found',
+          message: 'Vendor not found',
         };
       }
       return {
         error: false,
         statusCode: 200,
-        data: updatedProduct,
+        data: updatedVendor,
       };
     } catch (error) {
       return {
         error: true,
         statusCode: 500,
-        message: 'Failed to update product',
+        message: 'Failed to update Vendor',
         errors: error,
       };
     }
   }
 
-  async deleteProduct(id) {
+  async deleteVendor(id) {
     try {
-      const deletedProduct = await this.delete(id);
-      if (!deletedProduct) {
+      const deletedVendor = await this.delete(id);
+      if (!deletedVendor) {
         return {
           error: true,
           statusCode: 404,
-          message: 'Product not found',
+          message: 'Vendor not found',
         };
       }
       return {
         error: false,
         statusCode: 200,
-        message: 'Product deleted successfully',
+        message: 'Vendor deleted successfully',
       };
     } catch (error) {
       return {
         error: true,
         statusCode: 500,
-        message: 'Failed to delete product',
+        message: 'Failed to delete Vendor',
         errors: error,
       };
     }
   }
 }
 
-module.exports = ProductService;
+module.exports = VendorService;

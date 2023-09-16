@@ -11,6 +11,7 @@ const Vendor = require('../models/Vendor');
   const auth = vendorController.authMiddleware; // Delegate to the controller's authMiddleware method
 
   // Register a new vendor
+
   router.post('/register', [
     check('username').isLength({ min: 8, max: 15 }).isAlphanumeric(),
     check('password').isLength({ min: 8, max: 20 }).matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/),
@@ -18,14 +19,26 @@ const Vendor = require('../models/Vendor');
     check('businessAddress').isLength({ min: 5 })
   ], vendorController.register);  // Delegate to the controller's register method
 
-  // Login a vendor
-  router.post('/login', vendorController.login);  // Delegate to the controller's login method
+  
+  // display view
+    // Logout a vendor
+    router.post('/logout', vendorController.logout);  // Delegate to the controller's logout method
+  router.get('/register', vendorController.registerMenu); 
+  router.get('/', vendorController.dasboard); 
+  router.get('/me', vendorController.getVendorDetails);
+  router.get('/login', vendorController.loginMenu);
 
+  // Login a vendor m
+  router.post('/login', vendorController.login);  // Delegate to the controller's login method
+ 
+
+    // Get vendor details
+   // Delegate to the controller's getCustomerDetails method
+    router.get('/:id', vendorController.getVendorById); 
   // Add new product
   router.post('/products', auth, vendorController.addProduct);  // Delegate to the controller's addProduct method
 
-  // Logout a vendor
-  router.post('/logout', auth, vendorController.logout);  // Delegate to the controller's logout method
+
 
 
   router.get('/get', async (req, res) => {
@@ -43,6 +56,5 @@ const Vendor = require('../models/Vendor');
     }
     
   });
-  
 
 module.exports = router;

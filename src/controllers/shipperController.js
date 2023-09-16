@@ -5,11 +5,23 @@ const { validationResult } = require('express-validator');
 const Shipper = require('../models/Shipper');
 const DistributionHub = require('../models/DistributionHub');
 const Order = require('../models/Order');
+const shipperService = require("../services/shipperService");
+const Controller = require("./Controller");
+
+const shipper = mongoose.model("Shipper");
+const ShipperService = new shipperService(shipper);
 const NodeCache = require('node-cache');
 const myCache = new NodeCache();
 
+
+
+class ShipperController extends Controller {
+  constructor(service) {
+    super(service);
+   
+  }
 // Middleware for authentication
-const auth = async (req, res, next) => {
+async auth (req, res, next) {
   const token = req.header('Authorization').replace('Bearer ', '');
   if (myCache.get(token)) {
     return res.status(401).send({ error: 'This token has been blacklisted' });
@@ -27,8 +39,38 @@ const auth = async (req, res, next) => {
   }
 };
 
+// display
+async loginMenu(req, res) { 
+  try {
+   
+  res.render('loginShipperVendor');
+} catch (err) {
+  res.status(404).send(err);
+}
+}
+async registerMenu(req, res) {
+  try {
+    res.render('registerShipperVendor');
+  } catch (err) {
+    res.status(404).send(err);
+  }
+}
+async dasboard(req, res) {
+  
+  try {
+    if (req.session.vendorId && req.session.vendorId.trim() !== '') {
+      console.log(req.session.vendorId);
+    res.render('shipperDasboard');}
+    else {
+      res.status(404).send({ error: 'Not Found' });
+    }
+  } catch (err) {
+    res.status(404).send(err);
+  }
+}
+
 // Register a new shipper
-const register = async (req, res) => {
+async register (req, res)  {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -58,35 +100,32 @@ const register = async (req, res) => {
 };
 
 // Login a shipper
-const login = async (req, res) => {
+async login (req, res)  {
   const { username, password } = req.body;
-  const shipper = await Shipper.findOne({ username });
+  const shipper = await Vendor.findOne({ username, password });
   if (!shipper) {
     return res.status(401).send({ error: 'Login failed' });
   }
-  const isPasswordMatch = await bcrypt.compare(password, shipper.password);
-  if (!isPasswordMatch) {
-    return res.status(401).send({ error: 'Login failed' });
-  }
+  req.session.shipperId = shipper._id;
   const token = jwt.sign({ _id: shipper._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-  res.send({ shipper, token });
+  res.redirect("/api/shippers/");
 };
 
 // Logout a shipper
-const logout = (req, res) => {
+async logout (req, res) {
   const token = req.header('Authorization').replace('Bearer ', '');
   myCache.set(token, true, 60 * 60 * 24);  // Blacklist this token for 24 hours
   res.send({ success: true });
 };
 
 // Shipper can see all active orders at their distribution hub
-const viewOrders = async (req, res) => {
+async viewOrders (req, res) {
   const orders = await Order.find({ distributionHubId: req.shipper.distributionHubId, status: 'active' });
   res.send(orders);
 };
 
 // Shipper can update the status of an order
-const updateOrderStatus = async (req, res) => {
+async updateOrderStatus  (req, res)  {
   const { status } = req.body;
   const order = await Order.findOne({ _id: req.params.orderId, distributionHubId: req.shipper.distributionHubId });
   if (!order) {
@@ -97,11 +136,7 @@ const updateOrderStatus = async (req, res) => {
   res.send(order);
 };
 
-module.exports = {
-  auth,
-  register,
-  login,
-  logout,
-  viewOrders,
-  updateOrderStatus
-};
+
+}
+
+module.exports = new ShipperController(shipperService);

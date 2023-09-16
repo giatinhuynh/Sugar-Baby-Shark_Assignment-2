@@ -1,101 +1,101 @@
 const Service = require('./Service');
-const Product = require('../models/Product');
+const Order = require('../models/Order');
 
-class ProductService extends Service {
+class OrderService extends Service {
   constructor() {
-    super(Product);
+    super(Order);
   }
 
-  async createProduct(productData) {
+  async createOrder(orderData) {
     try {
-      
-      const product = new Product(productData);
-      const savedProduct = await product.save();
+      const order = new Order(orderData);
+      const savedOrder = await order.save();
       return {
         error: false,
         statusCode: 201,
-        data: savedProduct,
+        data: savedOrder,
       };
     } catch (error) {
       return {
         error: true,
         statusCode: 500,
-        message: 'Failed to create product',
+        message: 'Failed to create Order',
         errors: error,
       };
     }
   }
 
-  async getProductById(id){
+  async getOrderById(id) {
     return await this.getById(id);
   }
-  async getProducts() {
+
+  async getOrders() {
     try {
-      const products = await this.getAll();
+      const orders = await this.getAll();
       return {
         error: false,
         statusCode: 200,
-        data: products,
+        data: orders,
       };
     } catch (error) {
       return {
         error: true,
         statusCode: 500,
-        message: 'Failed to fetch products',
+        message: 'Failed to fetch orders',
         errors: error,
       };
     }
   }
 
-  async updateProduct(id, productData) {
+  async updateOrder(id, orderData) {
     try {
-      const updatedProduct = await this.update(id, productData);
-      if (!updatedProduct) {
+      const updatedOrder = await this.update(id, orderData);
+      if (!updatedOrder) {
         return {
           error: true,
           statusCode: 404,
-          message: 'Product not found',
+          message: 'Order not found',
         };
       }
       return {
         error: false,
         statusCode: 200,
-        data: updatedProduct,
+        data: updatedOrder,
       };
     } catch (error) {
       return {
         error: true,
         statusCode: 500,
-        message: 'Failed to update product',
+        message: 'Failed to update Order',
         errors: error,
       };
     }
   }
 
-  async deleteProduct(id) {
+  async deleteOrder(id) {
     try {
-      const deletedProduct = await this.delete(id);
-      if (!deletedProduct) {
+      const deletedOrder = await this.delete(id);
+      if (!deletedOrder) {
         return {
           error: true,
           statusCode: 404,
-          message: 'Product not found',
+          message: 'Order not found',
         };
       }
       return {
         error: false,
         statusCode: 200,
-        message: 'Product deleted successfully',
+        message: 'Order deleted successfully',
       };
     } catch (error) {
       return {
         error: true,
         statusCode: 500,
-        message: 'Failed to delete product',
+        message: 'Failed to delete Order',
         errors: error,
       };
     }
   }
 }
 
-module.exports = ProductService;
+module.exports = OrderService;

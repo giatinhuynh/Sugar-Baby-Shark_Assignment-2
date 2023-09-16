@@ -1,5 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const session = require('express-session');
+const bodyParser = require('body-parser')
 
 // set up environment variables
 require("dotenv").config();
@@ -9,7 +11,17 @@ require("./config/database");
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);
 });
+app.use(session({
+  secret: 'your-secret-key', // Replace with your secret key
+  resave: false,
+  saveUninitialized: true,
+}));
 
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
 // Import routes
 const customer = require("./src/routes/customerRoutes");
 const vendor = require("./src/routes/vendorRoutes");
@@ -46,8 +58,6 @@ const viewDirectories = views.map(view => path.join(__dirname, "views", view));
 app.set("views", viewDirectories);
 
 app.set('view engine', 'ejs');
-
-
 
 
 

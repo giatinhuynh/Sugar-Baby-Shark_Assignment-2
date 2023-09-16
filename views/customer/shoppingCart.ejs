@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customer Cart</title>
+  </head>
+  <body>
+    <h1>Customer Shopping Cart</h1>
+    <ul>
+      <% customer.shoppingCart.forEach(item => { %>
+      <li>
+        <!-- Display product details from the shopping cart -->
+        <h2>Product Name: <%= item.productId %></h2>
+        <p>Quantity: <%= item.quantity %></p>
+        <!-- Add more product details as needed -->
+      </li>
+      <% }); %>
+    </ul>
+  </body>
+</html>
