@@ -1,101 +1,101 @@
 const Service = require('./Service');
-const Product = require('../models/Product');
+const Shipper = require('../models/Shipper');
 
-class ProductService extends Service {
+class ShipperService extends Service {
   constructor() {
-    super(Product);
+    super(Shipper);
   }
 
-  async createProduct(productData) {
+  async createShipper(shipperData) {
     try {
-      
-      const product = new Product(productData);
-      const savedProduct = await product.save();
+      const shipper = new Shipper(shipperData);
+      const savedShipper = await shipper.save();
       return {
         error: false,
         statusCode: 201,
-        data: savedProduct,
+        data: savedShipper,
       };
     } catch (error) {
       return {
         error: true,
         statusCode: 500,
-        message: 'Failed to create product',
+        message: 'Failed to create Shipper',
         errors: error,
       };
     }
   }
 
-  async getProductById(id){
+  async getShipperById(id) {
     return await this.getById(id);
   }
-  async getProducts() {
+
+  async getShippers() {
     try {
-      const products = await this.getAll();
+      const shippers = await this.getAll();
       return {
         error: false,
         statusCode: 200,
-        data: products,
+        data: shippers,
       };
     } catch (error) {
       return {
         error: true,
         statusCode: 500,
-        message: 'Failed to fetch products',
+        message: 'Failed to fetch shippers',
         errors: error,
       };
     }
   }
 
-  async updateProduct(id, productData) {
+  async updateShipper(id, shipperData) {
     try {
-      const updatedProduct = await this.update(id, productData);
-      if (!updatedProduct) {
+      const updatedShipper = await this.update(id, shipperData);
+      if (!updatedShipper) {
         return {
           error: true,
           statusCode: 404,
-          message: 'Product not found',
+          message: 'Shipper not found',
         };
       }
       return {
         error: false,
         statusCode: 200,
-        data: updatedProduct,
+        data: updatedShipper,
       };
     } catch (error) {
       return {
         error: true,
         statusCode: 500,
-        message: 'Failed to update product',
+        message: 'Failed to update Shipper',
         errors: error,
       };
     }
   }
 
-  async deleteProduct(id) {
+  async deleteShipper(id) {
     try {
-      const deletedProduct = await this.delete(id);
-      if (!deletedProduct) {
+      const deletedShipper = await this.delete(id);
+      if (!deletedShipper) {
         return {
           error: true,
           statusCode: 404,
-          message: 'Product not found',
+          message: 'Shipper not found',
         };
       }
       return {
         error: false,
         statusCode: 200,
-        message: 'Product deleted successfully',
+        message: 'Shipper deleted successfully',
       };
     } catch (error) {
       return {
         error: true,
         statusCode: 500,
-        message: 'Failed to delete product',
+        message: 'Failed to delete Shipper',
         errors: error,
       };
     }
   }
 }
 
-module.exports = ProductService;
+module.exports = ShipperService;

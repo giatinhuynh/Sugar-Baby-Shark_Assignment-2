@@ -49,6 +49,31 @@ class Service {
         return { error: true, statusCode: 500, errors: error };
       }
     }
+
+    async getById(id) {
+      try {
+        let item = await this.model.findById(id);
+        if (!item) {
+          return {
+            error: true,
+            statusCode: 404,
+            message: "Item not found"
+          };
+        }
+    
+        return {
+          error: false,
+          statusCode: 200,
+          data: item
+        };
+      } catch (error) {
+        return {
+          error: true,
+          statusCode: 500,
+          errors: error
+        };
+      }
+    }
   }
   
   module.exports = Service;

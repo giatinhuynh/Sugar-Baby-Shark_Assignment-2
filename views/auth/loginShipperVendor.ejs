@@ -147,14 +147,26 @@
       <p>An official Aikia's page for our partners</p>
     </div>
 
-    <form>
+    <form method="post" action="">
       <h3>Login Here</h3>
 
       <label for="username">Username</label>
-      <input type="text" placeholder="Username" id="username" />
+      <input
+        required
+        type="text"
+        placeholder="Username"
+        id="username"
+        name="username"
+      />
 
       <label for="password">Password</label>
-      <input type="password" placeholder="Password" id="password" />
+      <input
+        required
+        type="password"
+        placeholder="Password"
+        id="password"
+        name="password"
+      />
 
       <button>Log In</button>
 

@@ -28,7 +28,13 @@ const customerSchema = new Schema({
     type: String,
     required: true,
     minlength: 5
-  }
+  },
+  shoppingCart: [
+    {
+      productId: { type: Schema.Types.ObjectId, ref: 'Product', required: true },
+      quantity: { type: Number, required: true },
+    },
+  ],
 });
 
 customerSchema.pre('save', async function(next) {

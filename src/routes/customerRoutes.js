@@ -9,53 +9,53 @@ const customerController = require('../controllers/customerController');
 const Customer = require('../models/Customer');
 
 
-  // Register a new customer
+ // view 
+
+  // Logout a customer
+  router.get('/logout', customerController.logout);  // Delegate to the controller's logout method
+ router.get('/register', customerController.registerMenu); 
+ router.get('/login', customerController.loginMenu);   
+ router.get('/', customerController.dasboard);
+ router.get('/me', customerController.getCustomerDetails);
+ // view Cart
+  router.get('/cart', customerController.viewCart);
+
+
   router.post('/register', [
     check('username').isLength({ min: 8, max: 15 }).isAlphanumeric(),
     check('password').isLength({ min: 8, max: 20 }).matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/),
     check('name').isLength({ min: 5 }),
     check('address').isLength({ min: 5 })
   ], customerController.register);  // Delegate to the controller's register method
+ // Delegate to the controller's registerMenu method
 
-  // Login a customer
-  router.get('/login', async (req, res) => {
-    try {
-      res.render('login');
-    } catch (err) {
-      res.status(500).send(err);
-    }
-  });
-  router.post('login', customerController.login);   // Delegate to the controller's login method
+ // add to cart
+  router.post('/cart', customerController.addToCart);
 
-  // Middleware for authentication
-  const auth = async (req, res, next) => {
-    const token = req.header('Authorization').replace('Bearer ', '');
-    if (myCache.get(token)) {
-      return res.status(401).send({ error: 'This token has been blacklisted' });
-    }
-    try {
-      const data = jwt.verify(token, process.env.JWT_SECRET);
-      const customer = await Customer.findOne({ _id: data._id });
-      if (!customer) {
-        throw new Error('Customer not found');
-      }
-      req.customer = customer;
-      next();
-    } catch (error) {
-      res.status(401).send({ error: 'Not authorized to access this resource' });
-    }
-  };
+  router.post('/login', customerController.login);   // Delegate to the controller's login menu
 
   // Get customer details
-  router.get('/api/customers/me', auth, customerController.getCustomerDetails);  // Delegate to the controller's getCustomerDetails method
+  // Delegate to the controller's getCustomerDetails method
+  router.get('/:id', customerController.getCustomerById); 
 
 
-  // Update customer profile picture
-  router.put('/api/customers/me/picture', auth, customerController.updateProfilePicture);  // Delegate to the controller's updateProfilePicture method
 
-  // Logout a customer
-  router.post('/api/customers/logout', auth, customerController.logout);  // Delegate to the controller's logout method
 
- 
 
   module.exports = router;
+
+
+
+  // // Update the profile picture of the logged-in customer
+// exports.updateProfilePicture = async (req, res) => {
+//   // Destructure request body
+//   const { profilePicture } = req.body;
+
+//   // Update the profile picture field
+//   req.customer.profilePicture = profilePicture;
+//   // Save the updated customer to the database
+//   await req.customer.save();
+
+//   // Send the updated customer as response
+//   res.send(req.customer);
+// };
