@@ -24,6 +24,11 @@ const customerSchema = new Schema({
     required: true,
     minlength: 5
   },
+  gender: {
+    type: String, 
+    required: true,
+    enum: ['MALE', 'FEMALE', 'OTHERS'],
+  },
   address: {
     type: String,
     required: true,
