@@ -52,7 +52,7 @@ async loginMenu(req, res) {
 }
 async registerMenu(req, res) {
   try {
-    res.render('registerShipperVendor');
+    res.render('registerVendor');
   } catch (err) {
     res.status(404).send(err);
   }
@@ -73,11 +73,7 @@ async dasboard(req, res) {
 
 // Register a new vendor
 async register(req, res) {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-
+  
   const { username, password, businessName, businessAddress } = req.body;
 
   const vendor = new Vendor({

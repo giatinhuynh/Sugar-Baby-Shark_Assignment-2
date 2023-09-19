@@ -1,6 +1,5 @@
 // Import required modules and the Customer model
 const mongoose = require("mongoose");
-const { validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Controller = require("./Controller");
@@ -20,19 +19,18 @@ class CustomerController extends Controller {
 
 
  async register(req, res)  {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-  const { username, password, name, address } = req.body;
+  
+  const { username, password, name, address, gender, profilePicture } = req.body;
   const customer = new Customer({
     username,
     password,
     name,
-    address
+    gender,
+    address,
+    profilePicture
   });
 
-  const response = await CustomerService.createProduct(customer);
+  const response = await CustomerService.createCustomer(customer);
     if (response.error) return res.status(response.statusCode).send(response);
     return res.status(201).send(response);
 };
@@ -70,18 +68,20 @@ async dasboard(req, res) {
 async login (req, res) {
   console.log("login post");
 const { username, password } = req.body;
-  const customer = await Customer.findOne({ username, password });
+const customer = await Customer.findOne({ username });
+
   if (!customer) {
     return res.status(401).send({ error: 'Login failed' });
   }
 
-  // Compare the provided password with the stored hash
-  // const isPasswordMatch = await bcrypt.compare(password, customer.password);
-  // If password doesn't match, send error
-  // if (!isPasswordMatch) {
-  //   return res.status(401).send({ error: 'Login failed' });
-  // }
-  // Generate a JWT token with an expiry time
+  //Compare the provided password with the stored hash
+  
+  const isPasswordMatch = await bcrypt.compare(password, customer.password);
+  //If password doesn't match, send error
+  if (!isPasswordMatch) {
+    return res.status(401).send({ error: 'Login failed' });
+  }
+  //Generate a JWT token with an expiry time
   
   req.session.customerId = customer._id;
   const token = jwt.sign({ _id: customer._id }, process.env.JWT_SECRET, { expiresIn: '1h' });

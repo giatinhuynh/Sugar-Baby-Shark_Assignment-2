@@ -21,12 +21,7 @@ const Customer = require('../models/Customer');
   router.get('/cart', customerController.viewCart);
 
 
-  router.post('/register', [
-    check('username').isLength({ min: 8, max: 15 }).isAlphanumeric(),
-    check('password').isLength({ min: 8, max: 20 }).matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/),
-    check('name').isLength({ min: 5 }),
-    check('address').isLength({ min: 5 })
-  ], customerController.register);  // Delegate to the controller's register method
+  router.post('/register', customerController.register);  // Delegate to the controller's register method
  // Delegate to the controller's registerMenu method
 
  // add to cart

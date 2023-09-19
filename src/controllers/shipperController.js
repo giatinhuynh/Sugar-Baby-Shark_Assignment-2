@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { validationResult } = require('express-validator');
 const Shipper = require('../models/Shipper');
 const DistributionHub = require('../models/DistributionHub');
 const Order = require('../models/Order');
@@ -11,6 +10,7 @@ const Controller = require("./Controller");
 const shipper = mongoose.model("Shipper");
 const ShipperService = new shipperService(shipper);
 const NodeCache = require('node-cache');
+const DistributionHubService = require('../services/distributionHubService');
 const myCache = new NodeCache();
 
 
@@ -42,7 +42,7 @@ async auth (req, res, next) {
 // display
 async loginMenu(req, res) { 
   try {
-   
+  
   res.render('loginShipperVendor');
 } catch (err) {
   res.status(404).send(err);
@@ -50,7 +50,10 @@ async loginMenu(req, res) {
 }
 async registerMenu(req, res) {
   try {
-    res.render('registerShipperVendor');
+    console.log("register menu");
+    const response = await DistributionHub.find();
+    console.log(response);
+    res.render('registerShipper', { distributionHub: response });
   } catch (err) {
     res.status(404).send(err);
   }
@@ -58,9 +61,10 @@ async registerMenu(req, res) {
 async dasboard(req, res) {
   
   try {
-    if (req.session.vendorId && req.session.vendorId.trim() !== '') {
-      console.log(req.session.vendorId);
-    res.render('shipperDasboard');}
+    if (req.session.shipperId && req.session.shipperId.trim() !== '') {
+      console.log(req.session.shipperId);
+    res.render('shipperDashboard');
+  }
     else {
       res.status(404).send({ error: 'Not Found' });
     }
@@ -71,39 +75,38 @@ async dasboard(req, res) {
 
 // Register a new shipper
 async register (req, res)  {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
 
-  const { username, password, distributionHubId } = req.body;
+  const { username, password, distributionHub , profilePicture} = req.body;
 
-  // Verify if the distribution hub exists
-  const hub = await DistributionHub.findById(distributionHubId);
-  if (!hub) {
-    return res.status(404).json({ message: 'Distribution hub not found' });
-  }
-
+const distributionHubId = distributionHub
   const shipper = new Shipper({
     username,
     password,
-    distributionHubId
+    distributionHubId,
+    profilePicture
   });
 
-  try {
-    await shipper.save();
+
+    const response = await ShipperService.createShipper(shipper);
     const token = jwt.sign({ _id: shipper._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.status(201).send({ shipper, token });
-  } catch (err) {
-    res.status(400).send(err);
-  }
+    if (response.error) return res.status(response.statusCode).send(response);
+    return  res.redirect("/api/shippers/login");
+  
 };
 
 // Login a shipper
 async login (req, res)  {
   const { username, password } = req.body;
-  const shipper = await Vendor.findOne({ username, password });
+  const shipper = await Shipper.findOne({ username });
+ 
   if (!shipper) {
+    return res.status(401).send({ error: 'Login failed' });
+  }
+
+  //Compare the provided password with the stored hash
+  
+  const isPasswordMatch = await bcrypt.compare(password, shipper.password);
+  if (!isPasswordMatch) {
     return res.status(401).send({ error: 'Login failed' });
   }
   req.session.shipperId = shipper._id;
@@ -113,21 +116,40 @@ async login (req, res)  {
 
 // Logout a shipper
 async logout (req, res) {
-  const token = req.header('Authorization').replace('Bearer ', '');
-  myCache.set(token, true, 60 * 60 * 24);  // Blacklist this token for 24 hours
-  res.send({ success: true });
+  console.log("logout");
+  req.session.shipper = null;
+  // // Get the token from the Authorization header
+  // const token = req.header('Authorization').replace('Bearer ', '');
+  // // Blacklist the token for 24 hours
+  // myCache.set(token, true, 60 * 60 * 24);
+  // // Send success response
+  res.redirect("/api/shippers/login");
 };
 
 // Shipper can see all active orders at their distribution hub
 async viewOrders (req, res) {
-  const orders = await Order.find({ distributionHubId: req.shipper.distributionHubId, status: 'active' });
+  const shipperId = req.session.shipperId;
+  let shipper = await ShipperService.getShipperById(shipperId);
+  const distributionHubId = shipper.data.distributionHubId;
+  const orders = await Order.find({ distributionHubId: distributionHubId, status: 'active' });
   res.send(orders);
+};
+
+// get shipper details
+async  getShipperDetails(req, res) {
+  const shipperId = req.session.shipperId;
+  let response = await ShipperService.getShipperById(shipperId);
+    if (response.error) return res.status(response.statusCode).send(response);
+   return  res.render('shipperAccount', { shipper: response.data });
 };
 
 // Shipper can update the status of an order
 async updateOrderStatus  (req, res)  {
+  const shipperId = req.session.shipperId;
+  let shipper = await ShipperService.getShipperById(shipperId);
+  const distributionHubId = shipper.data.distributionHubId;
   const { status } = req.body;
-  const order = await Order.findOne({ _id: req.params.orderId, distributionHubId: req.shipper.distributionHubId });
+  const order = await Order.findOne({ _id: req.params.orderId, distributionHubId: distributionHubId });
   if (!order) {
     return res.status(404).send({ error: 'Order not found' });
   }
