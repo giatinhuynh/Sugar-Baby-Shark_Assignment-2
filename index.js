@@ -43,7 +43,7 @@ app.use("/api/orders", order);
 
 app.get('/', (req, res) => {
   
-  res.send('Test test test');
+  res.redirect('/api/customers/login');
 });
 
 

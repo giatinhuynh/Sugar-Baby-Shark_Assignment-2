@@ -55,7 +55,7 @@ class ProductController extends Controller {
   async getProductById(req, res){
     let response = await ProductService.getProductById(req.params.id);
     if (response.error) return res.status(response.statusCode).send(response);
-    return res.status(201).send(response);
+    return res.render('productDetail', { product: response.data });
 }
   async updateProduct(req, res) {
     const response = await ProductService.updateProduct(req.body._id, req.body);
