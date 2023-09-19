@@ -74,13 +74,14 @@ async dasboard(req, res) {
 // Register a new vendor
 async register(req, res) {
   
-  const { username, password, businessName, businessAddress } = req.body;
+  const { username, password, businessName, businessAddress, profilePicture} = req.body;
 
   const vendor = new Vendor({
     username,
     password,
     businessName,
-    businessAddress
+    businessAddress,
+    profilePicture
   });
 
   try {
@@ -95,9 +96,13 @@ async register(req, res) {
 // Login a vendor
 async login (req, res)  {
   const { username, password } = req.body;
-  const vendor = await Vendor.findOne({ username, password });
+  const vendor = await Vendor.findOne({ username });
   if (!vendor) {
-    return res.status(401).send({ error: 'Login failed' });
+    return res.status(401).send({ error: 'Username not found' });
+  }
+  const isPasswordMatch = await bcrypt.compare(password, vendor.password);
+  if (!isPasswordMatch) {
+    return res.status(401).send({ error: 'Incorrect password' });
   }
   req.session.vendorId = vendor._id;
   const token = jwt.sign({ _id: vendor._id }, process.env.JWT_SECRET, { expiresIn: '1h' });

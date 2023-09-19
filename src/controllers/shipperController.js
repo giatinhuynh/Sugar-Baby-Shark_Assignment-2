@@ -100,14 +100,14 @@ async login (req, res)  {
   const shipper = await Shipper.findOne({ username });
  
   if (!shipper) {
-    return res.status(401).send({ error: 'Login failed' });
+    return res.status(401).send({ error: 'Username failed' });
   }
 
   //Compare the provided password with the stored hash
   
   const isPasswordMatch = await bcrypt.compare(password, shipper.password);
   if (!isPasswordMatch) {
-    return res.status(401).send({ error: 'Login failed' });
+    return res.status(401).send({ error: 'Incorrect password' });
   }
   req.session.shipperId = shipper._id;
   const token = jwt.sign({ _id: shipper._id }, process.env.JWT_SECRET, { expiresIn: '1h' });

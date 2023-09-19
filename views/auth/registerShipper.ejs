@@ -216,7 +216,7 @@
 
         // Validate the form data
         const errors = [];
-        const name = $("[name=name]").val();
+
         const username = $("[name=username]").val();
         const password = $("[name=password]").val();
         const repassword = $("[name=repassword]").val();
@@ -233,10 +233,10 @@
           displayErrorMessage("Password does not match", "repassword");
         }
 
-        if (!validateMinLength(username, 5)) {
-          errors.push("Username must be at least 5 characters long");
+        if (!validateUsername(username)) {
+          errors.push("Invalid username");
           displayErrorMessage(
-            "Username must be at least 5 characters long",
+            "Username must contains only letters (lower and upper case) and digits, 8 to 15 characters.",
             "username"
           );
         }
