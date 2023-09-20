@@ -2,17 +2,18 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
-const Vendor = require('../models/Vendor');
-const Product = require('../models/Product')
 const Controller = require('./Controller');
 const ProductController = require('./productController');
 
-const { loginMenu } = require('./customerController');
+const Vendor = require('../models/Vendor');
 const vendorService = require('../services/vendorService');
 const VendorService = new vendorService(Vendor);
 
+const Product = require('../models/Product')
+const productService = require('../services/productService');
+const ProductService = new productService(Product);
+
 const NodeCache = require('node-cache');
-const productController = require('./productController');
 const myCache = new NodeCache();
 
 
@@ -70,7 +71,37 @@ async dasboard(req, res) {
     res.status(404).send(err);
   }
 }
+async productForm(req, res) { 
+  console.log("product form");
+  try {
+    console.log(req.params.id);
+    const productId = req.params.id; // Access the optional id parameter
+  if (productId) {
+    // Handle the case when id is provided
+    console.log("update product");
+    const product = await ProductService.getProductById(productId);
+    console.log("Edit: ",product);
+    res.render('addNewProduct', { product: product.data });
+  } else {
+    console.log("update product");
+    res.render('addNewProduct');
+  }
+  
+} catch (err) {
+  res.status(404).send(err);
+}
+}
+async products(req, res) { 
+  try {
 
+    
+   const products = await Product.find({vendor: req.session.vendorId});
+   console.log(products);
+  res.render('viewMyProducts', {products: products});
+} catch (err) {
+  res.status(404).send(err);
+}
+}
 // Register a new vendor
 async register(req, res) {
   
@@ -133,7 +164,7 @@ async addProduct (req, res)  {
     vendor: req.session.vendor._id
   });
 
-  let response=await productController.createProduct(product);
+  let response=await ProductController.createProduct(product);
   if (response.error) return res.status(response.statusCode).send(response);
   return res.status(201).send(response);
 };

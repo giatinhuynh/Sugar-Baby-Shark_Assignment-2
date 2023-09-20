@@ -5,9 +5,12 @@ const distributionHubService = require("../services/distributionHubService");
 
 const DistributionHub = mongoose.model("DistributionHub");
 const Order = mongoose.model("Order");
+const Shipper = mongoose.model("Shipper");
 const OrderService = new orderService(Order);
 const DistributionHubService = new distributionHubService(DistributionHub);
 const { check, validationResult } = require('express-validator');
+const shipperService = require("../services/shipperService");
+const ShipperService = new shipperService(Shipper);
 
 
 class OrderController extends Controller {
@@ -24,6 +27,10 @@ class OrderController extends Controller {
         const distributionHub = await DistributionHubService.getDistributionHubById(distributionHubId);
      
        console.log(distributionHub);
+
+       const shipper = await ShipperService.getShipperById(shipperId);
+     
+       console.log(shipper);
 
         if (!distributionHub) {
           return res.status(404).json({ message: 'Distribution Hub not found' });

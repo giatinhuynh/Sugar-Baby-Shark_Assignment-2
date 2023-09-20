@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Products</title>
+    <link rel="stylesheet" href="/css/bootstrap.css" />
+    <link rel="stylesheet" href="/css/vendor.css" />
+  </head>
+
+  <body>
+    <!-- Include header partial -->
+
+    <main>
+      <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+           
+           <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">My Products</h1>
+                <p class="lead text-body-secondary">
+                  View, edit and delete your products here.
+                </p>
+              </div>
+            
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search for products"
+                aria-describedby="button-addon2"
+              />
+              <button
+                class="btn btn-outline-primary"
+                type="button"
+                id="button-addon2"
+              >
+                Search
+              </button>
+            </div>
+          </section>
+    
+          <div class="album py-8 bg-body-tertiary">
+            <div class="container">
+              <div
+                class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-5"
+              >
+                <% products.forEach(product => { %>
+                <div class="col">
+                  <div class="card shadow-sm">
+                    <img
+                      class="bd-placeholder-img card-img-top"
+                      src="<%= product.image %>"
+                      alt="<%= product.name %>"
+                    />
+                    <div class="card-body">
+                      <h5 class="card-title"><%= product.name %></h5>
+                      <p class="card-text"><%= product.description %></p>
+                      <p class="card-text">$<%= product.price %></p>
+                      <div
+                        class="btn-group"
+                        role="group"
+                        aria-label="Edit and Delete Buttons"
+                      >
+                        <button
+                          type="button"
+                          id="<%= product._id%>"
+                          class="btn btn-primary edit-button"
+                        >
+                          Edit
+                        </button>
+                        <button type="button" class="btn btn-danger">Delete</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <% }) %>
+              </div>
+            </div>
+          </div></div>
+         
+    </main>
+
+    <!-- Include footer partial -->
+
+    <script src="js/bootstrap.bundle.js"></script>
+    <script src="js/jquery-3.6.0.min.js"></script>
+
+    <script>
+      // JavaScript code to handle the click event on the "Edit" button
+      document.querySelectorAll(".edit-button").forEach((button) => {
+        button.addEventListener("click", function () {
+          const productId = this.id;
+          console.log(productId);
+          // Redirect to the product form page with the product ID in the URL
+          window.location.href = `http://localhost:3000/api/vendors/product/${productId}`;
+        });
+      });
+    </script>
+  </body>
+</html>

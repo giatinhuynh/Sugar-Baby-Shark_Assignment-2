@@ -1,15 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <h1>Vendor Details</h1>
-    <p>Vendor Name: <%= vendor.name %></p>
-    <p>Vendor Business: <%= vendor.businessName %></p>
-    <p>Customer Address: <%= vendor.address %></p>
-    <!-- Add more details as needed -->
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Products</title>
+    <link href="/css/main.css" rel="stylesheet" />
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <style>
+        /* Custom styles */
+        .profile-image {
+            max-width: 200px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+</head>
+<body>
+    <!-- Include header partial -->
+ 
+
+    <div class="container mt-5">
+        <div class="row user-info">
+            <div class="col-md-5 d-flex justify-content-center align-items-center">
+                <img src="https://picsum.photos/700/700" alt="Vendor Profile Image" class="profile-image img-fluid">
+            </div>
+            <div class="col-md-7">
+                <h3>Welcome, <%=vendor.username%></h3>
+                <p><strong>Business Name:</strong> <%=vendor.businessName%></p>
+                <p><strong>Business Address:</strong> <%=vendor.businessAddress%></p>
+                <p><strong>Phone:</strong> (123) 456-7890</p>
+                <hr>
+                <h4>Account Details</h4>
+                <p><strong>Account ID:</strong> 123456</p>
+                <p><strong>Member Since:</strong> January 1, 2020</p>
+                <a href="#" class="btn btn-primary">Edit Profile</a>
+                <a href="#" class="btn btn-success">Change Password</a>
+                <a href="#" class="btn btn-danger">Delete Account</a>
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- Include footer partial -->
+    
+    <script src="js/bootstrap.bundle.js"></script>
+</body>
 </html>

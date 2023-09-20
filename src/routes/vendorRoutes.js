@@ -22,6 +22,8 @@ const Vendor = require('../models/Vendor');
   router.get('/', vendorController.dasboard); 
   router.get('/me', vendorController.getVendorDetails);
   router.get('/login', vendorController.loginMenu);
+  router.get('/product/:id?', vendorController.productForm);
+  router.get('/products', vendorController.products);
 
   // Login a vendor m
   router.post('/login', vendorController.login);  // Delegate to the controller's login method
@@ -31,7 +33,7 @@ const Vendor = require('../models/Vendor');
    // Delegate to the controller's getCustomerDetails method
     router.get('/:id', vendorController.getVendorById); 
   // Add new product
-  router.post('/products', auth, vendorController.addProduct);  // Delegate to the controller's addProduct method
+  router.post('/products', vendorController.addProduct);  // Delegate to the controller's addProduct method
 
 
 
