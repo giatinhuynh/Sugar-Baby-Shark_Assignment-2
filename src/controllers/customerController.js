@@ -11,6 +11,7 @@ const customer = mongoose.model("Customer");
 const CustomerService = new customerService(customer);
 
 const NodeCache = require('node-cache');
+const Product = require("../models/Product");
 const myCache = new NodeCache();
 
 class CustomerController extends Controller {
@@ -58,8 +59,31 @@ async dasboard(req, res) {
   try {
     // delete if statement to bypass login
     if (req.session.customerId && req.session.customerId.trim() !== '') {
-      
-    res.render('dashboard');}
+      // test with array of products
+      const products = [
+        {
+          _id: '1',
+          name: 'Product 1',
+          price: 100,
+          image: 'https://picsum.photos/300/300',
+          description: 'This is a product description'
+        },
+        {
+          _id: '2',
+          name: 'Product 2',
+          price: 200,
+          image: 'https://picsum.photos/300/300',
+          description: 'This is a product description'
+        },
+        {
+          _id: '3',
+          name: 'Product 3',
+          price: 300,
+          image: 'https://picsum.photos/300/300',
+          description: 'This is a product description'
+        },
+      ];
+      res.render('dashboard', { items: products });}
     else {
       res.status(404).send({ error: 'Not Found' });
     }
@@ -110,7 +134,29 @@ async viewCart(req, res) {
   let response = await CustomerService.getCustomerById(customerId);
   
     if (response.error) return res.status(response.statusCode).send(response);
-    res.render('shoppingCart', { customer: response.data });
+
+    const products = [
+      {
+        name: 'Product 1',
+        price: 19.99,
+        image: 'product1.jpg',
+        description: 'Description for Product 1',
+      },
+      {
+        name: 'Product 2 with a Longer Name',
+        price: 29.99,
+        image: 'product2.jpg',
+        description: 'Description for Product 2',
+      },
+      {
+        name: 'Product 3',
+        price: 14.99,
+        image: 'product3.jpg',
+        description: 'Description for Product 3',
+      },
+    ];
+    res.render('shoppingCart', { cartItems: products });
+    // res.render('shoppingCart', { customer: response.data });
 }
 
 async addToCart(req, res) {

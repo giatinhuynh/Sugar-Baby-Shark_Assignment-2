@@ -19,11 +19,11 @@ const ProductSchema = new Schema({
     type: String,
     maxlength: 500
   },
-  vendor: {
-    type: Schema.Types.ObjectId,
-    ref: 'Vendor',
-    required: true
-  }
+  // vendor: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'Vendor',
+  //   required: true
+  // }
 });
 
 
