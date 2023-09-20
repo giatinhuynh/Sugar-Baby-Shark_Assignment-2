@@ -26,6 +26,47 @@ const authMiddleware = async (req, res, next) => {
   }
 };
 
+<<<<<<< Updated upstream
+=======
+// display
+async loginMenu(req, res) { 
+  try {
+   
+  res.render('loginShipperVendor');
+} catch (err) {
+  res.status(404).send(err);
+}
+}
+async productForm(req, res) { 
+  try {
+   
+  res.render('addNewProduct');
+} catch (err) {
+  res.status(404).send(err);
+}
+}
+async registerMenu(req, res) {
+  try {
+    res.render('registerVendor');
+  } catch (err) {
+    res.status(404).send(err);
+  }
+}
+async dasboard(req, res) {
+  
+  try {
+    if (req.session.vendorId && req.session.vendorId.trim() !== '') {
+      console.log(req.session.vendorId);
+    res.render('vendorDashboard');}
+    else {
+      res.status(404).send({ error: 'Not Found' });
+    }
+  } catch (err) {
+    res.status(404).send(err);
+  }
+}
+
+>>>>>>> Stashed changes
 // Register a new vendor
 const register = async (req, res) => {
   const errors = validationResult(req);

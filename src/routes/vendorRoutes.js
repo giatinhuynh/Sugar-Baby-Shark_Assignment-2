@@ -20,6 +20,25 @@ module.exports = (app) => {
   // Login a vendor
   app.post('/api/vendors/login', vendorController.login);  // Delegate to the controller's login method
 
+<<<<<<< Updated upstream
+=======
+  
+  // display view
+    // Logout a vendor
+    router.post('/logout', vendorController.logout);  // Delegate to the controller's logout method
+  router.get('/register', vendorController.registerMenu); 
+  router.get('/', vendorController.dasboard); 
+  router.get('/me', vendorController.getVendorDetails);
+  router.get('/login', vendorController.loginMenu);
+  router.get('/product', vendorController.productForm); 
+  // Login a vendor m
+  router.post('/login', vendorController.login);  // Delegate to the controller's login method
+ 
+
+    // Get vendor details
+   // Delegate to the controller's getCustomerDetails method
+    router.get('/:id', vendorController.getVendorById); 
+>>>>>>> Stashed changes
   // Add new product
   app.post('/api/vendors/products', auth, vendorController.addProduct);  // Delegate to the controller's addProduct method
 

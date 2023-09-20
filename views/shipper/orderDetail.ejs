@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/shipper.css">
+
+
+</head>
+
+<body>
+    <main>
+        <section>
+            <h1 class="content-heading">Order Detail Page</h1>
+            <div class="container">
+                <div class="col-wrapper">
+                    <div class="col-first">
+                        <div class="col-first__info">
+                            <img src="https://haycafe.vn/wp-content/uploads/2023/04/Hinh-anh-avatar-cute-TikTok-nam.jpg" alt="" class="col-first__avatar">
+                            <span class="col-first__text">Ashraf Hossain</span>
+                            <button class="btn col-first__btn">Log Out</button>
+                        </div>
+                        <div class="col-first__nav">
+                            <a class="col-first__row" href="./shipperDashboard.ejs">
+                                <div class="col-first__icon">
+                                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="grid-2"
+                                        role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                        class="svg-inline--fa fa-grid-2 fa-lg">
+                                        <path
+                                            d="M224 80c0-26.5-21.5-48-48-48H80C53.5 32 32 53.5 32 80v96c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48V80zm0 256c0-26.5-21.5-48-48-48H80c-26.5 0-48 21.5-48 48v96c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48V336zM288 80v96c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48H336c-26.5 0-48 21.5-48 48zM480 336c0-26.5-21.5-48-48-48H336c-26.5 0-48 21.5-48 48v96c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48V336z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <p class="col-first__desc">DashBoard</p>
+                            </a>
+
+                            <a class="col-first__row" href="./shipperAccount.ejs">
+                                <div class="col-first__icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+                                        <path
+                                            d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
+                                    </svg>
+                                </div>
+                                <p class="col-first__desc">Account</p>
+                            </a>
+
+                            <a class="col-first__row" href="./orderDetail.ejs">
+                                <div class="col-first__icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 640 512">
+                                        <path
+                                            d="M112 0C85.5 0 64 21.5 64 48V96H16c-8.8 0-16 7.2-16 16s7.2 16 16 16H64 272c8.8 0 16 7.2 16 16s-7.2 16-16 16H64 48c-8.8 0-16 7.2-16 16s7.2 16 16 16H64 240c8.8 0 16 7.2 16 16s-7.2 16-16 16H64 16c-8.8 0-16 7.2-16 16s7.2 16 16 16H64 208c8.8 0 16 7.2 16 16s-7.2 16-16 16H64V416c0 53 43 96 96 96s96-43 96-96H384c0 53 43 96 96 96s96-43 96-96h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V288 256 237.3c0-17-6.7-33.3-18.7-45.3L512 114.7c-12-12-28.3-18.7-45.3-18.7H416V48c0-26.5-21.5-48-48-48H112zM544 237.3V256H416V160h50.7L544 237.3zM160 368a48 48 0 1 1 0 96 48 48 0 1 1 0-96zm272 48a48 48 0 1 1 96 0 48 48 0 1 1 -96 0z" />
+                                    </svg>
+                                </div>
+                                <p class="col-first__desc">Order</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-second">
+                        <div class="col-second__card-body">
+                            <h2 class="col-second__card-title">Order detail</h2>
+                            <table class="col-second__table">
+                                <thead>
+                                    <tr>
+                                        <th>Order</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Total</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#645385</td>
+                                        <td>Sep 20, 2023</td>
+                                        <td>Status </td>
+                                        <td>$20</td>
+                                        <td><button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal">
+                                                Details
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col mb-1">
+                                            <p class="small mb-1">Order No.</p>
+                                            <p>#645385</p>
+                                        </div>
+                                        <div class="col mb-1">
+                                            <p class="small mb-1">Distribution Hub</p>
+                                            <p>Ho Chi Minh</p>
+                                        </div>
+                                        <div class="col mb-1">
+                                            <p class="small mb-1">Date</p>
+                                            <p>Sep 20, 2023</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <label class="small mb-1" for="Status">Status:</label>
+                                            <select class="custom-select my-1 mr-sm-2" id="Status" name="Status">
+                                                <option value="Active" selected>Active</option>
+                                                <option value="Delivered">Delivered</option>
+                                                <option value="Canceled">Canceled</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                    <hr>
+                                    <p class="small mb-1">Item list</p>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p>5 Books</p>
+                                        </div>
+                                        <div class="col">
+                                            <p>20$</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="fs-5 text mb-1">Total Price:</p>
+                                        </div>
+                                        <div class="col">
+                                        </div>
+                                        <div class="col">
+                                            <p class="fs-5 text mb-1">20$</p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col mb-1">
+                                            <p class="small mb-1">Receiver</p>
+                                            <p>
+                                                Mike James
+                                            </p>
+                                        </div>
+                                        <div class="col mb-1">
+                                            <p class="small mb-1">Address</p>
+                                            <p>
+                                                Boston, U.S
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col mb-1">
+                                            <p class="small mb-1">Payment Method</p>
+                                            <p>
+                                                Internet Banking
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>
