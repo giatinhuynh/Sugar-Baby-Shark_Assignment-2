@@ -8,7 +8,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
-    <link href="/css/main.css" rel="stylesheet" />
+    <link href="/css/shipper.css" rel="stylesheet" />
     <link href="/css/bootstrap.css" rel="stylesheet" />
     <script src="/js/validation.js"></script>
     <link
@@ -17,16 +17,6 @@
     />
     <!--Stylesheet-->
     <style>
-      * {
-        padding: 0;
-        margin: 0;
-        box-sizing: border-box;
-      }
-      body {
-        height: 100vh;
-        background-image: url("https://www.ikea.com/images/a-modern-sofa-in-a-warm-sand-coloured-minimalist-style-livin-634c57f2b9981c628ffea4fccfc8e9fe.jpg");
-      }
-
       form {
         overflow-y: auto;
         height: 100%;
@@ -86,6 +76,12 @@
         border-radius: 5px;
         cursor: pointer;
       }
+      button,
+      btn:hover {
+        background-color: white;
+        color: black;
+        border: 3px solid black;
+      }
 
       .background {
         position: absolute;
@@ -140,15 +136,22 @@
     <div class="container py-3 h-100">
       <div class="row h-100">
         <div class="col-3 h-100">
-          <aside class="d-flex align-items-center">
-            <ul class="list-group">
+          <aside class="d-flex flex-column align-items-center py-4">
+            <img
+              src="https://picsum.photos/700/700"
+              alt="Vendor Profile Image"
+              class="profile-image img-fluid px-5"
+              style="max-width: 100%; border-radius: 50%"
+            />
+            <a href="shippers/logout" class="btn btn-logout">Log Out</a>
+            <ul class="list-group pt-3">
               <li class="list-group-item">
-                <a href="../shippers/">Dashboard</a>
+                <a href="../">Dashboard</a>
+              </li>
+              <li class="list-group-item">
+                <a href="../orders">View Orders</a>
               </li>
 
-              <li class="list-group-item">
-                <a href="orders">View Orders</a>
-              </li>
               <li class="list-group-item"><a href="me">My Account</a></li>
             </ul>
           </aside>
@@ -163,7 +166,7 @@
                 class="form-control"
                 id="username"
                 name="username"
-                value="<%=vendor.username%>"
+                value="<%=shipper.username%>"
                 required
               />
             </div>

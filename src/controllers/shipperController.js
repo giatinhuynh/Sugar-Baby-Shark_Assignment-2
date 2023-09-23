@@ -79,7 +79,9 @@ const shipper= await ShipperService.getShipperById(req.session.shipperId);
     res.status(404).send(err);
   }
 }
-
+async  changePasswordForm(req, res) {
+  res.render('shipperSecurity');
+}
 // Register a new shipper
 async register (req, res)  {
 
@@ -132,10 +134,28 @@ async logout (req, res) {
   // // Send success response
   res.redirect("/api/shippers/login");
 };
+async editShipperDetails(req, res) {
+  
+  const { username, businessName, businessAddress, profilePicture} = req.body;
+  let shipper = await ShipperService.getShipperById(req.session.shipperId);
+  shipper.data.username = username;
+  shipper.data.businessName = businessName;
+  shipper.data.businessAddress = businessAddress;
+  shipper.data.profilePicture = profilePicture;
 
+
+  let response = await ShipperService.updateShipper(req.session.shipperId,shipper.data);
+   response = await ShipperService.getShipperById(req.session.shipperId);
+
+  if (response.error) return res.status(response.statusCode).send(response);
+  return res.redirect("/api/vendors/me");
+ 
+
+};
 // Shipper can see all active orders at their distribution hub
 async viewOrders (req, res) {
   const shipperId = req.session.shipperId;
+  if (shipperService){
   let shipper = await ShipperService.getShipperById(shipperId);
   const distributionHubId = shipper.data.distributionHubId;
   const orders = await Order.find({ distributionHubId: distributionHubId, status: 'active' });
@@ -151,9 +171,14 @@ async viewOrders (req, res) {
     }
   }));
   console.log(customerNames);
-  res.render("viewOrders", { orders: orders , shipper:shipper.data, customerNames: customerNames});
+  res.render("viewOrders", { orders: orders , shipper:shipper.data, customerNames: customerNames});}
 };
-
+async  editShipperDetailsForm(req, res) {
+  const shipperId = req.session.shipperId;
+  let response = await ShipperService.getShipperById(shipperId);
+    if (response.error) return res.status(response.statusCode).send(response);
+    res.render('shipperEditProfile', { shipper: response.data });
+}
 // get shipper details
 async  getShipperDetails(req, res) {
   const shipperId = req.session.shipperId;
@@ -196,6 +221,31 @@ async viewOrderDetails (req, res)  {
   console.log(productNames);
   res.render("orderDetail", { order: order.data, productNames: productNames});
 
+}
+
+
+async  changePassword(req, res) {
+  const { currentPassword, newPassword } = req.body;
+  console.log(currentPassword, newPassword)
+  const vendorId = req.session.vendorId;
+  let vendor = await VendorService.getVendorById(vendorId);
+  const isPasswordMatch = await bcrypt.compare(currentPassword, vendor.data.password);
+  if (!isPasswordMatch) {
+    return res.status(401).send({ error: 'Incorrect password' });
+  }
+  else {
+    console.log("password match");
+     // Hash the new password
+     const hashedPassword = await bcrypt.hash(newPassword, 10);
+     // Update the vendor's password with the hashed password
+    vendor.data.password = hashedPassword;
+    let response = await VendorService.updateVendor(vendorId,vendor.data);
+  
+      if (response.error) return res.status(response.statusCode).send(response.error);
+      res.redirect("/api/vendors/me");
+  }
+ 
+    
 }
 }
 
