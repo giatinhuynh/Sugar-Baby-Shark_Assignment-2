@@ -113,7 +113,7 @@ class CustomerService extends Service {
           message: 'Customer not found',
         };
       }
-     
+    
       // Check if the product exists 
       const product = await ProductService.getProductById(productId);
       

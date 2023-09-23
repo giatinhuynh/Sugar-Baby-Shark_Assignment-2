@@ -13,10 +13,10 @@ const Customer = require('../models/Customer');
 
   // Logout a customer
   router.get('/logout', customerController.logout);  // Delegate to the controller's logout method
- router.get('/register', customerController.registerMenu); 
- router.get('/login', customerController.loginMenu);   
- router.get('/', customerController.dasboard);
- router.get('/me', customerController.getCustomerDetails);
+  router.get('/register', customerController.registerMenu); 
+  router.get('/login', customerController.loginMenu);   
+  router.get('/', customerController.dasboard);
+  router.get('/me', customerController.getCustomerDetails);
  // view Cart
   router.get('/cart', customerController.viewCart);
 
