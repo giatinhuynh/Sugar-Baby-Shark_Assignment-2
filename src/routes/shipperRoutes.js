@@ -11,6 +11,7 @@ const shipperController = require('../controllers/shipperController');
   router.get('/', shipperController.dasboard); 
   router.get('/me', shipperController.getShipperDetails);
   router.get('/login', shipperController.loginMenu);
+  router.get('/orders/:orderId',  shipperController.viewOrderDetails);
 
   // Register a new shipper
   router.post('/register',  shipperController.register);

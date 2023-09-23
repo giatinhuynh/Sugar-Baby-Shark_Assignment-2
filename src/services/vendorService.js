@@ -48,8 +48,10 @@ class VendorService extends Service {
   }
 
   async updateVendor(id, vendorData) {
-    try {
+    
+    try {  console.log(vendorData);
       const updatedVendor = await this.update(id, vendorData);
+    
       if (!updatedVendor) {
         return {
           error: true,

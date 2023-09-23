@@ -1,48 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Products</title>
-    <link href="/css/main.css" rel="stylesheet" />
-    <link href="/css/bootstrap.css" rel="stylesheet" />
-    <style>
-        /* Custom styles */
-        .profile-image {
-            max-width: 200px;
-            border-radius: 50%;
-        }
-    </style>
-</head>
-</head>
-<body>
-    <!-- Include header partial -->
- 
+  <head>
+    <title>Dashboard</title>
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
 
-    <div class="container mt-5">
-        <div class="row user-info">
-            <div class="col-md-5 d-flex justify-content-center align-items-center">
-                <img src="https://picsum.photos/700/700" alt="Vendor Profile Image" class="profile-image img-fluid">
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/vendor.css" rel="stylesheet" />
+
+    <script src="/js/validation.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!--Stylesheet-->
+    <style>
+      main {
+        overflow-y: auto;
+        height: 100%;
+        z-index: 1;
+        background-color: white;
+        position: relative;
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+        padding: 35px;
+      }
+      main * {
+        font-family: "Poppins", sans-serif;
+        color: black;
+        letter-spacing: 0.5px;
+        outline: none;
+        border: none;
+      }
+      form h3 {
+        font-size: 32px;
+        font-weight: 500;
+        line-height: 42px;
+        text-align: center;
+      }
+
+      label {
+        display: block;
+        margin-top: 30px;
+        font-size: 16px;
+        font-weight: 500;
+      }
+      input,
+      select {
+        display: block;
+
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+        padding: 0 10px;
+        margin-top: 8px;
+        font-size: 14px;
+        font-weight: 300;
+      }
+      ::placeholder {
+        color: rgb(52, 50, 50);
+      }
+      button,
+      .btn {
+        margin-top: 50px;
+        width: 100%;
+        background-color: black;
+        border: 1px black solid;
+        color: white;
+        padding: 15px 0;
+        font-size: 18px;
+        font-weight: 600;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button,
+      .btn:hover {
+        background-color: white;
+        border: black solid 3px;
+        color: black;
+      }
+      .background {
+        position: absolute;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(8, 7, 16, 0.6);
+        z-index: 0;
+        margin-top: 100px;
+      }
+      .alt-link {
+        width: 50% !important;
+      }
+      .radio {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+      input[type="radio"] {
+        width: max-content;
+      }
+      a:hover {
+        cursor: pointer;
+      }
+      li:hover {
+        background-color: pink;
+
+        cursor: pointer;
+      }
+      a {
+        color: black;
+        text-decoration: none;
+      }
+      aside,
+      main {
+        height: 100%;
+        background-color: white;
+        border-radius: 10px;
+        position: relative;
+        z-index: 1;
+        box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+      }
+      .card {
+        height: 350px;
+        overflow-y: auto;
+      }
+      ul {
+        color: black;
+
+        width: 100%;
+      }
+      ul li {
+        padding: 20px !important;
+        border: none !important;
+        overflow: scroll;
+      }
+      ul li a {
+        font-size: 1.5rem;
+      }
+      .btn-logout {
+        background-color: pink;
+        border: none;
+        color: black;
+        width: max-content;
+        padding: 1rem 2rem;
+        margin-top: 2rem !important;
+        max-width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background vh-100"></div>
+    <nav class="navbar bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand ps-4" href="#">
+          <h1>AIKIA</h1>
+        </a>
+      </div>
+    </nav>
+    <div class="container py-3 h-100">
+      <div class="row h-100">
+        <div class="col-3 h-100">
+          <aside class="d-flex flex-column align-items-center py-4">
+            <img
+              src="https://picsum.photos/700/700"
+              alt="Vendor Profile Image"
+              class="profile-image img-fluid px-5"
+              style="max-width: 100%; border-radius: 50%"
+            />
+            <a href="../vendors/logout" class="btn btn-logout">Log Out</a>
+            <ul class="list-group pt-3">
+              <li class="list-group-item">
+                <a href="../vendors/">Dashboard</a>
+              </li>
+              <li class="list-group-item">
+                <a href="product">Add Products</a>
+              </li>
+              <li class="list-group-item">
+                <a href="products">View Products</a>
+              </li>
+              <li class="list-group-item"><a href="me">My Account</a></li>
+            </ul>
+          </aside>
+        </div>
+        <main class="col-9 h-100 px-3">
+          <div class="row user-info">
+            <div
+              class="col-md-5 d-flex justify-content-center align-items-center"
+            >
+              <img
+                src="https://picsum.photos/700/700"
+                alt="Vendor Profile Image"
+                class="profile-image img-fluid"
+              />
             </div>
             <div class="col-md-7">
-                <h3>Welcome, <%=vendor.username%></h3>
-                <p><strong>Business Name:</strong> <%=vendor.businessName%></p>
-                <p><strong>Business Address:</strong> <%=vendor.businessAddress%></p>
-                <p><strong>Phone:</strong> (123) 456-7890</p>
-                <hr>
-                <h4>Account Details</h4>
-                <p><strong>Account ID:</strong> 123456</p>
-                <p><strong>Member Since:</strong> January 1, 2020</p>
-                <a href="#" class="btn btn-primary">Edit Profile</a>
-                <a href="#" class="btn btn-success">Change Password</a>
-                <a href="#" class="btn btn-danger">Delete Account</a>
-            </div>
-        </div>
-    </div>
-    
+              <h3>Welcome, <%=vendor.username%></h3>
+              <p><strong>Business Name:</strong> <%=vendor.businessName%></p>
+              <p>
+                <strong>Business Address:</strong> <%=vendor.businessAddress%>
+              </p>
 
-    <!-- Include footer partial -->
-    
+              <hr />
+              <h4>Account Details</h4>
+              <p><strong>Account ID:</strong> <%=vendor._id%></p>
+              <p><strong>Member Since:</strong> January 1, 2020</p>
+              <a href="../vendors/me/edit" class="btn">Edit Profile</a>
+              <a href="../vendors/me/security" class="btn">Change Password</a>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
     <script src="js/bootstrap.bundle.js"></script>
-</body>
+    <script src="js/jquery-3.6.0.min.js"></script>
+
+    <script>
+      // JavaScript code to handle the click event on the "Edit" button
+      document.querySelectorAll(".edit-button").forEach((button) => {
+        button.addEventListener("click", function () {
+          const productId = this.id;
+          console.log(productId);
+          // Redirect to the product form page with the product ID in the URL
+          window.location.href = `http://localhost:3000/api/vendors/product/${productId}`;
+        });
+      });
+    </script>
+  </body>
 </html>

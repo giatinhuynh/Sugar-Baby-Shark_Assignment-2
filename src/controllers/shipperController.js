@@ -6,11 +6,16 @@ const DistributionHub = require('../models/DistributionHub');
 const Order = require('../models/Order');
 const shipperService = require("../services/shipperService");
 const Controller = require("./Controller");
-
+const Customer = require('../models/Customer');
+const Product = require('../models/Product');
 const shipper = mongoose.model("Shipper");
 const ShipperService = new shipperService(shipper);
+const order = mongoose.model("Order");
+const orderService = require("../services/orderService");
+const OrderService = new orderService(order);
 const NodeCache = require('node-cache');
-const DistributionHubService = require('../services/distributionHubService');
+const distributionHub = require('../services/distributionHubService');
+const DistributionHubService = new distributionHub(DistributionHub);
 const myCache = new NodeCache();
 
 
@@ -63,7 +68,9 @@ async dasboard(req, res) {
   try {
     if (req.session.shipperId && req.session.shipperId.trim() !== '') {
       console.log(req.session.shipperId);
-    res.render('shipperDashboard');
+const shipper= await ShipperService.getShipperById(req.session.shipperId);
+// const distributionHub = DistributionHubService.getDistributionHubById(shipper.data.distributionHubId);
+    res.render('shipperDashboard',{shipper:shipper.data});
   }
     else {
       res.status(404).send({ error: 'Not Found' });
@@ -132,15 +139,29 @@ async viewOrders (req, res) {
   let shipper = await ShipperService.getShipperById(shipperId);
   const distributionHubId = shipper.data.distributionHubId;
   const orders = await Order.find({ distributionHubId: distributionHubId, status: 'active' });
-  res.send(orders);
+  const customerNames = {};
+  await Promise.all(orders.map(async (order) => {
+    const customerId = order.customerId;
+
+    // Execute the Mongoose query and await its result
+    const customer = await Customer.findOne({ _id: customerId }, 'name').exec();
+
+    if (customer) {
+      customerNames[order._id] = customer.name; // Store the customer name in the object
+    }
+  }));
+  console.log(customerNames);
+  res.render("viewOrders", { orders: orders , shipper:shipper.data, customerNames: customerNames});
 };
 
 // get shipper details
 async  getShipperDetails(req, res) {
   const shipperId = req.session.shipperId;
   let response = await ShipperService.getShipperById(shipperId);
+  const distributionHub = DistributionHubService.getDistributionHubById(response.data.distributionHubId);
+
     if (response.error) return res.status(response.statusCode).send(response);
-   return  res.render('shipperAccount', { shipper: response.data });
+   return  res.render('shipperAccount', { shipper: response.data, distributionHub: distributionHub.data });
 };
 
 // Shipper can update the status of an order
@@ -158,7 +179,24 @@ async updateOrderStatus  (req, res)  {
   res.send(order);
 };
 
+async viewOrderDetails (req, res)  {
+  const orderId = req.params.orderId;
+  const order = await OrderService.getOrderById(orderId);
+  const productNames = {};
+  await Promise.all(order.data.products.map(async (product) => {
+    const productId = product.productId;
 
+    // Execute the Mongoose query and await its result
+    const productName = await Product.findOne({ _id: productId }, 'name').exec();
+
+    if (productName) {
+      productNames[productId] = productName.name; 
+    }
+  }));
+  console.log(productNames);
+  res.render("orderDetail", { order: order.data, productNames: productNames});
+
+}
 }
 
 module.exports = new ShipperController(shipperService);

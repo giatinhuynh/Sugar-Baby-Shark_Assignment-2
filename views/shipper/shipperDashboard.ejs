@@ -3,9 +3,169 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Order</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link rel="stylesheet" href="/css/bootstrap.css" />
+    <link rel="stylesheet" href="/css/shipper.css" />
   </head>
+
   <body>
-    <h1>Shipper Dashboard</h1>
+    <main>
+      <section>
+        <h1 class="content-heading">Shipper DashBoard</h1>
+        <div class="container">
+          <div class="col-wrapper">
+            <div class="col-first">
+              <div class="col-first__info">
+                <img
+                  src="https://haycafe.vn/wp-content/uploads/2023/04/Hinh-anh-avatar-cute-TikTok-nam.jpg"
+                  alt=""
+                  class="col-first__avatar"
+                />
+                <span class="col-first__text"><%=shipper.username%></span>
+                <button class="btn col-first__btn">
+                  <a href="logout">Log Out</a>
+                </button>
+              </div>
+              <div class="col-first__nav">
+                <a class="col-first__row" href="">
+                  <div class="col-first__icon">
+                    <svg
+                      aria-hidden="true"
+                      focusable="false"
+                      data-prefix="fas"
+                      data-icon="grid-2"
+                      role="img"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 512 512"
+                      class="svg-inline--fa fa-grid-2 fa-lg"
+                    >
+                      <path
+                        d="M224 80c0-26.5-21.5-48-48-48H80C53.5 32 32 53.5 32 80v96c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48V80zm0 256c0-26.5-21.5-48-48-48H80c-26.5 0-48 21.5-48 48v96c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48V336zM288 80v96c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48H336c-26.5 0-48 21.5-48 48zM480 336c0-26.5-21.5-48-48-48H336c-26.5 0-48 21.5-48 48v96c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48V336z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <p class="col-first__desc">DashBoard</p>
+                </a>
+
+                <a class="col-first__row" href="me">
+                  <div class="col-first__icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="1em"
+                      viewBox="0 0 448 512"
+                    >
+                      <path
+                        d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"
+                      />
+                    </svg>
+                  </div>
+                  <p class="col-first__desc">Account</p>
+                </a>
+
+                <a class="col-first__row" href="orders">
+                  <div class="col-first__icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="1.5em"
+                      viewBox="0 0 640 512"
+                    >
+                      <path
+                        d="M112 0C85.5 0 64 21.5 64 48V96H16c-8.8 0-16 7.2-16 16s7.2 16 16 16H64 272c8.8 0 16 7.2 16 16s-7.2 16-16 16H64 48c-8.8 0-16 7.2-16 16s7.2 16 16 16H64 240c8.8 0 16 7.2 16 16s-7.2 16-16 16H64 16c-8.8 0-16 7.2-16 16s7.2 16 16 16H64 208c8.8 0 16 7.2 16 16s-7.2 16-16 16H64V416c0 53 43 96 96 96s96-43 96-96H384c0 53 43 96 96 96s96-43 96-96h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V288 256 237.3c0-17-6.7-33.3-18.7-45.3L512 114.7c-12-12-28.3-18.7-45.3-18.7H416V48c0-26.5-21.5-48-48-48H112zM544 237.3V256H416V160h50.7L544 237.3zM160 368a48 48 0 1 1 0 96 48 48 0 1 1 0-96zm272 48a48 48 0 1 1 96 0 48 48 0 1 1 -96 0z"
+                      />
+                    </svg>
+                  </div>
+                  <p class="col-first__desc">Order</p>
+                </a>
+              </div>
+            </div>
+            <div class="col-second">
+              <div>
+                <a href="me" class="col-second__link">
+                  <div class="col-second__row">
+                    <div class="col-second__icon--before">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="2em"
+                        viewBox="0 0 448 512"
+                      >
+                        <path
+                          d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"
+                        />
+                      </svg>
+                    </div>
+                    <div class="col-second__info">
+                      <h2 class="col-second__heading">My Account</h2>
+                      <p class="col-second__desc">
+                        Edit your name or Change your password
+                      </p>
+                    </div>
+                    <div class="col-second__icon--after">
+                      <a href="#!">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          height="1em"
+                          viewBox="0 0 448 512"
+                        >
+                          <path
+                            fill="#027FF2"
+                            d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div>
+                <a href="orders" class="col-second__link">
+                  <div class="col-second__row">
+                    <div
+                      class="col-second__icon--before col-second__icon--special"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="1.5em"
+                        viewBox="0 0 640 512"
+                      >
+                        <path
+                          d="M112 0C85.5 0 64 21.5 64 48V96H16c-8.8 0-16 7.2-16 16s7.2 16 16 16H64 272c8.8 0 16 7.2 16 16s-7.2 16-16 16H64 48c-8.8 0-16 7.2-16 16s7.2 16 16 16H64 240c8.8 0 16 7.2 16 16s-7.2 16-16 16H64 16c-8.8 0-16 7.2-16 16s7.2 16 16 16H64 208c8.8 0 16 7.2 16 16s-7.2 16-16 16H64V416c0 53 43 96 96 96s96-43 96-96H384c0 53 43 96 96 96s96-43 96-96h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V288 256 237.3c0-17-6.7-33.3-18.7-45.3L512 114.7c-12-12-28.3-18.7-45.3-18.7H416V48c0-26.5-21.5-48-48-48H112zM544 237.3V256H416V160h50.7L544 237.3zM160 368a48 48 0 1 1 0 96 48 48 0 1 1 0-96zm272 48a48 48 0 1 1 96 0 48 48 0 1 1 -96 0z"
+                        />
+                      </svg>
+                    </div>
+                    <div class="col-second__info">
+                      <h2 class="col-second__heading">Order Product</h2>
+                      <p class="col-second__desc">View order products detail</p>
+                    </div>
+                    <div class="col-second__icon--after">
+                      <a href="#!">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          height="1em"
+                          viewBox="0 0 448 512"
+                        >
+                          <path
+                            fill="#027FF2"
+                            d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
   </body>
 </html>

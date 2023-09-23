@@ -17,10 +17,12 @@ const Vendor = require('../models/Vendor');
   
   // display view
     // Logout a vendor
-    router.post('/logout', vendorController.logout);  // Delegate to the controller's logout method
+    router.get('/logout', vendorController.logout);  // Delegate to the controller's logout method
   router.get('/register', vendorController.registerMenu); 
   router.get('/', vendorController.dasboard); 
   router.get('/me', vendorController.getVendorDetails);
+  router.get('/me/edit', vendorController.editVendorDetailsForm);
+  router.get('/me/security', vendorController.changePasswordForm);
   router.get('/login', vendorController.loginMenu);
   router.get('/product/:id?', vendorController.productForm);
   router.get('/products', vendorController.products);
@@ -29,11 +31,14 @@ const Vendor = require('../models/Vendor');
   router.post('/login', vendorController.login);  // Delegate to the controller's login method
  
 
-    // Get vendor details
+    // Change vendor details
+    router.post('/me/edit', vendorController.editVendorDetails);
+    // change pass
+    router.post('/me/security', vendorController.changePassword);
    // Delegate to the controller's getCustomerDetails method
     router.get('/:id', vendorController.getVendorById); 
   // Add new product
-  router.post('/products', vendorController.addProduct);  // Delegate to the controller's addProduct method
+  router.post('/product/:id?', vendorController.addProduct);  // Delegate to the controller's addProduct method
 
 
 

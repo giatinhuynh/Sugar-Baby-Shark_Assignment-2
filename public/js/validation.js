@@ -29,3 +29,24 @@ function displayErrorMessage(message, inputName) {
   function validateMinLength(input, minLength) {
     return input.length >= minLength;
   }
+
+    // Function to validate the product name
+    function validateProductName(name) {
+      // Regular expression for product name: contains only letters (lower and upper case), digits, and spaces, 10 to 20 characters.
+      const nameRegex = /^[a-zA-Z0-9\s]+$/;
+      return nameRegex.test(name) && name.length >= 10 && name.length <= 20;
+    }
+  
+    // Function to validate the product price
+    function validateProductPrice(price) {
+      // Regular expression for product price: contains only digits and a maximum of 2 decimal places, greater than or equal to 0.
+      const priceRegex = /^\d+(\.\d{1,2})?$/;
+      return priceRegex.test(price) && parseFloat(price) >= 0;
+    }
+  
+    // Function to validate the product description length
+    function validateProductDescription(description) {
+      // Regular expression for product description: max 500 characters.
+      return description.length <= 500;
+    }
+  
