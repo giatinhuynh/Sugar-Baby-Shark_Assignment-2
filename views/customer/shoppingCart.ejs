@@ -1,60 +1,202 @@
-<%- include('../partials/header') %>
+<!--
+// RMIT University Vietnam
+// Course: COSC2430 Web Programming
+// Semester: 2023B
+// Assessment: Assignment 2
+// Author: Huynh Duc Gia Tin, Tran Ha Phuong, Nguyen Viet Ha, Phan Nhat Minh, Tran Nguyen Quoc An
+// ID: s3962053, s3979638, s3978128, s3959931, s3978598 
+// Acknowledgement: MDN Web Docs, Youtube, W3school, GeeksforGeeks, RMIT Canvas, ChatGPT, NPM Packages' Docs
+-->
 
-  <section class="h-100" style="background-color: #eee;">
-    <div class="container h-100 py-5">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-10">
-
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <h3 class="fw-normal mb-0 text-black">Shopping Cart</h3>
-            <div>
-              <p class="mb-0">Customer name here</p>
-            </div>
-          </div>
-
-          <% for (const cartItem of cartItems) { %>
-            <div class="card rounded-3 mb-4">
-              <div class="card-body p-4">
-                <div class="row d-flex justify-content-between align-items-center">
-                  <div class="col-md-2 col-lg-2 col-xl-2">
-                    <img src="https://picsum.photos/300/300" class="img-fluid rounded-3" alt="<%= cartItem.name %>">
-                  </div>
-                  <div class="col-md-3 col-lg-3 col-xl-3">
-                    <p class="lead fw-normal mb-2">
-                      <%= cartItem.name %>
-                    </p>
-                  </div>
-                  <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                    <button class="btn btn-link px-2"
-                      onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                      Minus Quantity Icon
-                    </button>
-
-                    <input id="form1" min="0" name="quantity" value="<%= cartItem.quantity %>" type="number"
-                      class="form-control form-control-sm" />
-
-                    <button class="btn btn-link px-2"
-                      onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                      Plus Quantity Icon
-                    </button>
-                  </div>
-                  <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                    <h5 class="mb-0">$<%= cartItem.price %>
-                    </h5>
-                  </div>
-                  <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                    <a href="/api/customers/removeFromCart/<%= cartItem._id %>" class="text-danger">Remove Icon</a>
-                  </div>
-                </div>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <section class="h-100" style="background-color: #eee">
+      <div class="container h-100 py-5">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-10">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h3 class="fw-normal mb-0 text-black">Shopping Cart</h3>
+              <div>
+                <p class="mb-0"><%=customer.name%></p>
               </div>
             </div>
-            <% } %>
-            <button type="button" class="btn btn-warning btn-block btn-lg float-md-end">
-              Proceed to Pay
-            </button>
+
+            <!-- ... (previous HTML code) ... -->
+
+<% for (const cartItem of cartItems) { %>
+  <div class="card rounded-3 mb-4">
+    <div class="card-body p-4">
+      <div class="row d-flex justify-content-between align-items-center">
+        <div class="col-md-2 col-lg-2 col-xl-2">
+          <img
+            src="<%= cartItem.image %>"
+            class="img-fluid rounded-3"
+            alt="<%= cartItem.name %>"
+          />
+        </div>
+        <div class="col-md-3 col-lg-3 col-xl-3">
+          <p class="lead fw-normal mb-2"><%= cartItem.name %></p>
+        </div>
+        <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+          <button
+            class="btn btn-link px-2"
+            onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+          >
+            <i class="fas fa-minus"></i>
+          </button>
+  
+          <input
+            min="0"
+            name="quantity"
+            value="<%= cartItem.quantity %>"
+            type="number"
+            class="form-control form-control-sm"
+            style="width: 100px"
+            data-price="<%= cartItem.price %>" 
+          />
+  
+          <button
+            class="btn btn-link px-2"
+            onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+          >
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+        <div class="col-md-3 col-lg-1 col-xl-1 offset-lg-1">
+          <h5 class="mb-0">$<%= cartItem.price %></h5>
+        </div>
+        <div class="col-md-3 col-lg-1 col-xl-1 offset-lg-1">
+          <h5 class="mb-0 subtotal">$<%= cartItem.price * cartItem.quantity %></h5>
+        </div>
+        <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+          <a
+            href="/api/customers/removeFromCart/<%= cartItem._id %>"
+            class="text-danger"
+            ><i class="fas fa-trash"></i></i
+          ></a>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+  <% } %>
+  
+  <h5 class="fw-normal mb-0 text-black">Total Price:</h5>
+  <div class="col-md-2 col-lg-2 col-xl-2">
+    <input
+      id="totalPrice"
+      type="number"
+      value=""
+      class="form-control"
+      disabled
+    />
+  </div>
+  <h5 class="fw-normal mb-0 text-black">Distrubution Hub:</h5>
+  <div class="col-md-2 col-lg-2 col-xl-2">
+   
+    <select id="distributionHub" name="distributionHub">
+      <% distributionHubs.forEach(hub => { %>
+      <option value="<%= hub._id %>"><%= hub.name %></option>
+      <% }); %>
+    </select>
+  </div>
+  <button
+id="proceedToPayBtn"
+    type="button"
+    class="btn btn-warning btn-block btn-lg float-md-end"
+  >
+    Proceed to Pay
+  </button>
+  
+  <!-- jQuery code to calculate and update the total price -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+  <script>
+    // Calculate and update the total price
+    function updateTotalPrice() {
+      let total = 0;
+      $('.subtotal').each(function () {
+        total += parseFloat($(this).text().replace('$', ''));
+      });
+  
+      $('#totalPrice').val(total.toFixed(2));
+    }
+  
+    // Initialize the total price
+    updateTotalPrice();
+  
+    // Update total price when plus icon is clicked
+    $(".fa-plus").click(function () {
+      console.log(this);
+      const inputElement = $(this).prev();
+      console.log(inputElement);
+      const currentValue = parseInt(inputElement.val(), 10);
+      if (!isNaN(currentValue)) {
+        inputElement.val(currentValue + 1);
+        const price = parseFloat(inputElement.data('price'));
+        const subtotalElement = $(this).closest('.row').find('.subtotal');
+        const newSubtotal = (currentValue + 1) * price;
+        subtotalElement.text('$' + newSubtotal.toFixed(2));
+        updateTotalPrice();
+      }
+    });
+  
+    // Update total price when minus icon is clicked
+    $(".fa-minus").click(function () {
+      const inputElement = $(this).next();
+      const currentValue = parseInt(inputElement.val(), 10);
+      if (!isNaN(currentValue) && currentValue > 0) {
+        inputElement.val(currentValue - 1);
+        const price = parseFloat(inputElement.data('price'));
+        const subtotalElement = $(this).closest('.row').find('.subtotal');
+        const newSubtotal = (currentValue - 1) * price;
+        subtotalElement.text('$' + newSubtotal.toFixed(2));
+        updateTotalPrice();
+      }
+    });
 
-  <%- include('../partials/footer') %>
+    $("#proceedToPayBtn").click(function () {
+      // You can collect the necessary data for creating the order here
+      // For example, you can get the cart items and total price
+      const formData = {
+        distributionHubId: $("[name=distributionHub]").val(),
+        totalPrice: $('#totalPrice').val(),
+      };
+      
+      // Send an AJAX request to create the order
+      $.ajax({
+        url: '/api/orders/create', // Replace with your server endpoint
+        type: 'POST',
+        contentType: "application/json",
+        data: JSON.stringify(formData),
+      
+        success: function (response) {
+          // Handle the success response from the server
+          console.log('Order created successfully:', response);
+
+          // Optionally, you can redirect to a confirmation page or perform other actions
+        },
+        error: function (error) {
+          // Handle errors if the request fails
+          console.error('Error creating order:', error);
+        },
+      });
+    });
+
+  </script>
+  
+
+
+
+  </body>
+</html>

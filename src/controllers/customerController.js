@@ -1,17 +1,26 @@
+/* // RMIT University Vietnam
+// Course: COSC2430 Web Programming
+// Semester: 2023B
+// Assessment: Assignment 2
+// Author: Huynh Duc Gia Tin, Tran Ha Phuong, Nguyen Viet Ha, Phan Nhat Minh, Tran Nguyen Quoc An
+// ID: s3962053, s3979638, s3978128, s3959931, s3978598 
+// Acknowledgement: MDN Web Docs, Youtube, W3school, GeeksforGeeks, RMIT Canvas, ChatGPT, NPM Packages' Docs */
+
 // Import required modules and the Customer model
 const mongoose = require("mongoose");
-const { validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Controller = require("./Controller");
 const customerService = require("../services/customerService");
 const Customer = require('../models/Customer');
-
+const Product = mongoose.model("Product");
+const productService = require("../services/productService");
+const ProductService = new productService(Product);
+const DistributionHub = require('../models/DistributionHub');
 const customer = mongoose.model("Customer");
 const CustomerService = new customerService(customer);
 
 const NodeCache = require('node-cache');
-const Product = require("../models/Product");
 const myCache = new NodeCache();
 
 class CustomerController extends Controller {
@@ -21,19 +30,18 @@ class CustomerController extends Controller {
 
 
  async register(req, res)  {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-  const { username, password, name, address } = req.body;
+  
+  const { username, password, name, address, gender, profilePicture } = req.body;
   const customer = new Customer({
     username,
     password,
     name,
-    address
+    gender,
+    address,
+    profilePicture
   });
 
-  const response = await CustomerService.createProduct(customer);
+  const response = await CustomerService.createCustomer(customer);
     if (response.error) return res.status(response.statusCode).send(response);
     return res.status(201).send(response);
 };
@@ -55,60 +63,33 @@ async registerMenu(req, res) {
   }
 }
 async dasboard(req, res) {
+  console.log("dashboard");
   
-  try {
-    // delete if statement to bypass login
-    if (req.session.customerId && req.session.customerId.trim() !== '') {
-      // test with array of products
-      const products = [
-        {
-          _id: '1',
-          name: 'Product 1',
-          price: 100,
-          image: 'https://picsum.photos/300/300',
-          description: 'This is a product description'
-        },
-        {
-          _id: '2',
-          name: 'Product 2',
-          price: 200,
-          image: 'https://picsum.photos/300/300',
-          description: 'This is a product description'
-        },
-        {
-          _id: '3',
-          name: 'Product 3',
-          price: 300,
-          image: 'https://picsum.photos/300/300',
-          description: 'This is a product description'
-        },
-      ];
-      res.render('dashboard', { items: products });}
-    else {
-      res.status(404).send({ error: 'Not Found' });
-    }
-  } catch (err) {
-    res.status(404).send(err);
-  }
+  
+    const items = await ProductService.getProducts();
+    console.log(items);
+
+    res.render('dashboard', { items: items.data.data });
+   
+ 
 }
 async login (req, res) {
   console.log("login post");
-const { username, password } = req.body;
-  const customer = await Customer.findOne({ username, password });
-  if (!customer) {
-    return res.status(401).send({ error: 'Login failed' });
-  }
+ const { username, password } = req.body;
+const customer = await Customer.findOne({ username });
+if (!customer) {
+  return res.status(401).send({ error: 'Username not found' });
+}
+const isPasswordMatch = await bcrypt.compare(password, customer.password);
+if (!isPasswordMatch) {
+  return res.status(401).send({ error: 'Incorrect password' });
+}
 
-  // Compare the provided password with the stored hash
-  // const isPasswordMatch = await bcrypt.compare(password, customer.password);
-  // If password doesn't match, send error
-  // if (!isPasswordMatch) {
-  //   return res.status(401).send({ error: 'Login failed' });
-  // }
-  // Generate a JWT token with an expiry time
+  //Compare the provided password with the stored hash
+  
+
   
   req.session.customerId = customer._id;
-  const token = jwt.sign({ _id: customer._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
   // Send success response
  // res.send({ customer, token });
   res.redirect("/api/customers/");
@@ -131,33 +112,42 @@ async  getCustomerDetails(req, res) {
 // view Cart
 async viewCart(req, res) {
   const customerId = req.session.customerId;
-  let response = await CustomerService.getCustomerById(customerId);
-  
-    if (response.error) return res.status(response.statusCode).send(response);
 
-    const products = [
-      {
-        name: 'Product 1',
-        price: 19.99,
-        image: 'product1.jpg',
-        description: 'Description for Product 1',
-      },
-      {
-        name: 'Product 2 with a Longer Name',
-        price: 29.99,
-        image: 'product2.jpg',
-        description: 'Description for Product 2',
-      },
-      {
-        name: 'Product 3',
-        price: 14.99,
-        image: 'product3.jpg',
-        description: 'Description for Product 3',
-      },
-    ];
-    res.render('shoppingCart', { cartItems: products });
-    // res.render('shoppingCart', { customer: response.data });
+  try {
+    const distributionHubs = await DistributionHub.find();
+    const customer = await Customer.findById(customerId);
+
+    if (!customer) return res.status(404).send({ error: 'Customer not found.' });
+
+    // Convert shoppingCart items to include product details
+    const cartItems = await Promise.all(customer.shoppingCart.map(async (item) => {
+      const product = await ProductService.getProductById(item.productId);
+
+      if (!product) {
+        // Handle the case where the product is not found (optional)
+        return null;
+      }
+
+      return {
+        _id: item.productId, // Use item.productId directly
+        name: product.data.name,
+        image: product.data.image,  // Assuming Product schema has an 'image' field
+        price: product.data.price,  // Assuming Product schema has a 'price' field
+        quantity: item.quantity // Use item.quantity to get the quantity from the shopping cart
+      };
+    }));
+
+    // Filter out any null values (products not found)
+    const filteredCartItems = cartItems.filter(item => item !== null);
+
+    console.log(filteredCartItems);
+    res.render('shoppingCart', { cartItems: filteredCartItems, customer , distributionHubs: distributionHubs });
+  } catch (error) {
+    console.error('Error fetching cart:', error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
 }
+
 
 async addToCart(req, res) {
   
@@ -207,6 +197,13 @@ async logout(req, res)  {
 //   res.send(req.customer);
 // };
 
+
+
+async getProductDetails(req, res) {
+  const productId = req.params.id;
+  const product = await ProductService.getProductById(productId);
+  res.render('productDetail', { product: product.data });
+}
 }
 
 module.exports = new CustomerController(customerService);

@@ -1,29 +1,101 @@
-<%- include('../partials/header') %>
+<!--
+// RMIT University Vietnam
+// Course: COSC2430 Web Programming
+// Semester: 2023B
+// Assessment: Assignment 2
+// Author: Huynh Duc Gia Tin, Tran Ha Phuong, Nguyen Viet Ha, Phan Nhat Minh, Tran Nguyen Quoc An
+// ID: s3962053, s3979638, s3978128, s3959931, s3978598 
+// Acknowledgement: MDN Web Docs, Youtube, W3school, GeeksforGeeks, RMIT Canvas, ChatGPT, NPM Packages' Docs
+-->
 
-<!-- Product section-->
-<section class="py-5">
-    <div class="container px-4 px-lg-5 my-5">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+  </head>
+
+  <%- include('../partials/header') %>
+  <body>
+    <!-- Product section-->
+    <section class="py-5">
+      <div class="container px-4 px-lg-5 my-5">
         <div class="row gx-4 gx-lg-5 align-items-center">
-            <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="https://picsum.photos/1000/1000" alt="<%= product.image %>"/></div>
-            <!-- src="<%= product.image %>" -->
-            <div class="col-md-6">
-                <div class="small mb-1">SKU: <%= product._id %></div>
-                <h1 class="display-5 fw-bolder"><%= product.name %></h1>
-                <div class="fs-5 mb-5">
-                    <span class="text-decoration-line-through">$45.00</span>
-                    <span>$<%= product.price %></span>
-                </div>
-                <p class="lead"><%= product.description %></p>
-                <div class="d-flex">
-                    <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
-                    <button class="btn btn-outline-dark flex-shrink-0" type="button">
-                        <i class="bi-cart-fill me-1"></i>
-                        Add to cart
-                    </button>
-                </div>
+          <div class="col-md-6">
+            <img
+              class="card-img-top mb-5 mb-md-0"
+              src="<%= product.image %>"
+              alt="<%= product.name %> Image"
+            />
+          </div>
+          <!-- src="<%= product.image %>" -->
+          <div class="col-md-6">
+            <div class="small mb-1">SKU: <%= product._id %></div>
+            <h1 class="display-5 fw-bolder"><%= product.name %></h1>
+            <div class="fs-5 mb-5">
+              <span class="text-decoration-line-through"
+                >$<%= product.price %></span
+              >
             </div>
+            <p class="lead"><%= product.description %></p>
+            <div class="d-flex">
+              <input
+                class="form-control text-center me-3"
+                id="inputQuantity"
+                type="num"
+                value="1"
+                style="max-width: 3rem"
+              />
+              <button
+                id="addToCartButton"
+                class="btn btn-outline-dark flex-shrink-0"
+                type="button"
+                value="<%= product._id %>"
+              >
+                <i class="bi-cart-fill me-1"></i>
+                Add to cart
+              </button>
+            </div>
+          </div>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#addToCartButton").click(function () {
+          // Get the product ID and quantity from the page (adjust this part based on your page structure)
+          const productId = $(this).val();
+          const quantity = $("#inputQuantity").val();
+          console.log("Product ID", productId);
 
-<%- include('../partials/footer') %>
+          // Create a data object with the product ID and quantity
+          const data = {
+            productId: productId,
+            quantity: quantity,
+          };
+
+          console.log("Adding product to cart", data);
+          // Send an AJAX POST request to your server
+          $.ajax({
+            type: "POST",
+            url: "/api/customers/cart", // Replace with your actual server endpoint
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (response) {
+              // Handle a successful response (e.g., show a success message)
+              console.log("Product added to cart successfully");
+            },
+            error: function (error) {
+              // Handle errors (e.g., show an error message)
+              console.error("Failed to add product to cart", error);
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+  <%- include('../partials/footer') %>
+</html>

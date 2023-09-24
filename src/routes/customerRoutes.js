@@ -1,7 +1,15 @@
+/* // RMIT University Vietnam
+// Course: COSC2430 Web Programming
+// Semester: 2023B
+// Assessment: Assignment 2
+// Author: Huynh Duc Gia Tin, Tran Ha Phuong, Nguyen Viet Ha, Phan Nhat Minh, Tran Nguyen Quoc An
+// ID: s3962053, s3979638, s3978128, s3959931, s3978598 
+// Acknowledgement: MDN Web Docs, Youtube, W3school, GeeksforGeeks, RMIT Canvas, ChatGPT, NPM Packages' Docs */
+
 // Import required modules and models
 var express = require('express');
 var router = express.Router();
-
+const Product = require('../models/Product');
 const { check, validationResult } = require('express-validator');
 const NodeCache = require('node-cache');
 const myCache = new NodeCache();
@@ -10,7 +18,37 @@ const Customer = require('../models/Customer');
 
 
  // view 
+ router.get('/search', (req, res) => {
+  
+  console.log("search");
+  const searchQuery = req.query.query; // Get the search query from the request
+  console.log(searchQuery);
+  const minPrice = parseFloat(req.query.minPrice); // Get the min price if needed
+  const maxPrice = parseFloat(req.query.maxPrice); // Get the max price if needed
 
+  // Use the searchQuery and optional price filters to search for products in your database
+  // Replace this with your actual database search logic
+  // For example, you can use Mongoose for MongoDB or any other database library
+
+  // Query the database for products with matching names
+  Product.find({ name: { $regex: new RegExp(searchQuery, 'i') } })
+    .then((products) => {
+      // Filter products based on price if minPrice and maxPrice are provided
+      if (!isNaN(minPrice) && !isNaN(maxPrice)) {
+        products = products.filter(
+          (product) => product.price >= minPrice && product.price <= maxPrice
+        );
+      }
+
+      // Render a view with the search results
+      res.render('dashboard', { items: products });
+    })
+    .catch((error) => {
+      // Handle any errors
+      console.error('Error searching for products:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
   // Logout a customer
   router.get('/logout', customerController.logout);  // Delegate to the controller's logout method
  router.get('/register', customerController.registerMenu); 
@@ -21,12 +59,7 @@ const Customer = require('../models/Customer');
   router.get('/cart', customerController.viewCart);
 
 
-  router.post('/register', [
-    check('username').isLength({ min: 8, max: 15 }).isAlphanumeric(),
-    check('password').isLength({ min: 8, max: 20 }).matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/),
-    check('name').isLength({ min: 5 }),
-    check('address').isLength({ min: 5 })
-  ], customerController.register);  // Delegate to the controller's register method
+  router.post('/register', customerController.register);  // Delegate to the controller's register method
  // Delegate to the controller's registerMenu method
 
  // add to cart
@@ -37,6 +70,15 @@ const Customer = require('../models/Customer');
   // Get customer details
   // Delegate to the controller's getCustomerDetails method
   router.get('/:id', customerController.getCustomerById); 
+  router.get('/product/:id', customerController.getProductDetails); 
+
+  // Import necessary modules and set up your Express app
+
+// Define a route to handle product search
+
+
+// Start your Express server
+
 
 
 

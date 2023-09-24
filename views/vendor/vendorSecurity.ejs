@@ -11,16 +11,17 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Dashboard</title>
+    <title>Security</title>
     <meta charset="UTF-8" />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
-
+    <link href="/css/main.css" rel="stylesheet" />
     <link href="/css/bootstrap.css" rel="stylesheet" />
     <link href="/css/vendor.css" rel="stylesheet" />
+
     <script src="/js/validation.js"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap"
@@ -28,6 +29,7 @@
     />
     <!--Stylesheet-->
     <style>
+     
       form {
         overflow-y: auto;
         height: 100%;
@@ -103,7 +105,6 @@
         border: 3px solid black;
         color: white;
       }
-
       .background {
         position: absolute;
         width: 100%;
@@ -162,144 +163,121 @@
         width: max-content;
         padding: 1rem 2rem;
         margin-top: 2rem !important;
+        max-width: 100%;
       }
     </style>
   </head>
   <body>
     <div class="background"></div>
     <nav class="navbar bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand ps-4" href="#">
-          <h1>AIKIA</h1>
-        </a>
-      </div>
-    </nav>
+        <div class="container-fluid">
+          <a class="navbar-brand ps-4" href="#">
+            <h1>AIKIA</h1>
+          </a>
+        </div>
+      </nav>
     <div class="container py-3 h-100">
       <div class="row h-100">
         <div class="col-3 h-100">
-          <aside class="d-flex flex-column align-items-center py-4">
-            <img
-              src="/images/profilePictures/<%=vendor._id%>.jpg"
-              alt="Vendor Profile Image"
-              class="profile-image img-fluid px-5"
-              style="max-width: 100%; border-radius: 50%"
-            />
-            <a href="../vendors/logout" class="btn btn-logout">Log Out</a>
-            <ul class="list-group pt-3">
-              <li class="list-group-item">
-                <a href="../vendors/">Dashboard</a>
-              </li>
-              <li class="list-group-item">
-                <a href="product">Add Products</a>
-              </li>
-              <li class="list-group-item">
-                <a href="products">View Products</a>
-              </li>
-              <li class="list-group-item"><a href="me">My Account</a></li>
-            </ul>
-          </aside>
+            <aside class="d-flex flex-column align-items-center py-4">
+                <img
+                  src="https://picsum.photos/700/700"
+                  alt="Vendor Profile Image"
+                  class="profile-image img-fluid px-5"
+                  style="max-width: 100%; border-radius: 50%"
+                />
+                <a href="../../vendors/logout" class="btn btn-logout">Log Out</a>
+                <ul class="list-group pt-3">
+                  <li class="list-group-item">
+                    <a href="../../vendors/">Dashboard</a>
+                  </li>
+                  <li class="list-group-item">
+                    <a href="../product">Add Products</a>
+                  </li>
+                  <li class="list-group-item">
+                    <a href="../products">View Products</a>
+                  </li>
+                  <li class="list-group-item"><a href="../me">My Account</a></li>
+                </ul>
+              </aside>
         </div>
         <div class="col-9 h-100">
-          <form class="" id="<%= product ? product._id : '' %>">
-            <h3><%= product ? 'Edit Product' : 'Add New Product' %></h3>
+          <form class="">
+            <h3>Change your password</h3>
             <div class="mb-3">
-              <label for="productName" class="form-label">Product Name</label>
+              <label for="currentPassword" class="form-label">Current Passowrd</label>
               <input
                 type="text"
                 class="form-control"
-                id="productName"
-                name="productName"
-                placeholder="Enter product name"
+                id="currentPassword"
+                name="currentPassword"
+           
                 required
-                value="<%= product ? product.name : '' %>"
+              />
+            </div>
+
+         
+            
+            <div class="mb-3">
+              <label for="newPassword" class="form-label">New Password</label>
+              <input
+              type="text"
+              class="form-control"
+              id="newPassword"
+              name="newPassword"
+            
+              required
               />
             </div>
 
             <div class="mb-3">
-              <label for="productDescription" class="form-label"
-                >Product Description</label
-              >
-              <textarea
+                <label for="repassword" class="form-label">Confirm Password</label>
+                <input
+                type="text"
                 class="form-control"
-                id="productDescription"
-                name="productDescription"
-                rows="4"
-                placeholder="Enter product description"
+                id="repassword"
+                name="repassword"
+               
                 required
-              >
-  <%= product ? product.description : '' %></textarea
-              >
-            </div>
-            <div class="mb-3">
-              <label for="productPrice" class="form-label">Price ($)</label>
-              <input
-                class="form-control"
-                id="productPrice"
-                name="productPrice"
-                placeholder="Enter product price"
-                value="<%= product ? product.price : '' %>"
-                required
-                min="0"
-              />
-            </div>
+                />
+              </div>
 
-            <div class="mb-3">
-              <label for="productImage" class="form-label">Product Image</label>
-              <input
-                type="file"
-                class="form-control"
-                id="productImage"
-                accept="image/*"
-                required
-              />
-            </div>
+           
             <button type="submit" class="btn">
-              <%= product ? 'Update Product' : 'Add Product' %>
+                Save Changes
             </button>
-            <a
-              href=" <%= product ? '../../vendors/products' : '../vendors/products' %>"
-              class="btn btn-cancel"
-              >Cancel</a
-            >
+            <a href="../me" class="btn btn-cancel"
+            >Cancel</a
+          >
+        </div>
           </form>
         </div>
       </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-      $("form").submit(function (event) {
+    <script> $("form").submit(function (event) {
         event.preventDefault(); // Prevent the default form submission behavior
         clearErrorStyles();
 
         // Validate the form data
         const errors = [];
-        const productName = $("[name=productName]").val();
-        const productDescription = $("[name=productDescription]").val();
-        const productPrice = $("[name=productPrice]").val();
-
-        if (!validateProductName(productName)) {
-          errors.push("Invalid product name");
-          displayErrorMessage(
-            "Product name: contains only letters (lower and upper case), digits, and spaces, 10 to 20 characters.",
-            "productName"
-          );
-        }
-
-        if (!validateProductPrice(productPrice)) {
-          errors.push("Invalid product price");
-          displayErrorMessage(
-            "Product price: contains only digits and a maximum of 2 decimal places, greater than or equal to 0.",
-            "productPrice"
-          );
-        }
-        if (!validateProductDescription(productDescription)) {
-          errors.push("Invalid product description");
-          displayErrorMessage(
-            "Product description: maximum of 500 characters.",
-            "productDescription"
-          );
-        }
+        const currentPassword = $("[name=currentPassword]").val();
+        const newPassword = $("[name=newPassword]").val();
+        const repassword = $("[name=repassword]").val();
+    
+        if (!validatePassword(newPassword)) {
+            errors.push("Password must be at least 8 characters long");
+            displayErrorMessage(
+              "Password needs to have least one lower case letter, at least one digit, at least one special character, 8 to 20 characters",
+              "password"
+            );
+          }
+          if (newPassword !== repassword) {
+            errors.push("Passwords do not match");
+            displayErrorMessage("Password does not match", "repassword");
+          }
+  
         // If there are errors, prevent form submission
         if (errors.length > 0) {
           return;
@@ -307,24 +285,21 @@
 
         // Add the distributionHub value to the form data
         const formData = {
-          name: $("[name=productName]").val(),
-          description: $("[name=productDescription]").val(),
-          price: $("[name=productPrice]").val(),
-          productImage: "",
+            currentPassword: $("[name=currentPassword]").val(),
+            newPassword: $("[name=newPassword]").val()
+        
         };
 
-        const productId = $("form").attr("id");
-        console.log(productId);
         // Send the formData to the server using AJAX
         $.ajax({
-          url: productId, // Replace with the correct URL for your server endpoint
+          url: "security", // Replace with the correct URL for your server endpoint
           type: "POST",
           contentType: "application/json",
           data: JSON.stringify(formData),
           success: function (response) {
             // Handle the server's response here (e.g., show success message or redirect)
-            alert("Product updated successfully");
-            window.location.href = "../vendors/products";
+            alert("Password updated successfully");
+            window.location.href = "../me";
             // You can replace this with your desired action
           },
           error: function (xhr, textStatus, errorThrown) {
@@ -333,7 +308,6 @@
             alert(xhr.responseText); // You can replace this with your desired error handling
           },
         });
-      });
-    </script>
+      });</script>
   </body>
 </html>

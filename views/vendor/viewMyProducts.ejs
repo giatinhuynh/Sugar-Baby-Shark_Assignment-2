@@ -1,185 +1,289 @@
+<!--
+// RMIT University Vietnam
+// Course: COSC2430 Web Programming
+// Semester: 2023B
+// Assessment: Assignment 2
+// Author: Huynh Duc Gia Tin, Tran Ha Phuong, Nguyen Viet Ha, Phan Nhat Minh, Tran Nguyen Quoc An
+// ID: s3962053, s3979638, s3978128, s3959931, s3978598 
+// Acknowledgement: MDN Web Docs, Youtube, W3school, GeeksforGeeks, RMIT Canvas, ChatGPT, NPM Packages' Docs
+-->
+
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>Dashboard</title>
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Products</title>
-    <link rel="stylesheet" href="/css/bootstrap.css">
-    <link rel="stylesheet" href="/css/vendor.css">
-</head>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <script src="/js/validation.js"></script>
+    <link href="/css/vendor.css" rel="stylesheet" />
 
-<body>
-    <!-- Include header partial -->
-    <%- include ('./partials/header') %>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!--Stylesheet-->
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+      body {
+        height: 100vh;
+        background-image: url("https://www.ikea.com/images/a-modern-sofa-in-a-warm-sand-coloured-minimalist-style-livin-634c57f2b9981c628ffea4fccfc8e9fe.jpg");
+      }
 
-    <main>
-        <section class="py-5 text-center container">
-            <div class="row py-lg-5">
-                <div class="col-lg-6 col-md-8 mx-auto">
-                    <h1 class="fw-light">My Products</h1>
-                    <p class="lead text-body-secondary">View, edit and delete your products here.</p>
-                </div>
-            </div>
-        </section>
+      main {
+        overflow-y: auto;
+        height: 100%;
+        z-index: 1;
+        background-color: white;
+        position: relative;
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+        padding:  35px;
+      }
+      main * {
+        font-family: "Poppins", sans-serif;
+        color: black;
+        letter-spacing: 0.5px;
+        outline: none;
+        border: none;
+      }
+   
 
-        <div class="album py-8 bg-body-tertiary">
-            <div class="container">
+      label {
+        display: block;
+        margin-top: 30px;
+        font-size: 16px;
+        font-weight: 500;
+      }
+      input,
+      select {
+        display: block;
 
-                <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-5">
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <img class="bd-placeholder-img card-img-top"
-                                src="https://picsum.photos/1000/1000"></img>
-                            <div class="card-body">
-                                <h5 class="card-title">Product Name</h5>
-                                <p class="card-text">Product Description goes here.</p>
-                                <p class="card-text">$99.99</p>
-                                <div class="btn-group" role="group" aria-label="Edit and Delete Buttons">
-                                    <button type="button" class="btn btn-primary">Edit</button>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </div>
-                            </div>
-                        </div>
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+        padding: 0 10px;
+        margin-top: 8px;
+        font-size: 14px;
+        font-weight: 300;
+      }
+      ::placeholder {
+        color: rgb(52, 50, 50);
+      }
+      button,
+      .btn {
+      
+        background-color: black;
+        border: 1px black solid;
+        color: white;
+        padding: 15px 0;
+        font-size: 18px;
+        font-weight: 600;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+button, .btn:hover{
+    background-color: white;
+   border: black solid 3px;
+   color:black;
+}
+      .background {
+        position: absolute;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(8, 7, 16, 0.6);
+        z-index: 0;
+        margin-top: 100px;
+      }
+      .alt-link {
+        width: 50% !important;
+      }
+      .radio {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+      input[type="radio"] {
+        width: max-content;
+      }
+      a:hover {
+        cursor: pointer;
+      }
+      li:hover {
+        background-color: pink;
+
+        cursor: pointer;
+      }
+      a {
+        color: black;
+        text-decoration: none;
+      }
+      aside{
+        height: 100%;
+        background-color: white;
+        border-radius: 10px;
+        position: relative;
+        z-index: 1;
+        box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+      }
+      .card {
+        height: 350px;
+        overflow-y: auto;
+      }
+      ul {
+        color: black;
+
+        width: 100%;
+      }
+      ul li {
+        padding: 20px !important;
+        border: none !important;
+        
+      }
+      ul li a {
+        font-size: 1.5rem;
+      }
+      .btn-logout {
+        background-color: pink;
+        border: none;
+        color: black;
+        width: max-content;
+        padding: 1rem 2rem;
+        margin-top: 2rem !important;
+        max-width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background"></div>
+    <nav class="navbar bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand ps-4" href="#">
+          <h1>AIKIA</h1>
+        </a>
+      </div>
+    </nav>
+    <div class="container py-3 h-100">
+      <div class="row h-100">
+        <div class="col-3 h-100">
+          <aside class="d-flex flex-column align-items-center py-4">
+            <img
+              src="https://picsum.photos/700/700"
+              alt="Vendor Profile Image"
+              class="profile-image img-fluid px-5"
+              style="max-width: 100%; border-radius: 50%"
+            />
+            <a href="../vendors/logout" class="btn btn-logout">Log Out</a>
+            <ul class="list-group pt-3">
+              <li class="list-group-item">
+                <a href="../vendors/">Dashboard</a>
+              </li>
+              <li class="list-group-item">
+                <a href="product">Add Products</a>
+              </li>
+              <li class="list-group-item">
+                <a href="products">View Products</a>
+              </li>
+              <li class="list-group-item"><a href="me">My Account</a></li>
+            </ul>
+          </aside>
+          </div>
+        <main class="col-9 h-100">
+            <section class="py-5 text-center container">
+              <div class="row py-lg-5">
+                 
+                 <div class="col-lg-6 col-md-8 mx-auto">
+                      <h1 class="fw-light">My Products</h1>
+                      <p class="lead text-body-secondary">
+                        View, edit and delete your products here.
+                      </p>
                     </div>
-                    <div class="col">
+                  
+                  <div class="input-group mb-3">
+                    <input
+                      type="text"
+                      class="form-control m-0"
+                      placeholder="Search for products"
+                      aria-describedby="button-addon2"
+                    />
+                    <button
+                      class="btn p-2"
+                      type="button"
+                      id="button-addon2"
+                    >
+                      Search
+                    </button>
+                  </div>
+                </section>
+          
+                <div class="  h-100">
+                  <div class="container">
+                    <div
+                      class="row h-100 row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-5"
+                    >
+                      <% products.forEach(product => { %>
+                      <div class="col h-100">
                         <div class="card shadow-sm">
-                            <img class="bd-placeholder-img card-img-top"
-                                src="https://picsum.photos/1000/1000"></img>
-                            <div class="card-body">
-                                <h5 class="card-title">Product Name</h5>
-                                <p class="card-text">Product Description goes here.</p>
-                                <p class="card-text">$99.99</p>
-                                <div class="btn-group" role="group" aria-label="Edit and Delete Buttons">
-                                    <button type="button" class="btn btn-primary">Edit</button>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </div>
+                          <img
+                            class="bd-placeholder-img card-img-top"
+                            src="<%= product.image %>"
+                            alt="<%= product.name %>"
+                          />
+                          <div class="card-body">
+                            <h5 class="card-title"><%= product.name %></h5>
+                            <p class="card-text"><%= product.description %></p>
+                            <p class="card-text">$<%= product.price %></p>
+                            <div
+                              class="btn-group"
+                              role="group"
+                              aria-label="Edit and Delete Buttons"
+                            >
+                              <button
+                                type="button"
+                                id="<%= product._id%>"
+                                class="btn btn-primary edit-button px-1"
+                              >
+                                Edit
+                              </button>
+                              <button type="button"   id="<%= product._id%>" class="btn btn-danger px-1">Delete</button>
                             </div>
+                          </div>
                         </div>
+                      </div>
+                      <% }) %>
                     </div>
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <img class="bd-placeholder-img card-img-top"
-                                src="https://picsum.photos/1000/1000"></img>
-                            <div class="card-body">
-                                <h5 class="card-title">Product Name</h5>
-                                <p class="card-text">Product Description goes here.</p>
-                                <p class="card-text">$99.99</p>
-                                <div class="btn-group" role="group" aria-label="Edit and Delete Buttons">
-                                    <button type="button" class="btn btn-primary">Edit</button>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <img class="bd-placeholder-img card-img-top"
-                                src="https://picsum.photos/1000/1000"></img>
-                            <div class="card-body">
-                                <h5 class="card-title">Product Name</h5>
-                                <p class="card-text">Product Description goes here.</p>
-                                <p class="card-text">$99.99</p>
-                                <div class="btn-group" role="group" aria-label="Edit and Delete Buttons">
-                                    <button type="button" class="btn btn-primary">Edit</button>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <img class="bd-placeholder-img card-img-top"
-                                src="https://picsum.photos/1000/1000"></img>
-                            <div class="card-body">
-                                <h5 class="card-title">Product Name</h5>
-                                <p class="card-text">Product Description goes here.</p>
-                                <p class="card-text">$99.99</p>
-                                <div class="btn-group" role="group" aria-label="Edit and Delete Buttons">
-                                    <button type="button" class="btn btn-primary">Edit</button>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <img class="bd-placeholder-img card-img-top"
-                                src="https://picsum.photos/1000/1000"></img>
-                            <div class="card-body">
-                                <h5 class="card-title">Product Name</h5>
-                                <p class="card-text">Product Description goes here.</p>
-                                <p class="card-text">$99.99</p>
-                                <div class="btn-group" role="group" aria-label="Edit and Delete Buttons">
-                                    <button type="button" class="btn btn-primary">Edit</button>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <img class="bd-placeholder-img card-img-top"
-                                src="https://picsum.photos/1000/1000"></img>
-                            <div class="card-body">
-                                <h5 class="card-title">Product Name</h5>
-                                <p class="card-text">Product Description goes here.</p>
-                                <p class="card-text">$99.99</p>
-                                <div class="btn-group" role="group" aria-label="Edit and Delete Buttons">
-                                    <button type="button" class="btn btn-primary">Edit</button>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <img class="bd-placeholder-img card-img-top"
-                                src="https://picsum.photos/1000/1000"></img>
-                            <div class="card-body">
-                                <h5 class="card-title">Product Name</h5>
-                                <p class="card-text">Product Description goes here.</p>
-                                <p class="card-text">$99.99</p>
-                                <div class="btn-group" role="group" aria-label="Edit and Delete Buttons">
-                                    <button type="button" class="btn btn-primary">Edit</button>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <img class="bd-placeholder-img card-img-top"
-                                src="https://picsum.photos/1000/1000"></img>
-                            <div class="card-body">
-                                <h5 class="card-title">Product Name</h5>
-                                <p class="card-text">Product Description goes here.</p>
-                                <p class="card-text">$99.99</p>
-                                <div class="btn-group" role="group" aria-label="Edit and Delete Buttons">
-                                    <button type="button" class="btn btn-primary">Edit</button>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </main>
+                  </div>
+                </div></div>
+               
+          </main>
+    </div>
+    </div>
 
 
-    <!-- <% products.forEach(product=> { %>
-        <%= product.name %>
-        <%= product.description %>
-        <%= product.price %>
-        <% }) %> -->
-
-    <!-- Include footer partial -->
-    <%- include ('./partials/footer') %>
     <script src="js/bootstrap.bundle.js"></script>
-</body>
+    <script src="js/jquery-3.6.0.min.js"></script>
 
+    <script>
+      // JavaScript code to handle the click event on the "Edit" button
+      document.querySelectorAll(".edit-button").forEach((button) => {
+        button.addEventListener("click", function () {
+          const productId = this.id;
+          console.log(productId);
+          // Redirect to the product form page with the product ID in the URL
+          window.location.href = `http://localhost:3000/api/vendors/product/${productId}`;
+        });
+      });
+    </script>
+  </body>
 </html>

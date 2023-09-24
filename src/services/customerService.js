@@ -1,3 +1,11 @@
+/* // RMIT University Vietnam
+// Course: COSC2430 Web Programming
+// Semester: 2023B
+// Assessment: Assignment 2
+// Author: Huynh Duc Gia Tin, Tran Ha Phuong, Nguyen Viet Ha, Phan Nhat Minh, Tran Nguyen Quoc An
+// ID: s3962053, s3979638, s3978128, s3959931, s3978598 
+// Acknowledgement: MDN Web Docs, Youtube, W3school, GeeksforGeeks, RMIT Canvas, ChatGPT, NPM Packages' Docs */
+
 const Service = require('./Service');
 const Customer = require('../models/Customer');
 const Product = require('../models/Product');
@@ -133,7 +141,17 @@ class CustomerService extends Service {
         (item) => item.productId.toString() == productId.toString()
       );
   console.log(existingCartItem);
+  quantity = parseInt(quantity, 10);
+
+if (isNaN(quantity)) {
+  return {
+    error: true,
+    statusCode: 400,
+    message: 'Invalid quantity',
+  };
+}
       if (existingCartItem) {
+      
         // Update the quantity if the product already exists in the cart
         existingCartItem.quantity += quantity;
       } else {

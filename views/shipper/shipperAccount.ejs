@@ -11,9 +11,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <title>My Profile</title>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Order Detail</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
@@ -27,21 +27,10 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap"
       rel="stylesheet"
     />
-    <style>
-      select {
-        background-color: orange;
-        padding: 10px 0;
-        font-weight: bold;
-      }
-    </style>
+    <!--Stylesheet-->
+    <style></style>
   </head>
   <body>
-    <!-- <h1><%=order._id%></h1>
-    <p><%=order.totalPrice%></p>
-    <p><%=order.status%></p>
-    <p><%=productNames[order.products[0].productId]%></p>
-    <p><%=order.products[0].quantity%></p> -->
-
     <div class="background"></div>
     <nav class="navbar bg-body-tertiary">
       <div class="container-fluid">
@@ -63,7 +52,7 @@
             <a href="../vendors/logout" class="btn btn-logout">Log Out</a>
             <ul class="list-group pt-3">
               <li class="list-group-item">
-                <a href="../../shippers/">Dashboard</a>
+                <a href="../shippers/">Dashboard</a>
               </li>
               <li class="list-group-item">
                 <a href="orders">View Orders</a>
@@ -73,42 +62,33 @@
             </ul>
           </aside>
         </div>
-        <main class="col-9 h-100 px-5">
-          <h3>Order ID: <%=order._id%></h3>
-          <p><strong>Distribution Hub:</strong></p>
+        <main class="col-9 h-100 px-3">
+          <div class="row user-info">
+            <div
+              class="col-md-5 d-flex justify-content-center align-items-center"
+            >
+              <img
+                src="https://picsum.photos/700/700"
+                alt="Vendor Profile Image"
+                class="profile-image img-fluid"
+              />
+            </div>
+            <div class="col-md-7">
+              <h3>Welcome, <%=shipper.username%></h3>
+              <p><strong>Distribution Hub:</strong></p>
 
-          <hr />
-          <p><strong>Total price:</strong> $<%=order.totalPrice%></p>
-          <% for (let i = 0; i < order.products.length; i++) %>
-
-          <table
-            class="table table-striped table align-middle table-responsive"
-          >
-            <thead>
-              <tr>
-                <th><strong>Product Name</strong></th>
-                <th><strong>Quantity</strong></th>
-              </tr>
-            </thead>
-            <tbody>
-              <% for (let i = 0; i < order.products.length; i++) { %>
-              <tr>
-                <td><%= productNames[order.products[i].productId] %></td>
-                <td><%= order.products[i].quantity %></td>
-              </tr>
-              <% } %>
-            </tbody>
-          </table>
-          <label for="orderStatus">Order Current Status</label>
-          <select id="orderStatus" name="orderStatus">
-            <option value="active" <%= order.status === 'active' ? 'selected' : '' %>>ACTIVE</option>
-            <option value="complete" <%= order.status === 'complete' ? 'selected' : '' %>>COMPLETE</option>
-            <option value="cancel" <%= order.status === 'cancel' ? 'selected' : '' %>>CANCEL</option>
-          </select>
-          
-          <a  class="btn btn-primary"
-                >Change Status</a
+              <hr />
+              <h4>Account Details</h4>
+              <p><strong>Account ID:</strong> 123456</p>
+              <p><strong>Member Since:</strong> January 1, 2020</p>
+              <a href="../shippers/me/edit" class="btn btn-primary"
+                >Edit Profile</a
               >
+              <a href="../shippers/me/security" class="btn btn-success"
+                >Change Password</a
+              >
+            </div>
+          </div>
         </main>
       </div>
     </div>

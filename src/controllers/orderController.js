@@ -1,13 +1,24 @@
+/* // RMIT University Vietnam
+// Course: COSC2430 Web Programming
+// Semester: 2023B
+// Assessment: Assignment 2
+// Author: Huynh Duc Gia Tin, Tran Ha Phuong, Nguyen Viet Ha, Phan Nhat Minh, Tran Nguyen Quoc An
+// ID: s3962053, s3979638, s3978128, s3959931, s3978598 
+// Acknowledgement: MDN Web Docs, Youtube, W3school, GeeksforGeeks, RMIT Canvas, ChatGPT, NPM Packages' Docs */
+
 const mongoose = require("mongoose");
 const orderService = require("../services/orderService");
 const Controller = require("./Controller");
 const distributionHubService = require("../services/distributionHubService");
-
+const Customer = require('../models/Customer');
 const DistributionHub = mongoose.model("DistributionHub");
 const Order = mongoose.model("Order");
+const Shipper = mongoose.model("Shipper");
 const OrderService = new orderService(Order);
 const DistributionHubService = new distributionHubService(DistributionHub);
 const { check, validationResult } = require('express-validator');
+const shipperService = require("../services/shipperService");
+const ShipperService = new shipperService(Shipper);
 
 
 class OrderController extends Controller {
@@ -18,27 +29,28 @@ class OrderController extends Controller {
   async createOrder(req, res) {
     // Validation checks for order data
     console.log('Creating order');
-        const { customerId, distributionHubId, shipperId, products, totalPrice } = req.body;
-  
+    console.log('Request body',req.body); ;
+        const distributionHubId = req.body.distributionHubId;
+        const totalPrice = req.body.totalPrice;
+        
+        const customerId = req.session.customerId; // Assuming the customer's ID is stored in req.customer by your auth middleware
+        const customer = await Customer.findOne({ _id: customerId });
+  const products = customer.products ;
         // Verify if the distribution hub exists
-        const distributionHub = await DistributionHubService.getDistributionHubById(distributionHubId);
-     
-       console.log(distributionHub);
-
-        if (!distributionHub) {
-          return res.status(404).json({ message: 'Distribution Hub not found' });
-        }
+       
+    
         
     
   
         const order = new Order({
           customerId,
-          distributionHubId,
-          shipperId,
+         distributionHubId,
+         
           products,
           totalPrice,
           status: 'active'
         });
+        console.log(order);
 
       const response = await OrderService.createOrder(order);
       if (response.error) return res.status(response.statusCode).send(response);

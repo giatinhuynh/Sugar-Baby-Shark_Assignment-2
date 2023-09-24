@@ -1,3 +1,22 @@
+<!--
+// RMIT University Vietnam
+// Course: COSC2430 Web Programming
+// Semester: 2023B
+// Assessment: Assignment 2
+// Author: Huynh Duc Gia Tin, Tran Ha Phuong, Nguyen Viet Ha, Phan Nhat Minh, Tran Nguyen Quoc An
+// ID: s3962053, s3979638, s3978128, s3959931, s3978598 
+// Acknowledgement: MDN Web Docs, Youtube, W3school, GeeksforGeeks, RMIT Canvas, ChatGPT, NPM Packages' Docs
+--> 
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
 <%- include('../partials/header.ejs') %>
     <main class="h-100">
         <div class="container h-100">
@@ -8,8 +27,7 @@
                             style="background-color: #000; height:200px;">
                             <div class="ms-4 mt-5 d-flex flex-column">
                                 <!-- pfp pic -->
-                                <img src="https://picsum.photos/500/500" alt="Generic placeholder image"
-                                    class="img-fluid img-thumbnail mt-4 mb-2" style="width: 150px; z-index: 1">
+                                <img src="<%= customer.profilePicture %>" alt="<%= customer.name %>'s profile picture" class="img-fluid img-thumbnail mt-4 mb-2" style="width: 150px; z-index: 1">
                                 <div class="btn-group gap-2">
                                     <button type="button" class="btn btn-outline-dark rounded-1 px-3" data-mdb-ripple-color="dark"
                                         style="z-index: 1;">
@@ -64,3 +82,5 @@
     </main>
 
     <%- include('../partials/footer.ejs') %>
+  </body>
+</html>
