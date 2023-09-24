@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const bodyParser = require('body-parser')
+const multer = require('multer');
 
 // set up environment variables
 require("dotenv").config();
@@ -22,6 +23,14 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 // parse application/json
 app.use(bodyParser.json())
+
+// multer
+
+
+
+
+
+
 // Import routes
 const customer = require("./src/routes/customerRoutes");
 const vendor = require("./src/routes/vendorRoutes");

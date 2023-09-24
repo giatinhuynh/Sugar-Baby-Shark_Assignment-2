@@ -67,24 +67,21 @@ async dasboard(req, res) {
 }
 async login (req, res) {
   console.log("login post");
-const { username, password } = req.body;
+ const { username, password } = req.body;
 const customer = await Customer.findOne({ username });
-
-  if (!customer) {
-    return res.status(401).send({ error: 'Login failed' });
-  }
+if (!customer) {
+  return res.status(401).send({ error: 'Username not found' });
+}
+const isPasswordMatch = await bcrypt.compare(password, customer.password);
+if (!isPasswordMatch) {
+  return res.status(401).send({ error: 'Incorrect password' });
+}
 
   //Compare the provided password with the stored hash
   
-  const isPasswordMatch = await bcrypt.compare(password, customer.password);
-  //If password doesn't match, send error
-  if (!isPasswordMatch) {
-    return res.status(401).send({ error: 'Login failed' });
-  }
-  //Generate a JWT token with an expiry time
+
   
   req.session.customerId = customer._id;
-  const token = jwt.sign({ _id: customer._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
   // Send success response
  // res.send({ customer, token });
   res.redirect("/api/customers/");

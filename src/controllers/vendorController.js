@@ -169,12 +169,17 @@ async  changePassword(req, res) {
 }
 async editVendorDetails(req, res) {
   
-  const { username, businessName, businessAddress, profilePicture} = req.body;
+  const { username, businessName, businessAddress} = JSON.stringify(req.body);
+  console.log(req.body);
   let vendor = await VendorService.getVendorById(req.session.vendorId);
   vendor.data.username = username;
   vendor.data.businessName = businessName;
   vendor.data.businessAddress = businessAddress;
-  vendor.data.profilePicture = profilePicture;
+  if (req.file) {
+    // Update the profilePicture field with the new file path
+    vendor.data.profilePicture = req.file.path;
+  }
+
 
 
   let response = await VendorService.updateVendor(req.session.vendorId,vendor.data);

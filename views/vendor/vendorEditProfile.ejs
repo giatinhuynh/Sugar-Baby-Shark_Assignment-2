@@ -171,7 +171,7 @@
         <div class="col-3 h-100">
             <aside class="d-flex flex-column align-items-center py-4">
                 <img
-                  src="https://picsum.photos/700/700"
+                src="/images/profileImages/<%= vendor._id %>.jpg"
                   alt="Vendor Profile Image"
                   class="profile-image img-fluid px-5"
                   style="max-width: 100%; border-radius: 50%"
@@ -192,7 +192,7 @@
               </aside>
         </div>
         <div class="col-9 h-100">
-          <form class="">
+          <form class="" method="post" enctype="multipart/form-data">
             <h3>Edit My Profle</h3>
             <div class="mb-3">
               <label for="username" class="form-label">Username</label>
@@ -233,12 +233,13 @@
               </div>
 
             <div class="mb-3">
-              <label for="productImage" class="form-label">Profile Picture</label>
+              <label for="productImage" class="form-label">Profile Picture (JPEG/PNG)</label>
               <input
                 type="file"
+                name="image"
                 class="form-control"
                 id="productImage"
-                accept="image/*"
+                accept="image/jpeg, image/png"
                 required
               />
             </div>
@@ -256,9 +257,10 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script> $("form").submit(function (event) {
+      
         event.preventDefault(); // Prevent the default form submission behavior
         clearErrorStyles();
-
+console.log("edit post");
         // Validate the form data
         const errors = [];
         const businessName = $("[name=businessName]").val();
@@ -295,19 +297,24 @@
         }
 
         // Add the distributionHub value to the form data
-        const formData = {
-          username: $("[name=username]").val(),
-          businessName: $("[name=businessName]").val(),
-          businessAddress: $("[name=businessAddress]").val(),
-          profilePicture: "",
-        };
+       // Create a FormData object
+       const formData = new FormData();
 
+       // Append JSON data to the FormData object
+       formData.append("username", $("[name=username]").val());
+       formData.append("businessName", $("[name=businessName]").val());
+       formData.append("businessAddress", $("[name=businessAddress]").val());
+       
+       // Append the image file to the FormData object
+       formData.append("image", $("#productImage")[0].files[0]);
+       
         // Send the formData to the server using AJAX
         $.ajax({
           url: "edit", // Replace with the correct URL for your server endpoint
           type: "POST",
-          contentType: "application/json",
-          data: JSON.stringify(formData),
+          processData: false, // Prevent jQuery from processing the data
+          contentType: false, // Prevent jQuery from setting the content type
+          data: formData,
           success: function (response) {
             // Handle the server's response here (e.g., show success message or redirect)
             alert("Profile updated successfully");

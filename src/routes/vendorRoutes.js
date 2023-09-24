@@ -1,12 +1,25 @@
 // Import required modules and models
 var express = require('express');
 var router = express.Router();
+const multer = require('multer');
+const path = require('path');
 
 const NodeCache = require('node-cache');
 const myCache = new NodeCache();
 const vendorController = require('../controllers/vendorController'); // Import the vendor controller
 const Vendor = require('../models/Vendor');
 
+const imageStorage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    const destinationPath = path.join(__dirname, '../../public/images/profilePictures');
+    callback(null, destinationPath); // Set the absolute destination folder for uploaded files
+  },
+  filename: (req, file, callback) => {
+    callback(null,  req.session.vendorId+".jpg"); // Set the file name
+  },
+  overwrite: true,
+});
+const upload = multer({ storage: imageStorage });
   // Middleware for authentication
   const auth = vendorController.authMiddleware; // Delegate to the controller's authMiddleware method
 
@@ -32,7 +45,7 @@ const Vendor = require('../models/Vendor');
  
 
     // Change vendor details
-    router.post('/me/edit', vendorController.editVendorDetails);
+    router.post('/me/edit', upload.single('image'),vendorController.editVendorDetails);
     // change pass
     router.post('/me/security', vendorController.changePassword);
    // Delegate to the controller's getCustomerDetails method
