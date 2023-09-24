@@ -1,19 +1,116 @@
-button{
+button {
     margin-top: 0 !important;
-  }
- 
-  ul {
+    width: 100%;
+}
+
+ul {
     color: black;
     width: 100%;
-  }
-  ul li {
+}
+
+ul li {
     padding: 20px !important;
     border: none !important;
-  }
-  tr th{
+}
+
+tr th {
     background-color: orange !important;
-    
-  }
-  table{
-   border-radius: 10px;
-  }
+
+}
+
+table {
+    border-radius: 10px;
+}
+
+/* Add animations for the navbar and profile image */
+.navbar-brand h1 {
+    animation: fadeInDown 1s;
+}
+
+.profile-image {
+    animation: fadeIn 1s;
+}
+
+
+/* Add animations for the dashboard links */
+.dasboard-link {
+    animation: fadeInRight 1s;
+}
+
+/* Add animations for the welcome message and description */
+.main h2,
+.table {
+    animation: fadeInUp 1s;
+}
+
+/* Add animations for the modal */
+.modal-content {
+    animation: fadeIn 0.5s;
+}
+
+button:hover{
+    /* fixed size */
+    background-color: white;
+    border: black solid 3px;
+    color: black;
+
+}
+
+/* Keyframes for animations */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
