@@ -13,10 +13,17 @@ const Customer = require('../models/Customer');
 
   // Logout a customer
   router.get('/logout', customerController.logout);  // Delegate to the controller's logout method
+<<<<<<< Updated upstream
   router.get('/register', customerController.registerMenu); 
   router.get('/login', customerController.loginMenu);   
   router.get('/', customerController.dasboard);
   router.get('/me', customerController.getCustomerDetails);
+=======
+ router.get('/register', customerController.registerMenu); 
+ router.get('/login', customerController.loginMenu);   
+ router.get('/', customerController.dashboard);
+ router.get('/me', customerController.getCustomerDetails);
+>>>>>>> Stashed changes
  // view Cart
   router.get('/cart', customerController.viewCart);
 
@@ -32,8 +39,8 @@ const Customer = require('../models/Customer');
   // Get customer details
   // Delegate to the controller's getCustomerDetails method
   router.get('/:id', customerController.getCustomerById); 
-
-
+  router.post('/productDetail', customerController.register); 
+  router.get('/products/:id',customerController.productDetail);
 
 
 

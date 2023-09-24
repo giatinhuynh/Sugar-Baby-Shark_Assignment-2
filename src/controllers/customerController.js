@@ -4,6 +4,9 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Controller = require("./Controller");
 const customerService = require("../services/customerService");
+const Product = require('../models/Product');
+const productService = require("../services/productService");
+const ProductService = new productService(Product);
 const Customer = require('../models/Customer');
 
 const customer = mongoose.model("Customer");
@@ -51,19 +54,21 @@ async registerMenu(req, res) {
     res.status(404).send(err);
   }
 }
-async dasboard(req, res) {
+async dashboard(req, res) {
   
-  try {
+  // try {
     // delete if statement to bypass login
-    if (req.session.customerId && req.session.customerId.trim() !== '') {
-      
-    res.render('dashboard');}
-    else {
-      res.status(404).send({ error: 'Not Found' });
-    }
-  } catch (err) {
-    res.status(404).send(err);
-  }
+    // if (req.session.customerId && req.session.customerId.trim() !== '') {
+    const products = await ProductService.getProducts();
+    console.log(products);
+
+    res.render('dashboard', { items: products.data.data });
+    // else {
+    //   res.status(404).send({ error: 'Not Found' });
+    // }
+  //  catch (err) {
+  //   res.status(404).send(err);x
+  // }
 }
 async login (req, res) {
   console.log("login post");
@@ -146,6 +151,23 @@ async logout(req, res)  {
   // // Send success response
   res.redirect("/api/customers/login");
 };
+
+async productDetail(req, res) {
+  
+  // try {
+    // delete if statement to bypass login
+    // if (req.session.customerId && req.session.customerId.trim() !== '') {
+    const products = await ProductService.getProductById(req.params.id);
+    console.log(products);
+
+    res.render('productDetail', { product: products.data});
+    // else {
+    //   res.status(404).send({ error: 'Not Found' });
+    // }
+  //  catch (err) {
+  //   res.status(404).send(err);x
+  // }
+}
 
 // // Update the profile picture of the logged-in customer
 // exports.updateProfilePicture = async (req, res) => {

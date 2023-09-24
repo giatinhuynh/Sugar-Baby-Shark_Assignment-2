@@ -55,7 +55,6 @@ class ProductController extends Controller {
     console.log(response);
     if (response.error) return res.status(response.statusCode).send(response);
     return res.status(201).send(response);
-   
   }
   async getProductById(req, res){
     let response = await ProductService.getProductById(req.params.id);
@@ -74,6 +73,19 @@ class ProductController extends Controller {
     return res.status(201).send(response);
   }
 
+  async getProductByCategory(req, res) {
+    const category = req.params.category; // assuming you pass category as a route parameter
+  
+    // Verify if category is valid based on the enum in the model
+    const validCategories = ['KITCHEN', 'BEDROOM', 'LIVINGROOM', 'BATHROOM', 'OTHERS'];
+    if (!validCategories.includes(category)) {
+      return res.status(400).json({ message: 'Invalid category' });
+    }
+  
+    const response = await ProductService.getProductByCategory(category);
+    if (response.error) return res.status(response.statusCode).send(response);
+    return res.status(200).send(response);
+  }
 
 }
 

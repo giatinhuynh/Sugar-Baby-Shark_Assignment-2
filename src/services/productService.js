@@ -96,6 +96,16 @@ class ProductService extends Service {
       };
     }
   }
+
+  async getProductByCategory(category) {
+    try {
+      const products = await this.model.find({ category: category });
+      return { error: false, data: products };
+    } catch (error) {
+      return { error: true, statusCode: 500, messages: error.message };
+    }
+  }
+
 }
 
 module.exports = ProductService;
