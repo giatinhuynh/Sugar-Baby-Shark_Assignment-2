@@ -34,10 +34,6 @@ h2 {
   font-family: 'Josefin Sans', sans-serif;
 }
 
-img {
-  width: 100%;
-}
-
 button {
   border: none;
 }
@@ -70,4 +66,117 @@ button {
   100% {
       transform: translateX(0%);
   }
+}
+
+/* Add some spacing to the top section */
+.py-5 {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+/* Style the "Shop in style" heading */
+.display-4 {
+  font-weight: bold;
+}
+
+/* Style the call-to-action buttons */
+.btn-primary,
+.btn-secondary {
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* Style the search and price filter section */
+.mb-4 {
+  margin-bottom: 2rem;
+}
+
+/* Style the price range filters */
+.form-control {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 8px;
+}
+
+/* Style the filter button */
+.btn-secondary {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+/* Style the search bar */
+.input-group {
+  margin-top: 10px;
+}
+
+/* Style the search button */
+.btn-primary {
+  border-radius: 0 5px 5px 0;
+}
+
+/* Style the Latest Products section heading */
+.text-center h2 {
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+/* Style the product cards */
+.product-card {
+  transition: transform 0.3s ease-in-out;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Style the sale badge */
+.badge-sale {
+  background-color: #ff4f4f;
+  color: #fff;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}
+
+/* Style the product name */
+.card-body h5 {
+  font-weight: bold;
+}
+
+/* Style the product price */
+.card-body p {
+  font-size: 1.25rem;
+  margin-top: 10px;
+}
+
+/* Style the "View Details" button */
+.card-footer .btn {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.card-footer .btn:hover {
+  background-color: #555;
+}
+
+/* Footer styles */
+.footer {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 0;
+  text-align: center;
 }
