@@ -237,6 +237,7 @@
               <input
                 type="file"
                 name="image"
+                value="<%=vendor._id%>"
                 class="form-control"
                 id="productImage"
                 accept="image/jpeg, image/png"
@@ -307,6 +308,9 @@ console.log("edit post");
        
        // Append the image file to the FormData object
        formData.append("image", $("#productImage")[0].files[0]);
+      
+       
+
        
         // Send the formData to the server using AJAX
         $.ajax({

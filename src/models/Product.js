@@ -23,7 +23,13 @@ const ProductSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Vendor',
     required: true
-  }
+  },
+  category:{
+    type: String,
+    required: true,
+    enum: ['KITCHEN', 'BEDROOM', 'LIVINGROOM', 'BATHROOM', 'OTHERS'],
+  },
+  
 });
 
 

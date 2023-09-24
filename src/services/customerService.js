@@ -133,7 +133,17 @@ class CustomerService extends Service {
         (item) => item.productId.toString() == productId.toString()
       );
   console.log(existingCartItem);
+  quantity = parseInt(quantity, 10);
+
+if (isNaN(quantity)) {
+  return {
+    error: true,
+    statusCode: 400,
+    message: 'Invalid quantity',
+  };
+}
       if (existingCartItem) {
+      
         // Update the quantity if the product already exists in the cart
         existingCartItem.quantity += quantity;
       } else {

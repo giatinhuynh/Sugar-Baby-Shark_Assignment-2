@@ -5,7 +5,10 @@ const jwt = require('jsonwebtoken');
 const Controller = require("./Controller");
 const customerService = require("../services/customerService");
 const Customer = require('../models/Customer');
-
+const Product = mongoose.model("Product");
+const productService = require("../services/productService");
+const ProductService = new productService(Product);
+const DistributionHub = require('../models/DistributionHub');
 const customer = mongoose.model("Customer");
 const CustomerService = new customerService(customer);
 
@@ -52,18 +55,15 @@ async registerMenu(req, res) {
   }
 }
 async dasboard(req, res) {
+  console.log("dashboard");
   
-  try {
-    // delete if statement to bypass login
-    if (req.session.customerId && req.session.customerId.trim() !== '') {
-      
-    res.render('dashboard');}
-    else {
-      res.status(404).send({ error: 'Not Found' });
-    }
-  } catch (err) {
-    res.status(404).send(err);
-  }
+  
+    const items = await ProductService.getProducts();
+    console.log(items);
+
+    res.render('dashboard', { items: items.data.data });
+   
+ 
 }
 async login (req, res) {
   console.log("login post");
@@ -104,11 +104,42 @@ async  getCustomerDetails(req, res) {
 // view Cart
 async viewCart(req, res) {
   const customerId = req.session.customerId;
-  let response = await CustomerService.getCustomerById(customerId);
-  
-    if (response.error) return res.status(response.statusCode).send(response);
-    res.render('shoppingCart', { customer: response.data });
+
+  try {
+    const distributionHubs = await DistributionHub.find();
+    const customer = await Customer.findById(customerId);
+
+    if (!customer) return res.status(404).send({ error: 'Customer not found.' });
+
+    // Convert shoppingCart items to include product details
+    const cartItems = await Promise.all(customer.shoppingCart.map(async (item) => {
+      const product = await ProductService.getProductById(item.productId);
+
+      if (!product) {
+        // Handle the case where the product is not found (optional)
+        return null;
+      }
+
+      return {
+        _id: item.productId, // Use item.productId directly
+        name: product.data.name,
+        image: product.data.image,  // Assuming Product schema has an 'image' field
+        price: product.data.price,  // Assuming Product schema has a 'price' field
+        quantity: item.quantity // Use item.quantity to get the quantity from the shopping cart
+      };
+    }));
+
+    // Filter out any null values (products not found)
+    const filteredCartItems = cartItems.filter(item => item !== null);
+
+    console.log(filteredCartItems);
+    res.render('shoppingCart', { cartItems: filteredCartItems, customer , distributionHubs: distributionHubs });
+  } catch (error) {
+    console.error('Error fetching cart:', error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
 }
+
 
 async addToCart(req, res) {
   
@@ -158,6 +189,13 @@ async logout(req, res)  {
 //   res.send(req.customer);
 // };
 
+
+
+async getProductDetails(req, res) {
+  const productId = req.params.id;
+  const product = await ProductService.getProductById(productId);
+  res.render('productDetail', { product: product.data });
+}
 }
 
 module.exports = new CustomerController(customerService);

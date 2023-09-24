@@ -13,6 +13,6 @@ router.put('/:id', orderController.updateOrderStatus);
 router.get('/:id', orderController.getOrderById);
 
 // Create a new order
-router.post('/post', orderController.createOrder);
+router.post('/create', orderController.createOrder);
 
 module.exports = router;
