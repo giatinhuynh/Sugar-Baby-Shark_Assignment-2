@@ -112,10 +112,28 @@ async  getCustomerDetails(req, res) {
 // view Cart
 async viewCart(req, res) {
   const customerId = req.session.customerId;
-  let response = await CustomerService.getCustomerById(customerId);
-  
-    if (response.error) return res.status(response.statusCode).send(response);
-    res.render('shoppingCart', { customer: response.data });
+
+  try {
+    const customer = await Customer.findById(customerId);
+
+    if (!customer) return res.status(404).send({ error: 'Customer not found.' });
+
+    // Convert shoppingCart items to include product details
+    const cartItems = customer.shoppingCart.map(item => {
+      return {
+        _id: item.productId._id,
+        name: item.productId.name,
+        image: item.productId.image,  // Assuming Product schema has an 'image' field
+        price: item.productId.price,  // Assuming Product schema has a 'price' field
+        quantity: item.quantity
+      };
+
+    });
+    res.render('shoppingCart', { cartItems, customer });
+  } catch (error) {
+    console.error('Error fetching cart:', error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
 }
 
 async addToCart(req, res) {

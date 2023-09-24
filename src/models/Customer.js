@@ -18,7 +18,12 @@ const customerSchema = new Schema({
     minlength: 8,
     maxlength: 20
   },
-  profilePicture: String,
+  profilePicture: {
+    type: Buffer,
+  },
+  profilePictureType: {
+    type: String,
+  },
   name: {
     type: String,
     required: true,
