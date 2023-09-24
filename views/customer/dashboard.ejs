@@ -16,20 +16,6 @@
     <title>Customer Dashboard</title>
     <link href="/css/bootstrap.css" rel="stylesheet" />
     <link href="/css/main.css" rel="stylesheet" />
-    <style>
-      /* Add some basic styling to make it look neater */
-      body {
-        font-family: "Arial", sans-serif;
-      }
-
-      .badge-sale {
-        background-color: red; /* Change the sale badge color for more visibility */
-      }
-
-      .product-card:hover {
-        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2); /* Add a subtle shadow when hovering over a product */
-      }
-    </style>
   </head>
 
   <body>
@@ -49,12 +35,12 @@
     <div class="container my-4">
       <div class="row justify-content-center">
         <div class="col-md-6 text-center">
-          <a href="cart" class="btn btn-primary btn-lg mb-2"
+          <a href="/api/customers/cart" class="btn btn-primary btn-lg mb-2"
             >View Shopping Cart</a
           >
         </div>
         <div class="col-md-6 text-center">
-          <a href="me" class="btn btn-secondary btn-lg mb-2">My Account</a>
+          <a href="/api/customers/me" class="btn btn-secondary btn-lg mb-2">My Account</a>
         </div>
       </div>
     </div>

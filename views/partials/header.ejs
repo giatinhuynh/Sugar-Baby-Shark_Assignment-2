@@ -16,7 +16,7 @@
 <body>
   <header class="container my-3">
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start py-2">
-      <a class="navbar-brand d-flex align-items-center" href="#">
+      <a class="navbar-brand d-flex align-items-center" href="/">
         <img src="https://picsum.photos/50/50" alt="Aikia Logo" class="rounded-circle me-3">
         <!-- inline and vertical align -->
         <h1 class="">
@@ -25,20 +25,9 @@
       </a>
 
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4 d-flex flex-row gap-3">
-        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href="/api/customers">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
-            aria-expanded="false">Shop</a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#!">All Products</a></li>
-            <li>
-              <hr class="dropdown-divider" />
-            </li>
-            <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-            <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-          </ul>
-        </li>
+        <li class="nav-item"><a class="nav-link" href="/api/customers/me">My Account</a></li>
       </ul>
 
       <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
@@ -52,16 +41,5 @@
           <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
         </button>
       </form>
-
-      <!-- dropdown menu or button -->
-      <div class="dropdown text-end mx-4">
-        <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
-          aria-expanded="false">
-          <img src="https://picsum.photos/40/40" alt="mdo" width="32" height="32" class="rounded-circle">
-        </a>
-        <ul class="dropdown-menu text-small dropdown-menu-end">
-          <li><a class="dropdown-item" href="#">My Profile</a></li>
-        </ul>
-      </div>
     </div>
   </header>
