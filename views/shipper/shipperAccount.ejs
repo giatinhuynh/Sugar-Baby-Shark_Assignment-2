@@ -1,0 +1,100 @@
+<!--
+// RMIT University Vietnam
+// Course: COSC2430 Web Programming
+// Semester: 2023B
+// Assessment: Assignment 2
+// Author: Huynh Duc Gia Tin, Tran Ha Phuong, Nguyen Viet Ha, Phan Nhat Minh, Tran Nguyen Quoc An
+// ID: s3962053, s3979638, s3978128, s3959931, s3978598 
+// Acknowledgement: MDN Web Docs, Youtube, W3school, GeeksforGeeks, RMIT Canvas, ChatGPT, NPM Packages' Docs
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>My Profile</title>
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/shipper.css" rel="stylesheet" />
+    <script src="/js/validation.js"></script>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!--Stylesheet-->
+    <style></style>
+  </head>
+  <body>
+    <div class="background"></div>
+    <nav class="navbar bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand ps-4" href="../shippers">
+          <h1>AIKIA</h1>
+        </a>
+      </div>
+    </nav>
+    <div class="container py-3 h-100">
+      <div class="row h-100">
+        <div class="col-3 h-100">
+          <aside class="d-flex flex-column align-items-center py-4">
+            <img
+              src="https://picsum.photos/700/700"
+              alt="Vendor Profile Image"
+              class="profile-image img-fluid px-5"
+              style="max-width: 100%; border-radius: 50%"
+            />
+            <a href="../vendors/logout" class="btn btn-logout">Log Out</a>
+            <ul class="list-group pt-3">
+              <li class="list-group-item">
+                <a href="../shippers/">Dashboard</a>
+              </li>
+              <li class="list-group-item">
+                <a href="orders">View Orders</a>
+              </li>
+
+              <li class="list-group-item"><a href="me">My Account</a></li>
+            </ul>
+          </aside>
+        </div>
+        <main class="col-9 h-100 px-3">
+          <div class="row user-info">
+            <div
+              class="col-md-5 d-flex justify-content-center align-items-center"
+            >
+              <img
+                src="https://picsum.photos/700/700"
+                alt="Vendor Profile Image"
+                class="profile-image img-fluid"
+              />
+            </div>
+            <div class="col-md-7">
+              <h3>Welcome, <%=shipper.username%></h3>
+              <p><strong>Distribution Hub:</strong></p>
+
+              <hr />
+              <h4>Account Details</h4>
+              <p><strong>Account ID:</strong> 123456</p>
+              <p><strong>Member Since:</strong> January 1, 2020</p>
+              <a href="../shippers/me/edit" class="btn btn-primary"
+                >Edit Profile</a
+              >
+              <a href="../shippers/me/security" class="btn btn-success"
+                >Change Password</a
+              >
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script src="js/jquery-3.6.0.min.js"></script>
+
+    <script></script>
+  </body>
+</html>

@@ -1,0 +1,152 @@
+<!--
+// RMIT University Vietnam
+// Course: COSC2430 Web Programming
+// Semester: 2023B
+// Assessment: Assignment 2
+// Author: Huynh Duc Gia Tin, Tran Ha Phuong, Nguyen Viet Ha, Phan Nhat Minh, Tran Nguyen Quoc An
+// ID: s3962053, s3979638, s3978128, s3959931, s3978598 
+// Acknowledgement: MDN Web Docs, Youtube, W3school, GeeksforGeeks, RMIT Canvas, ChatGPT, NPM Packages' Docs
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customer Dashboard</title>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <style>
+      /* Add some basic styling to make it look neater */
+      body {
+        font-family: "Arial", sans-serif;
+      }
+
+      .badge-sale {
+        background-color: red; /* Change the sale badge color for more visibility */
+      }
+
+      .product-card:hover {
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2); /* Add a subtle shadow when hovering over a product */
+      }
+    </style>
+  </head>
+
+  <body>
+    <%- include('../partials/header') %>
+
+    <header class="bg-dark py-5">
+      <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+          <h1 class="display-4 fw-bolder">Shop in style</h1>
+          <p class="lead fw-normal text-white-50 mb-0">
+            Aikia :3 Aikia :3 Aikia :3
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <div class="container my-4">
+      <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+          <a href="cart" class="btn btn-primary btn-lg mb-2"
+            >View Shopping Cart</a
+          >
+        </div>
+        <div class="col-md-6 text-center">
+          <a href="me" class="btn btn-secondary btn-lg mb-2">My Account</a>
+        </div>
+      </div>
+    </div>
+
+    <section class="py-5">
+      <div class="container px-4 px-lg-5 mt-5">
+        <!-- Search and Price Filter -->
+        <div class="mb-4">
+          <form action="search" method="GET">
+            <!-- Price Range Filters -->
+            <div class="row mb-3">
+              <div class="col-md-5">
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="Min price"
+                  name="minPrice"
+                />
+              </div>
+              <div class="col-md-5">
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="Max price"
+                  name="maxPrice"
+                />
+              </div>
+              <div class="col-md-2">
+                <button class="btn btn-secondary" type="submit">Filter</button>
+              </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search for products..."
+                name="query"
+              />
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">Search</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <h2 class="mb-4 text-center">Latest Products</h2>
+        <!-- Title for the products section -->
+        <div
+          class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"
+        >
+          <% items.forEach(function(product) { %>
+          <div class="col mb-5">
+            <div class="card h-100 product-card">
+              <!-- Sale badge-->
+              <div
+                class="badge badge-sale text-white position-absolute"
+                style="top: 0.5rem; right: 0.5rem"
+              >
+                Sale
+              </div>
+              <!-- Product image -->
+              <img
+                class="card-img-top"
+                src="/images/productPictures/<%=product._id%>.jpg"
+                alt="<%= product.name %>"
+              />
+              <!-- Product details-->
+              <div class="card-body p-4">
+                <div class="text-center">
+                  <!-- Product name-->
+                  <h5 class="fw-bolder"><%= product.name %></h5>
+                  <!-- Product price-->
+                  $<%= product.price.toFixed(2) %>
+                </div>
+              </div>
+              <!-- Product actions-->
+              <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                <div class="text-center">
+                  <a
+                    class="btn btn-outline-dark mt-auto"
+                    href="product/<%= product._id %>"
+                    >View Details</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+      </div>
+    </section>
+
+    <%- include('../partials/footer') %>
+  </body>
+</html>

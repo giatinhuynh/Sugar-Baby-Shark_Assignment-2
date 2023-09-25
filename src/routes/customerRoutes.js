@@ -1,47 +1,103 @@
+/* // RMIT University Vietnam
+// Course: COSC2430 Web Programming
+// Semester: 2023B
+// Assessment: Assignment 2
+// Author: Huynh Duc Gia Tin, Tran Ha Phuong, Nguyen Viet Ha, Phan Nhat Minh, Tran Nguyen Quoc An
+// ID: s3962053, s3979638, s3978128, s3959931, s3978598 
+// Acknowledgement: MDN Web Docs, Youtube, W3school, GeeksforGeeks, RMIT Canvas, ChatGPT, NPM Packages' Docs */
+
 // Import required modules and models
+var express = require('express');
+var router = express.Router();
+const Product = require('../models/Product');
 const { check, validationResult } = require('express-validator');
 const NodeCache = require('node-cache');
 const myCache = new NodeCache();
 const customerController = require('../controllers/customerController');
+const Customer = require('../models/Customer');
 
-module.exports = (app) => {
 
-  // Register a new customer
-  app.post('/api/customers/register', [
-    check('username').isLength({ min: 8, max: 15 }).isAlphanumeric(),
-    check('password').isLength({ min: 8, max: 20 }).matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/),
-    check('name').isLength({ min: 5 }),
-    check('address').isLength({ min: 5 })
-  ], customerController.register);  // Delegate to the controller's register method
+ // view 
+ router.get('/search', (req, res) => {
+  
+  console.log("search");
+  const searchQuery = req.query.query; // Get the search query from the request
+  console.log(searchQuery);
+  const minPrice = parseFloat(req.query.minPrice); // Get the min price if needed
+  const maxPrice = parseFloat(req.query.maxPrice); // Get the max price if needed
 
-  // Login a customer
-  app.post('/api/customers/login', customerController.login);  // Delegate to the controller's login method
+  // Use the searchQuery and optional price filters to search for products in your database
+  // Replace this with your actual database search logic
+  // For example, you can use Mongoose for MongoDB or any other database library
 
-  // Middleware for authentication
-  const auth = async (req, res, next) => {
-    const token = req.header('Authorization').replace('Bearer ', '');
-    if (myCache.get(token)) {
-      return res.status(401).send({ error: 'This token has been blacklisted' });
-    }
-    try {
-      const data = jwt.verify(token, process.env.JWT_SECRET);
-      const customer = await Customer.findOne({ _id: data._id });
-      if (!customer) {
-        throw new Error('Customer not found');
+  // Query the database for products with matching names
+  Product.find({ name: { $regex: new RegExp(searchQuery, 'i') } })
+    .then((products) => {
+      // Filter products based on price if minPrice and maxPrice are provided
+      if (!isNaN(minPrice) && !isNaN(maxPrice)) {
+        products = products.filter(
+          (product) => product.price >= minPrice && product.price <= maxPrice
+        );
       }
-      req.customer = customer;
-      next();
-    } catch (error) {
-      res.status(401).send({ error: 'Not authorized to access this resource' });
-    }
-  };
+
+      // Render a view with the search results
+      res.render('dashboard', { items: products });
+    })
+    .catch((error) => {
+      // Handle any errors
+      console.error('Error searching for products:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
+  // Logout a customer
+  router.get('/logout', customerController.logout);  // Delegate to the controller's logout method
+ router.get('/register', customerController.registerMenu); 
+ router.get('/login', customerController.loginMenu);   
+ router.get('/', customerController.dasboard);
+ router.get('/me', customerController.getCustomerDetails);
+ // view Cart
+  router.get('/cart', customerController.viewCart);
+
+
+  router.post('/register', customerController.register);  // Delegate to the controller's register method
+ // Delegate to the controller's registerMenu method
+
+ // add to cart
+  router.post('/cart', customerController.addToCart);
+
+  router.post('/login', customerController.login);   // Delegate to the controller's login menu
 
   // Get customer details
-  app.get('/api/customers/me', auth, customerController.getCustomerDetails);  // Delegate to the controller's getCustomerDetails method
+  // Delegate to the controller's getCustomerDetails method
+  router.get('/:id', customerController.getCustomerById); 
+  router.get('/product/:id', customerController.getProductDetails); 
 
-  // Update customer profile picture
-  app.put('/api/customers/me/picture', auth, customerController.updateProfilePicture);  // Delegate to the controller's updateProfilePicture method
+  // Import necessary modules and set up your Express app
 
-  // Logout a customer
-  app.post('/api/customers/logout', auth, customerController.logout);  // Delegate to the controller's logout method
-};
+// Define a route to handle product search
+
+
+// Start your Express server
+
+
+
+
+
+
+  module.exports = router;
+
+
+
+  // // Update the profile picture of the logged-in customer
+// exports.updateProfilePicture = async (req, res) => {
+//   // Destructure request body
+//   const { profilePicture } = req.body;
+
+//   // Update the profile picture field
+//   req.customer.profilePicture = profilePicture;
+//   // Save the updated customer to the database
+//   await req.customer.save();
+
+//   // Send the updated customer as response
+//   res.send(req.customer);
+// };

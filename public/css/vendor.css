@@ -1,0 +1,30 @@
+/* // RMIT University Vietnam
+// Course: COSC2430 Web Programming
+// Semester: 2023B
+// Assessment: Assignment 2
+// Author: Huynh Duc Gia Tin, Tran Ha Phuong, Nguyen Viet Ha, Phan Nhat Minh, Tran Nguyen Quoc An
+// ID: s3962053, s3979638, s3978128, s3959931, s3978598 
+// Acknowledgement: MDN Web Docs, Youtube, W3school, GeeksforGeeks, RMIT Canvas, ChatGPT, NPM Packages' Docs */
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  background-image: url("https://www.ikea.com/images/a-modern-sofa-in-a-warm-sand-coloured-minimalist-style-living-room-634c57f2b9981c628ffea4fccfc8e9fe.jpg");
+}
+
+.profile-image {
+  max-width: 200px;
+  border-radius: 50%;
+}
+
+aside {
+  overflow: hidden;
+}
+h1 {
+  color: pink;
+}

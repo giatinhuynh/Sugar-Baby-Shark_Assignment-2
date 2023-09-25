@@ -1,0 +1,287 @@
+<!--
+// RMIT University Vietnam
+// Course: COSC2430 Web Programming
+// Semester: 2023B
+// Assessment: Assignment 2
+// Author: Huynh Duc Gia Tin, Tran Ha Phuong, Nguyen Viet Ha, Phan Nhat Minh, Tran Nguyen Quoc An
+// ID: s3962053, s3979638, s3978128, s3959931, s3978598 
+// Acknowledgement: MDN Web Docs, Youtube, W3school, GeeksforGeeks, RMIT Canvas, ChatGPT, NPM Packages' Docs
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Login</title>
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link href="/css/main.css" rel="stylesheet" />
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <script src="/js/validation.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!--Stylesheet-->
+    <style media="screen">
+      *,
+      *:before,
+      *:after {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background-image: url("https://www.ikea.com/images/a-modern-sofa-in-a-warm-sand-coloured-minimalist-style-livin-634c57f2b9981c628ffea4fccfc8e9fe.jpg");
+      }
+      .background {
+        width: 430px;
+        height: 520px;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        left: 50%;
+        top: 50%;
+      }
+
+      form {
+        height: max-content;
+        width: 80%;
+        background-color: rgba(255, 255, 255, 0.13);
+        position: absolute;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        left: 50%;
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+        padding: 40px 35px;
+      }
+      form * {
+        font-family: "Poppins", sans-serif;
+        color: #ffffff;
+        letter-spacing: 0.5px;
+        outline: none;
+        border: none;
+      }
+      form h3 {
+        font-size: 32px;
+        font-weight: 500;
+        line-height: 42px;
+        text-align: center;
+      }
+
+      label {
+        display: block;
+        margin-top: 30px;
+        font-size: 16px;
+        font-weight: 500;
+      }
+      input,
+      select {
+        display: block;
+        height: 50px;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.07);
+        border-radius: 3px;
+        padding: 0 10px;
+        margin-top: 8px;
+        font-size: 14px;
+        font-weight: 300;
+      }
+      ::placeholder {
+        color: #e5e5e5;
+      }
+      button {
+        margin-top: 50px;
+        width: 100%;
+        background-color: #ffffff;
+        color: #080710;
+        padding: 15px 0;
+        font-size: 18px;
+        font-weight: 600;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .social {
+        margin-top: 30px;
+        display: flex;
+      }
+      .social div {
+        background: red;
+        width: 150px;
+        border-radius: 3px;
+        padding: 5px 10px 10px 5px;
+        background-color: rgba(255, 255, 255, 0.27);
+        color: #eaf0fb;
+        text-align: center;
+      }
+      .social div:hover {
+        background-color: rgba(255, 255, 255, 0.47);
+        cursor: pointer;
+      }
+      .social .fb {
+        margin-left: 25px;
+      }
+      .social i {
+        margin-right: 4px;
+      }
+      .background {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(8, 7, 16, 0.6);
+      }
+      .alt-link {
+        width: 50% !important;
+      }
+      .radio {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+      input[type="radio"] {
+        width: max-content;
+      }
+      a:hover {
+        color: #ffffff;
+      }
+      a {
+        color: #e5e5e5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background"></div>
+
+    <form>
+      <h3>Shipper Registration</h3>
+      <div class="container">
+        <div class="row">
+          <div class="col-6">
+            <label for="username">Username</label>
+            <input
+              type="text"
+              placeholder="Enter your username"
+              id="username"
+              name="username"
+              required
+            />
+
+            <label for="distributionHub">Distribution Hub</label>
+            <select id="distributionHub" name="distributionHub">
+              <% distributionHub.forEach(hub => { %>
+              <option value="<%= hub._id %>"><%= hub.name %></option>
+              <% }); %>
+            </select>
+          </div>
+
+          <div class="col-6">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              placeholder="Password"
+              id="password"
+              name="password"
+              required
+            />
+
+            <label for="repassword">Re-Password</label>
+            <input
+              type="password"
+              placeholder="Repassword"
+              id="repassword"
+              name="repassword"
+              required
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <button>Sign up</button>
+
+        <div class="social">
+          <div class="alt-link go"><i class="fab fa-google"></i> Google</div>
+          <div class="alt-link fb">
+            <i class="fab fa-facebook"></i> Facebook
+          </div>
+        </div>
+        <p class="m-auto mt-2 text-center fst-italic">
+          <a class="text-decoration-none" href="login">
+            Arealdy have an account? Sign in</a
+          >
+        </p>
+      </div>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $("form").submit(function (event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+        clearErrorStyles();
+
+        // Validate the form data
+        const errors = [];
+
+        const username = $("[name=username]").val();
+        const password = $("[name=password]").val();
+        const repassword = $("[name=repassword]").val();
+
+        if (!validatePassword(password)) {
+          errors.push("Password must be at least 8 characters long");
+          displayErrorMessage(
+            "Password needs to have least one lower case letter, at least one digit, at least one special character, 8 to 20 characters",
+            "password"
+          );
+        }
+        if (password !== repassword) {
+          errors.push("Passwords do not match");
+          displayErrorMessage("Password does not match", "repassword");
+        }
+
+        if (!validateUsername(username)) {
+          errors.push("Invalid username");
+          displayErrorMessage(
+            "Username must contains only letters (lower and upper case) and digits, 8 to 15 characters.",
+            "username"
+          );
+        }
+
+        // If there are errors, prevent form submission
+        if (errors.length > 0) {
+          return;
+        }
+
+        // Add the distributionHub value to the form data
+        const formData = {
+          username: $("[name=username]").val(),
+          password: $("[name=password]").val(),
+          distributionHub: $("[name=distributionHub]").val(),
+          profilePicture: "",
+        };
+
+        // Send the formData to the server using AJAX
+        $.ajax({
+          url: "register", // Replace with the correct URL for your server endpoint
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify(formData),
+          success: function (response) {
+            // Handle the server's response here (e.g., show success message or redirect)
+
+            window.location.href = "http://localhost:3000/api/shippers/login"; // You can replace this with your desired action
+          },
+          error: function (xhr, textStatus, errorThrown) {
+            // Handle any errors (e.g., show error message)
+            console.error(xhr.responseText);
+            alert("Username taken. Please try a different username"); // You can replace this with your desired error handling
+          },
+        });
+      });
+    </script>
+  </body>
+</html>

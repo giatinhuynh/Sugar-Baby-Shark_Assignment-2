@@ -1,0 +1,346 @@
+<!--
+// RMIT University Vietnam
+// Course: COSC2430 Web Programming
+// Semester: 2023B
+// Assessment: Assignment 2
+// Author: Huynh Duc Gia Tin, Tran Ha Phuong, Nguyen Viet Ha, Phan Nhat Minh, Tran Nguyen Quoc An
+// ID: s3962053, s3979638, s3978128, s3959931, s3978598 
+// Acknowledgement: MDN Web Docs, Youtube, W3school, GeeksforGeeks, RMIT Canvas, ChatGPT, NPM Packages' Docs
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Dashboard</title>
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link href="/css/main.css" rel="stylesheet" />
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/vendor.css" rel="stylesheet" />
+
+    <script src="/js/validation.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!--Stylesheet-->
+    <style>
+     
+      form {
+        overflow-y: auto;
+        height: 100%;
+        z-index: 1;
+        background-color: white;
+        position: relative;
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+        padding: 40px 35px;
+      }
+      form * {
+        font-family: "Poppins", sans-serif;
+        color: black;
+        letter-spacing: 0.5px;
+        outline: none;
+        border: none;
+      }
+      form h3 {
+        font-size: 32px;
+        font-weight: 500;
+        line-height: 42px;
+        text-align: center;
+      }
+
+      label {
+        display: block;
+        margin-top: 30px;
+        font-size: 16px;
+        font-weight: 500;
+      }
+      input,
+      select {
+        display: block;
+
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+        padding: 0 10px;
+        margin-top: 8px;
+        font-size: 14px;
+        font-weight: 300;
+      }
+      ::placeholder {
+        color: rgb(52, 50, 50);
+      }
+      button,
+      .btn {
+        margin-top: 50px;
+        width: 100%;
+        background-color: black;
+        color: white;
+        padding: 15px 0;
+        font-size: 18px;
+        font-weight: 600;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button,
+      .btn:hover {
+        background-color: white;
+        border: 3px solid black;
+        color: black;
+      }
+      .btn-cancel {
+        background-color: white;
+        border: 3px solid black;
+        color: black;
+      }
+      .btn-cancel:hover {
+        background-color: black;
+        border: 3px solid black;
+        color: white;
+      }
+      .background {
+        position: absolute;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(8, 7, 16, 0.6);
+        z-index: 0;
+        margin-top: 100px;
+      }
+      .alt-link {
+        width: 50% !important;
+      }
+      .radio {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+      input[type="radio"] {
+        width: max-content;
+      }
+      a:hover {
+        cursor: pointer;
+      }
+      li:hover {
+        background-color: pink;
+
+        cursor: pointer;
+      }
+      a {
+        color: black;
+        text-decoration: none;
+      }
+      aside {
+        height: 100%;
+        background-color: white;
+        border-radius: 10px;
+        position: relative;
+        z-index: 1;
+        box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+      }
+      ul {
+        color: black;
+
+        width: 100%;
+      }
+      ul li {
+        padding: 20px !important;
+        border: none !important;
+      }
+      ul li a {
+        font-size: 1.5rem;
+      }
+      .btn-logout {
+        background-color: pink;
+        border: none;
+        color: black;
+        width: max-content;
+        padding: 1rem 2rem;
+        margin-top: 2rem !important;
+        max-width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background"></div>
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand ps-4" href="#">
+            <h1>AIKIA</h1>
+          </a>
+        </div>
+      </nav>
+    <div class="container py-3 h-100">
+      <div class="row h-100">
+        <div class="col-3 h-100">
+            <aside class="d-flex flex-column align-items-center py-4">
+                <img
+                src="/images/profileImages/<%= vendor._id %>.jpg"
+                  alt="Vendor Profile Image"
+                  class="profile-image img-fluid px-5"
+                  style="max-width: 100%; border-radius: 50%"
+                />
+                <a href="../vendors/logout" class="btn btn-logout">Log Out</a>
+                <ul class="list-group pt-3">
+                  <li class="list-group-item">
+                    <a href="../../vendors/">Dashboard</a>
+                  </li>
+                  <li class="list-group-item">
+                    <a href="../product">Add Products</a>
+                  </li>
+                  <li class="list-group-item">
+                    <a href="../products">View Products</a>
+                  </li>
+                  <li class="list-group-item"><a href="../me">My Account</a></li>
+                </ul>
+              </aside>
+        </div>
+        <div class="col-9 h-100">
+          <form class="" method="post" enctype="multipart/form-data">
+            <h3>Edit My Profle</h3>
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input
+                type="text"
+                class="form-control"
+                id="username"
+                name="username"
+                value="<%=vendor.username%>"
+                required
+              />
+            </div>
+
+         
+            
+            <div class="mb-3">
+              <label for="businessName" class="form-label">Business Name</label>
+              <input
+              type="text"
+              class="form-control"
+              id="businessName"
+              name="businessName"
+              value="<%=vendor.businessName%>"
+              required
+              />
+            </div>
+
+            <div class="mb-3">
+                <label for="businessAddress" class="form-label">Business Address</label>
+                <input
+                type="text"
+                class="form-control"
+                id="businessAddress"
+                name="businessAddress"
+                value="<%=vendor.businessAddress%>"
+                required
+                />
+              </div>
+
+            <div class="mb-3">
+              <label for="productImage" class="form-label">Profile Picture (JPEG/PNG)</label>
+              <input
+                type="file"
+                name="image"
+                value="<%=vendor._id%>"
+                class="form-control"
+                id="productImage"
+                accept="image/jpeg, image/png"
+                required
+              />
+            </div>
+            <button type="submit" class="btn">
+                Save Changes
+            </button>
+            <a href="../me" class="btn btn-cancel"
+            >Cancel</a
+          >
+        </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script> $("form").submit(function (event) {
+      
+        event.preventDefault(); // Prevent the default form submission behavior
+        clearErrorStyles();
+console.log("edit post");
+        // Validate the form data
+        const errors = [];
+        const businessName = $("[name=businessName]").val();
+        const businessAddress = $("[name=businessAddress]").val();
+        const username = $("[name=username]").val();
+    
+        
+
+        if (!validateUsername(username)) {
+          errors.push("Invalid username");
+          displayErrorMessage(
+            "Username must contains only letters (lower and upper case) and digits, 8 to 15 characters.",
+            "username"
+          );
+        }
+        if (!validateMinLength(businessAddress, 5)) {
+          errors.push("Business address must be at least 5 characters long");
+          displayErrorMessage(
+            "Business address must be at least 5 characters long",
+            "businessAddress"
+          );
+        }
+        if (!validateMinLength(businessName, 5)) {
+          errors.push("Business name must be at least 5 characters long");
+          displayErrorMessage(
+            "Business name must be at least 5 characters long",
+            "businessName"
+          );
+        }
+
+        // If there are errors, prevent form submission
+        if (errors.length > 0) {
+          return;
+        }
+
+        // Add the distributionHub value to the form data
+       // Create a FormData object
+       const formData = new FormData();
+
+       // Append JSON data to the FormData object
+       formData.append("username", $("[name=username]").val());
+       formData.append("businessName", $("[name=businessName]").val());
+       formData.append("businessAddress", $("[name=businessAddress]").val());
+       
+       // Append the image file to the FormData object
+       formData.append("image", $("#productImage")[0].files[0]);
+      
+       
+
+       
+        // Send the formData to the server using AJAX
+        $.ajax({
+          url: "edit", // Replace with the correct URL for your server endpoint
+          type: "POST",
+          processData: false, // Prevent jQuery from processing the data
+          contentType: false, // Prevent jQuery from setting the content type
+          data: formData,
+          success: function (response) {
+            // Handle the server's response here (e.g., show success message or redirect)
+            alert("Profile updated successfully");
+            window.location.href = "../me";
+            // You can replace this with your desired action
+          },
+          error: function (xhr, textStatus, errorThrown) {
+            // Handle any errors (e.g., show error message)
+            console.error(xhr.responseText);
+            alert(xhr.responseText); // You can replace this with your desired error handling
+          },
+        });
+      });</script>
+  </body>
+</html>

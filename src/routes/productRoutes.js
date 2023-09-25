@@ -1,59 +1,30 @@
+/* // RMIT University Vietnam
+// Course: COSC2430 Web Programming
+// Semester: 2023B
+// Assessment: Assignment 2
+// Author: Huynh Duc Gia Tin, Tran Ha Phuong, Nguyen Viet Ha, Phan Nhat Minh, Tran Nguyen Quoc An
+// ID: s3962053, s3979638, s3978128, s3959931, s3978598 
+// Acknowledgement: MDN Web Docs, Youtube, W3school, GeeksforGeeks, RMIT Canvas, ChatGPT, NPM Packages' Docs */
+
+var express = require('express');
+var router = express.Router();
+
 const mongoose = require('mongoose');
 const { check, validationResult } = require('express-validator');
-const Product = mongoose.model('Product');
-const Vendor = mongoose.model('Vendor'); // Assuming you've already required Vendor model somewhere
-const auth = require('./auth'); // Your authentication middleware
+const Product = require('../models/Product');
+const Vendor = require('../models/Vendor');
+const ProductController = require('../controllers/productController');
 
-module.exports = (app) => {
 
-  // Add a new product
-  app.post('/api/products', auth, [
-    check('name').isLength({ min: 10, max: 20 }),
-    check('price').isFloat({ min: 0 }),
-    check('description').isLength({ max: 500 })
-  ], async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ message: 'Validation errors', errors: errors.array() });
-    }
+router.get('/get',ProductController.getProducts);
 
-    const { name, price, image, description } = req.body;
-    const vendorId = req.vendor._id; // Assuming the vendor's ID is stored in req.vendor by your auth middleware
+router.get('/get/:id', ProductController.getProductById);
 
-    // Verify if vendor exists
-    const vendor = await Vendor.findById(vendorId);
-    if (!vendor) {
-      return res.status(404).json({ message: 'Vendor not found' });
-    }
+router.post('/post', ProductController.createProduct);
 
-    const product = new Product({
-      name,
-      price,
-      image,
-      description,
-      vendor: vendorId
-    });
 
-    try {
-      await product.save();
-      res.status(201).send({ message: 'Product added successfully', product });
-    } catch (err) {
-      res.status(400).json({ message: 'Failed to add product', error: err });
-    }
-  });
-
-  // View all products
-  app.get('/api/products', async (req, res) => {
-    try {
-      const products = await Product.find().populate('vendor', 'businessName');
-      res.send(products);
-    } catch (err) {
-      res.status(500).json({ message: 'Failed to fetch products', error: err });
-    }
-  });
-
-  // Filter products by price and name
-  app.get('/api/products/filter', async (req, res) => {
+ // Filter products by price and name
+  router.get('/filter', async (req, res) => {
     let minPrice = parseFloat(req.query.minPrice);
     let maxPrice = parseFloat(req.query.maxPrice);
     const name = req.query.name;
@@ -73,4 +44,5 @@ module.exports = (app) => {
       res.status(500).json({ message: 'Failed to filter products', error: err });
     }
   });
-};
+
+  module.exports = router;
